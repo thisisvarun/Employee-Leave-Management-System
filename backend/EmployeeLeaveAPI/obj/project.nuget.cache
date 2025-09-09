@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "8oRNWnblYw8=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tvarun\\SampleProjects\\EmloyeeLeaveMS\\backend\\EmployeeLeaveAPI\\EmployeeLeaveAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tvarun\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.8\\microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+    "C:\\Users\\tvarun\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
