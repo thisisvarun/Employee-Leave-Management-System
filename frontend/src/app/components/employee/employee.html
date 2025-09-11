@@ -1,0 +1,16 @@
+<div class="card profile-card">
+  <div>
+    <div class="avatar">
+      <img class="profile-image" [src]="'/image.png'" alt="Avatar" />
+    </div>
+    <div>
+      <p>{{ employee.name }} • {{ employee.office }}</p>
+    </div>
+  </div>
+  <h2>{{ employee.name }}</h2>
+  <p>{{ employee.role }} • {{ employee.team }}</p>
+  <p><strong>Phone:</strong> {{ employee.phone }}</p>
+  <p><strong>Email:</strong> {{ employee.email }}</p>
+  <p><strong>Report Office:</strong> {{ employee.office }}</p>
+  <p><strong>Joined on:</strong> {{ employee.joined }}</p>
+</div>

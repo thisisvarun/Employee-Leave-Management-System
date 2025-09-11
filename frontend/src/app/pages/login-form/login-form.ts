@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Api } from '../core/services/api/api';
+import { ApiService } from '../../core/services/api/api';
 
 @Component({
   selector: 'app-login-form',
@@ -12,7 +12,7 @@ export class LoginForm {
   loginForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private api: Api) {
+  constructor(private fb: FormBuilder, private api: ApiService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -20,7 +20,7 @@ export class LoginForm {
         [
           Validators.required,
           Validators.minLength(6),
-          Validators.pattern('[A-Z]+[a-z]+[0-9]+[!@#$%^&*()_+=]+'),
+          Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=]).+$'),
         ],
       ],
     });

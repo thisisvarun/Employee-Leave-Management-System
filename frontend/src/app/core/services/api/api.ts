@@ -39,7 +39,7 @@ import { environment } from '../../../../environment/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class Api {
+export class ApiService {
   private API_BASE_URL = environment.API_BASE_URL;
 
   constructor(private readonly http: HttpClient) {}
