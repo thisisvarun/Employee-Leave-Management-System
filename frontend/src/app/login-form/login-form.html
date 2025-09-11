@@ -27,11 +27,18 @@
         <span>Minimum 6 characters</span>
         }
       </div>
-      } @if (errorMessage.length > 0) {
-      <div class="error">
-        <span>{{ errorMessage }}</span>
-      </div>
+      } @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched &&
+      loginForm.get("password")?.hasError('pattern')) {
+      <span class="error"
+        >The password must contain atleast one uppercase, one loweracse, one number, and one special
+        character</span
+      >
       }
+      <div class="error">
+        @if (errorMessage.length > 0) {
+        <span>{{ errorMessage }}</span>
+        }
+      </div>
 
       <button type="submit" [disabled]="loginForm.invalid">Login</button>
     </form>
