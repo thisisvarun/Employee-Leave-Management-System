@@ -1,9 +1,16 @@
 import { Routes } from '@angular/router';
-import { LoginForm } from './login-form/login-form';
+import { LoginForm } from './pages/login-form/login-form';
+import { EmployeeDashboard } from './pages/employee-dashboard/employee-dashboard';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginForm,
+  },
+  {
+    path: 'employee',
+    component: EmployeeDashboard,
+    canActivate: [AuthGuard],
   },
 ];

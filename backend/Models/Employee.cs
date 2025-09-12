@@ -49,6 +49,6 @@ namespace backend.Models
         [ForeignKey("Designation_Id")]
         public Designation? Designation { get; set; }
 
-        public ICollection<Leave>? Leaves { get; set; } = new List<Leave>;
+        public ICollection<Leave>? Leaves { get; set; } = new List<Leave>();
     }
 }

@@ -1,37 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using backend.Models;
-using backend.Data;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using backend.Service;
+
+using backend.DTOs;
 
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    [Route("/api/[controller]")]
+    public class LoginController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private ApiSevice _apiService;
 
-        public AuthController(AppDbContext context)
+        public LoginController(ApiSevice apiSevice)
         {
-            _context = context;
+            _apiService = apiSevice;
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        [HttpPost]
+        public IActionResult Login([FromBody] LoginDTO request)
         {
-            var employee = _context.Employees
-                .FirstOrDefault(e => e.Email == request.Email);
+            string res = _apiService.Login(request);
+            return Ok(res);
+            // var employee = _context.Employees
+            //     .FirstOrDefault(e => e.Email == request.Email);
 
-            if (employee == null) return Unauthorized("Invalid credentials");
+            // if (employee == null) return Unauthorized("Invalid credentials");
 
-            if (!VerifyPassword(request.Password, employee.PasswordHash))
-                return Unauthorized("Invalid credentials");
+            // if (!VerifyPassword(request.Password, employee.PasswordHash))
+            //     return Unauthorized("Invalid credentials");
 
-            //could generate a JWT token if needed
-            return Ok(new { message = "Login successful", employeeId = employee.Employee_Id });
+            // //could generate a JWT token if needed
+            // return Ok(new { message = "Login successful", employeeId = employee.Employee_Id });
+        }
+
+        [HttpGet]
+        public string Hello()
+        {
+            return "hello";
         }
 
         private bool VerifyPassword(string password, string storedHash)
@@ -41,11 +51,5 @@ namespace backend.Controllers
             var hash = Convert.ToBase64String(hashBytes);
             return hash == storedHash;
         }
-    }
-
-    public class LoginRequest
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
     }
 }
