@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("Dates"]
+    [Table("Dates")]
     public class Dates
     {
         [Column("Leave_Id")]

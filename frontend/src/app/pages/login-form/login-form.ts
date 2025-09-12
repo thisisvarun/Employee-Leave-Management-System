@@ -28,7 +28,6 @@ export class LoginForm {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
       this.api.loginUser(this.loginForm.value.email, this.loginForm.value.password).subscribe({
         next: (res) => {
           console.log('Result: ', res);

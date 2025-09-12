@@ -46,7 +46,7 @@ export class ApiService {
 
   loginUser(username: string, password: string) {
     return this.http.post(
-      `${this.API_BASE_URL}/login`,
+      `${this.API_BASE_URL}/api/login`,
       {
         username,
         password,
