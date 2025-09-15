@@ -25,6 +25,17 @@ namespace backend.Controllers
         public IActionResult Login([FromBody] LoginDTO request)
         {
             string res = _apiService.Login(request);
+
+            // We should probably create one
+            // Currently, I'm testing somethings;
+            string JWT = "TIHS_IS_A_SUPER_SECRET_JWT_TOKEN!";
+            Response.Cookies.Append("jwt_token", JWT, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddHours(1)
+            });
             return Ok(res);
             // var employee = _context.Employees
             //     .FirstOrDefault(e => e.Email == request.Email);
