@@ -24,7 +24,9 @@
 *.sln
 
 # Visual Studio Code
+.vs
 .vscode/*
+/backend/.vs
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -48,3 +50,4 @@
 /backend/bin
 /backend/obj
 /backend/out
+

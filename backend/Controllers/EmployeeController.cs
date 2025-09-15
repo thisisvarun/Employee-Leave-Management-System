@@ -1,83 +1,62 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend.Models;
-using System.Collections.Generic;
-using System.Linq;
+using backend.DTOs;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeesController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly EmployeeService _employeeService;
 
-        public EmployeesController(AppDbContext context)
+        public EmployeeController(EmployeeService employeeService)
         {
-            _context = context;
+            _employeeService = employeeService;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<Employee>> GetEmployees()
+        [HttpPost]
+        public IActionResult CreateEmployee([FromBody] EmployeeCreateDTO dto)
         {
-            var employees = _context.Employees
-                .Include(e => e.Team_Id)
-                .Include(e => e.Designation_Id)
-                .ToList();
-            return Ok(employees);
+            var createdEmployee = _employeeService.CreateEmployee(dto);
+            return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.Employee_Id }, createdEmployee);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Employee> GetEmployee(int id)
+        public IActionResult GetEmployee(int id)
         {
-            var employee = _context.Employees
-                .Include(e => e.Team_Id)
-                .Include(e => e.Designation_Id)
-                .FirstOrDefault(e => e.Employee_Id == id);
-
+            var employee = _employeeService.GetEmployeeById(id);
             if (employee == null) return NotFound();
             return Ok(employee);
         }
 
-        [HttpPost]
-        public ActionResult<Employee> CreateEmployee(Employee employee)
+        [HttpGet]
+        public IActionResult GetAllEmployees()
         {
-            _context.Employees.Add(employee);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetEmployee), new { id = employee.Employee_Id }, employee);
+            var employees = _employeeService.GetAllEmployees();
+            return Ok(employees);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateEmployeeTeam(int Team_Id, int Employee_Id)
+        [HttpPut]
+        public IActionResult UpdateEmployee([FromBody] EmployeeUpdateDTO dto)
         {
-            var employee = _context.Employees.Find(Employee_Id);
-            if (employee == null) return BadRequest();
-            employee.Team_Id = Team_Id;
-            _context.Entry(employee).State = EntityState.Modified;
-            _context.SaveChanges();
-            return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateEmployeeDesignation(int Designation_Id, int Employee_Id)
-        {
-            var employee = _context.Employees.Find(Employee_Id);
-            if (employee == null) return BadRequest();
-            employee.Designation_Id = Designation_Id;
-            _context.Entry(employee).State = EntityState.Modified;
-            _context.SaveChanges();
+            bool success = _employeeService.UpdateEmployee(dto);
+            if (!success) return NotFound();
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteEmployee(int id)
         {
-            var employee = _context.Employees.Find(id);
-            if (employee == null) return NotFound();
+            bool success = _employeeService.DeleteEmployee(id);
+            if (!success) return NotFound();
+            return NoContent();
+        }
 
-            _context.Employees.Remove(employee);
-            _context.SaveChanges();
-
+        [HttpPut("updatePassword")]
+        public IActionResult UpdatePassword([FromBody] EmployeeUpdatePasswordDTO dto)
+        {
+            bool success = _employeeService.UpdatePassword(dto);
+            if (!success) return BadRequest(new { message = "Invalid old password or employee not found" });
             return NoContent();
         }
     }
