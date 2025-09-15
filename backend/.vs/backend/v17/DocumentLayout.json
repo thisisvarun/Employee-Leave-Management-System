@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\tvarun\\SampleProjects\\Employee-Leave-Management-System\\backend\\",
+  "WorkspaceRootPath": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\tvarun\\SampleProjects\\Employee-Leave-Management-System\\backend\\Services\\EmployeeService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\EmployeeService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,6 +14,26 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\tvarun\\SampleProjects\\Employee-Leave-Management-System\\backend\\Controllers\\EmployeeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\EmployeeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\EmployeeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\EmployeeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Models\\Employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\LeaveController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\LeaveController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\LoginController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\LoginController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\DTOs\\EmployeeDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\EmployeeDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> 94b3a32057ceac15bd771321905b92dd8b1b35b1
     }
   ],
   "DocumentGroupContainers": [
@@ -30,23 +51,76 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 2,
+=======
+              "DocumentIndex": 0,
+>>>>>>> 94b3a32057ceac15bd771321905b92dd8b1b35b1
               "Title": "EmployeeController.cs",
-              "DocumentMoniker": "C:\\Users\\tvarun\\SampleProjects\\Employee-Leave-Management-System\\backend\\Controllers\\EmployeeController.cs",
+              "DocumentMoniker": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\EmployeeController.cs",
               "RelativeDocumentMoniker": "Controllers\\EmployeeController.cs",
-              "ToolTip": "C:\\Users\\tvarun\\SampleProjects\\Employee-Leave-Management-System\\backend\\Controllers\\EmployeeController.cs",
+              "ToolTip": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\EmployeeController.cs",
               "RelativeToolTip": "Controllers\\EmployeeController.cs",
+<<<<<<< HEAD
               "ViewState": "AgIAAAwAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAgAAAAAAAAAA==",
+>>>>>>> 94b3a32057ceac15bd771321905b92dd8b1b35b1
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-12T08:45:22.917Z"
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
+=======
+              "DocumentIndex": 3,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "Controllers\\LoginController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T04:52:02.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LeaveController.cs",
+              "DocumentMoniker": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\LeaveController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LeaveController.cs",
+              "ToolTip": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Controllers\\LeaveController.cs",
+              "RelativeToolTip": "Controllers\\LeaveController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T04:51:59.999Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EmployeeDTO.cs",
+              "DocumentMoniker": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\DTOs\\EmployeeDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\EmployeeDTO.cs",
+              "ToolTip": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\DTOs\\EmployeeDTO.cs",
+              "RelativeToolTip": "DTOs\\EmployeeDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T04:50:16.425Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 175,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+>>>>>>> 94b3a32057ceac15bd771321905b92dd8b1b35b1
               "DocumentIndex": 1,
               "Title": "Employee.cs",
-              "DocumentMoniker": "C:\\Users\\tvarun\\SampleProjects\\Employee-Leave-Management-System\\backend\\Models\\Employee.cs",
+              "DocumentMoniker": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Models\\Employee.cs",
               "RelativeDocumentMoniker": "Models\\Employee.cs",
-              "ToolTip": "C:\\Users\\tvarun\\SampleProjects\\Employee-Leave-Management-System\\backend\\Models\\Employee.cs",
+              "ToolTip": "C:\\Users\\dharish\\OneDrive - SOTI Inc\\Desktop\\Code\\Capstone\\backend\\Models\\Employee.cs",
               "RelativeToolTip": "Models\\Employee.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

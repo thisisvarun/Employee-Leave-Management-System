@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    public class Date
+    [Table("Dates")]
+    public class Dates
     {
         public int Id { get; set; }
         public int Leave_Id { get; set; }

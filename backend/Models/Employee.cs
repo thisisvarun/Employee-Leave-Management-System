@@ -13,7 +13,19 @@ namespace backend.Models
         public int Salary { get; set; }
         public int Designation_Id { get; set; }
         public DateTime Date_Of_Joining { get; set; }
-        public bool Is_Active { get; set; }
-        public string Password_Hash { get; set; } = string.Empty;
+
+        [Required]
+        public bool Active { get; set; }
+
+        [Required]
+        public string PasswordHash { get; set; } = string.Empty;
+
+        [ForeignKey("Team_Id")]
+        public Team? Team { get; set; }
+
+        [ForeignKey("Designation_Id")]
+        public Designation? Designation { get; set; }
+
+        public ICollection<Leave>? Leaves { get; set; } = new List<Leave>();
     }
 }

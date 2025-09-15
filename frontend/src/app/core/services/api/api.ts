@@ -39,14 +39,14 @@ import { environment } from '../../../../environment/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class Api {
+export class ApiService {
   private API_BASE_URL = environment.API_BASE_URL;
 
   constructor(private readonly http: HttpClient) {}
 
   loginUser(username: string, password: string) {
     return this.http.post(
-      `${this.API_BASE_URL}/login`,
+      `${this.API_BASE_URL}/api/login`,
       {
         username,
         password,
