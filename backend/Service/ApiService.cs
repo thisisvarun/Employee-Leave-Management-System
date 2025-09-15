@@ -14,8 +14,18 @@ namespace backend.Service
 
         public string Login(LoginDTO loginDTO)
         {
-            _apiRepository.GetUserByUsername(loginDTO.Email);
-            return "Done";
+            LoginDTO currentUserCredentials = _apiRepository.GetUserByEmail(loginDTO);
+            if (string.IsNullOrEmpty(currentUserCredentials.Email))
+            {
+                return "The user does not exist!";
+            }
+
+            if (currentUserCredentials.Password != loginDTO.Password)
+            {
+                return "The password is incorrect!";
+            }
+
+            return "You've successfully logged in to our system!";
         }
     }
 }
