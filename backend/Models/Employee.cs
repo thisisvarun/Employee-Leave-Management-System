@@ -4,15 +4,15 @@ namespace backend.Models
 {
     public class Employee
     {
-        public int Employee_Id { get; set; }
-        public string First_Name { get; set; } = string.Empty;
-        public string Last_Name { get; set; } = string.Empty;
+        public int EmployeeId { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string? Phone { get; set; }
-        public int? Team_Id { get; set; }
+        public int? TeamId { get; set; }
         public int Salary { get; set; }
-        public int Designation_Id { get; set; }
-        public DateTime Date_Of_Joining { get; set; }
+        public int DesignationId { get; set; }
+        public DateTime DateOfJoining { get; set; }
         public bool Active { get; set; }
         public string PasswordHash { get; set; } = string.Empty;
     }
