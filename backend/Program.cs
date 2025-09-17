@@ -1,8 +1,6 @@
 using backend.Controllers;
 using backend.Repository;
 using backend.Service;
-using Microsoft.AspNetCore.Identity.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
