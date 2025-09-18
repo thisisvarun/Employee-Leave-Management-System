@@ -2,10 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\Controllers",
-    "\\Models",
-    "\\Services"
+    "\\Service"
   ],
-  "SelectedNode": "\\Models\\Employee.cs",
-  "SelectedNode": "\\DTOs",
+  "SelectedNode": "\\.env",
   "PreviewInSolutionExplorer": false
 }

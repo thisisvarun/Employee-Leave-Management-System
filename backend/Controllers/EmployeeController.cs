@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 // using Microsoft.AspNetCore.Mvc;
 // using Microsoft.EntityFrameworkCore;
 // using backend.Models;
@@ -82,3 +83,69 @@
 //         }
 //     }
 // }
+=======
+﻿using Microsoft.AspNetCore.Mvc;
+using backend.DTOs;
+using backend.Services;
+
+namespace backend.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class EmployeeController : ControllerBase
+    {
+        private readonly EmployeeService _service;
+
+        public EmployeeController(EmployeeService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllEmployees()
+        {
+            var employees = _service.GetAllEmployees();
+            return Ok(employees);
+        }
+
+        [HttpGet("{emp_Id}")]
+        public IActionResult GetEmployeeById(int emp_Id)
+        {
+            var employee = _service.GetEmployeeById(emp_Id);
+            if (employee == null) return NotFound("Employee not found");
+            return Ok(employee);
+        }
+
+        [HttpPost]
+        public IActionResult CreateEmployee(EmployeeCreateDTO dto)
+        {
+            _service.CreateEmployee(dto);
+            return Ok("Employee created");
+        }
+
+        [HttpPut("update")]
+        public IActionResult UpdateEmployee(EmployeeUpdateDTO dto)
+        {
+            bool updated = _service.UpdateEmployee(dto);
+            if (!updated) return NotFound("Employee not found");
+            return Ok("Employee updated");
+        }
+
+        [HttpPut("password")]
+        public IActionResult UpdatePassword(EmployeeUpdatePasswordDTO dto)
+        {
+            bool success = _service.UpdatePassword(dto);
+            if (!success) return BadRequest("Old password is incorrect");
+            return Ok("Password updated");
+        }
+
+        [HttpDelete("{emp_Id}")]
+        public IActionResult DeleteEmployee(int emp_Id)
+        {
+            bool deleted = _service.DeleteEmployee(emp_Id);
+            if (!deleted) return NotFound("Employee not found");
+            return Ok("Employee deleted");
+        }
+    }
+}
+>>>>>>> Stashed changes
