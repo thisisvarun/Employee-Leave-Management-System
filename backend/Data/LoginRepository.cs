@@ -13,7 +13,7 @@ namespace backend.Repository
         }
         public LoginDTO GetUserByEmail(LoginDTO loginDTO)
         {
-            Console.WriteLine(loginDTO.Email + " Password " + loginDTO.Password);
+            // Console.WriteLine(loginDTO.Email + " Password " + loginDTO.Password);
             string connectionString = _configuration.GetConnectionString("Default")!;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
