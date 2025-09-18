@@ -24,15 +24,14 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowCredentials()
             .AllowAnyHeader();
-            // ;
         });
 });
 
 var app = builder.Build();
 
 // Middlewares
-app.UseLogger();
-app.UseJwtAuthentication();
+// app.UseLogger();
+// app.UseJwtAuthentication();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
