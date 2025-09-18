@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using backend.Models;
-using System.Linq;
-using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using backend.Service;
 
 using backend.DTOs;
+using backend.Common;
 
 namespace backend.Controllers
 {
@@ -26,17 +24,36 @@ namespace backend.Controllers
         {
             string res = _apiService.Login(request);
 
-            // We should probably create one
-            // Currently, I'm testing somethings;
-            string JWT = "TIHS_IS_A_SUPER_SECRET_JWT_TOKEN!";
-            Response.Cookies.Append("jwt_token", JWT, new CookieOptions
+            Response.Cookies.Append("jwt_token",
+            JwtHelper.GenerateToken(request.Email,
+                "secretKey, i dont know what to put, but it will be changed after sometime",
+                "secretKey i dont know what to put, but it will be changed after sometime",
+                "audience, This is also another string that needs to be changed as well"
+            ),
+            new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddHours(1)
             });
-            return Ok(res);
+
+            // TODO: Need to fetch the role here as well
+            return Ok(new LoginResponseDTO
+            {
+                RefreshToken = JwtHelper.GenerateToken(
+                    request.Email,
+                    "secretKey i dont know what to put, but it will be changed after sometime",
+                    "secretKey i dont know what to put, but it will be changed after sometime",
+                    "audience, This is also another string that needs to be changed as well"
+                ),
+                Email = request.Email,
+                Password = request.Password,
+                // TODO: Hardcoding Employee for now
+                // Ideally, the role should be coming from the DB
+                Role = "Employee"
+            });
+
             // var employee = _context.Employees
             //     .FirstOrDefault(e => e.Email == request.Email);
 

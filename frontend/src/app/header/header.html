@@ -2,8 +2,14 @@
 <header class="app-header-wrapper">
   <div class="app-header">
     <div class="title">ELMS</div>
+    @if (verifyAuth()) {
     <nav>
-      <button class="login-btn" (click)="handleLoginButtonClicke()">Login</button>
+      <button class="login-btn" (click)="handleLoginButtonClick()">Logout</button>
     </nav>
+    } @else {
+    <nav>
+      <button class="logout-btn" (click)="handleLogoutButtonClick()">Login</button>
+    </nav>
+    }
   </div>
 </header>

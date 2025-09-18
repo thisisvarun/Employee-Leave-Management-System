@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-header',
@@ -10,8 +11,19 @@ import { Router } from '@angular/router';
 export class Header {
   constructor(private readonly router: Router) {}
 
-  handleLoginButtonClicke() {
+  handleLoginButtonClick() {
     this.router.navigate(['/login']);
-    console.log('heading to login page!');
+  }
+
+  handleLogoutButtonClick() {
+    sessionStorage.setItem('access_token', '');
+    this.router.navigate(['/', 'login']);
+  }
+
+  verifyAuth() {
+    const token = sessionStorage.getItem('access_token') as string;
+    const decoded = jwtDecode(token);
+    const now = Math.floor(Date.now() / 1000);
+    return (decoded.exp as number) > now;
   }
 }
