@@ -24,12 +24,15 @@
 .env
 
 # Visual Studio Code
+.vs
 .vscode/*
+/backend/.vs
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+.vs
 
 # Miscellaneous
 /frontend/.angular/cache
