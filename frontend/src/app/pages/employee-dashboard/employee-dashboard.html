@@ -16,10 +16,11 @@
 
   <div class="dashboard-content">
     <!-- Employee Card -->
-
+    <!-- We will update this component to use the service in the next step -->
     <app-employee></app-employee>
 
     <!-- Leave Details Chart -->
+    @if (leaveStats$ | async; as leaveStats) {
     <div class="card leave-chart">
       <h3>Leave Details</h3>
       <ul>
@@ -45,8 +46,10 @@
       </div>
       <p><input type="checkbox" /> Better than 85% of Employees</p>
     </div>
+    }
 
     <!-- Leave Summary -->
+    @if (leaveSummary$ | async; as leaveSummary) {
     <div class="card leave-summary">
       <h3>Leave Details</h3>
       <ul>
@@ -57,7 +60,9 @@
         <li><strong>Worked Days:</strong> {{ leaveSummary.workedDays }}</li>
         <li><strong>Loss of Pay:</strong> {{ leaveSummary.lossOfPay }}</li>
       </ul>
-      <button class="btn">Apply New Leave</button>
+      <app-leave-request-form></app-leave-request-form>
     </div>
+    }
   </div>
 </div>
+

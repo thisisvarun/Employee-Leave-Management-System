@@ -1,41 +1,31 @@
-import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { DatePipe, CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { Employee } from '../../components/employee/employee';
+import { LeaveRequestFormComponent } from '../../components/leave-request-form/leave-request-form';
+import { EmployeeDataService } from '../../core/services/employee-data';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-dashboard',
-  imports: [DatePipe, Employee],
+  standalone: true,
+  imports: [CommonModule, DatePipe, Employee, LeaveRequestFormComponent],
   templateUrl: './employee-dashboard.html',
   styleUrl: './employee-dashboard.css',
 })
-export class EmployeeDashboard {
-  employee = {
-    name: 'Stephan Peralt',
-    role: 'Senior Product Designer',
-    team: 'UI/UX Design',
-    phone: '+1 324 3453 545',
-    email: 'Steperde124@example.com',
-    office: 'Douglas Martini',
-    joined: '15 Jan 2024',
-    avatar: '/frontend/assets/image.png',
-  };
-
-  leaveStats = {
-    onTime: 1254,
-    late: 32,
-    workFromHome: 658,
-    absent: 14,
-    sickLeave: 68,
-  };
-
-  leaveSummary = {
-    total: 16,
-    taken: 10,
-    absent: 2,
-    request: 0,
-    workedDays: 240,
-    lossOfPay: 2,
-  };
+export class EmployeeDashboard implements OnInit {
+  // Use the service to get data as Observables
+  private employeeDataService = inject(EmployeeDataService);
+  employee$!: Observable<any>;
+  leaveStats$!: Observable<any>;
+  leaveSummary$!: Observable<any>;
 
   today = new Date();
+
+  ngOnInit(): void {
+    // Assign the observables when the component initializes
+    this.employee$ = this.employeeDataService.getEmployeeDetails();
+    this.leaveStats$ = this.employeeDataService.getLeaveStats();
+    this.leaveSummary$ = this.employeeDataService.getLeaveSummary();
+  }
 }
+
