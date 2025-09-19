@@ -26,6 +26,7 @@
 .vs
 .vscode/*
 /backend/.vs
+/backend/.vs/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
