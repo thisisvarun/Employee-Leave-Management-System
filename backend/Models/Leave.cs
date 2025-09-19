@@ -1,23 +1,4 @@
-<<<<<<< HEAD
-﻿namespace backend.Models
-{
-    public enum LeaveType
-    {
-        Casual,
-        Sick,
-        Annual,
-        Lieu
-    }
-
-    public enum LeaveStatus
-    {
-        Pending,
-        Approved,
-        Rejected
-    }
-
-=======
-﻿using System;
+using System;
 
 namespace backend.Models
 {
@@ -29,7 +10,6 @@ namespace backend.Models
     {
         Approved, Rejected, Pending
     }
->>>>>>> d089c4ad28b7152ed3a567d57fb70a8ececd3a28
     public class Leave
     {
         public int LeaveRequest_Id { get; set; }

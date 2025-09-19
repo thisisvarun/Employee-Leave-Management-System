@@ -1,6 +1,7 @@
 using backend.Controllers;
+using backend.Repositories;
 using backend.Repository;
-using backend.Service;
+using backend.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,10 +10,10 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddSingleton<ApiSevice>();
+builder.Services.AddSingleton<LoginRepository>();
 
 builder.Services.AddSingleton<LoginRepository>();
-builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<backend.Repositories.EmployeeRepository>();
 builder.Services.AddScoped<EmployeeService>();
 
 builder.Services.AddCors(options =>

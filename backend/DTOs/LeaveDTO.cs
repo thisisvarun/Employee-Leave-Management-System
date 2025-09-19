@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 using System;
 using backend.Models;
 
@@ -36,8 +35,4 @@ namespace backend.DTOs
     {
         public int LeaveRequest_Id { get; set; }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> d089c4ad28b7152ed3a567d57fb70a8ececd3a28

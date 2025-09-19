@@ -8,9 +8,6 @@ namespace backend.Models
         public string First_Name { get; set; } = string.Empty;
         public string Last_Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-<<<<<<< HEAD
-        public string? Phone { get; set; }
-=======
         public string Phone { get; set; } = string.Empty;
         public int? Team_Id { get; set; } // null if employee is not a part of any team (on bench)
         public int Salary { get; set; }

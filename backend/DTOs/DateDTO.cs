@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-using System;
-=======
 ﻿using System;
->>>>>>> d089c4ad28b7152ed3a567d57fb70a8ececd3a28
 
 namespace backend.DTOs
 {
@@ -25,8 +21,4 @@ namespace backend.DTOs
     {
         public int Leave_Id { get; set; }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> d089c4ad28b7152ed3a567d57fb70a8ececd3a28
