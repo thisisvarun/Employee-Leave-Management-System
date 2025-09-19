@@ -25,6 +25,11 @@
         <span>Password is required</span>
         } @else if (loginForm.get('password')?.hasError('minlength')) {
         <span>Minimum 6 characters</span>
+        } @else if (loginForm.get('password')?.hasError('pattern')) {
+        <span class="error"
+          >The password must contain atleast one uppercase, one loweracse, one number, and one
+          special character</span
+        >
         }
       </div>
       } @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched &&

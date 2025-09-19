@@ -9,7 +9,7 @@ export const routes: Routes = [
     component: LoginForm,
   },
   {
-    path: 'employee',
+    path: 'employee/:id',
     component: EmployeeDashboard,
     canActivate: [AuthGuard],
   },

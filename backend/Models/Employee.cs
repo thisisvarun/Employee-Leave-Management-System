@@ -50,5 +50,7 @@ namespace backend.Models
         public Designation? Designation { get; set; }
 
         public ICollection<Leave>? Leaves { get; set; } = new List<Leave>();
+        public string Role { get; set; } = "";
+        
     }
 }

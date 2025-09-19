@@ -1,14 +1,27 @@
-import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { DatePipe, CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../core/services/api/api';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../core/services/auth/auth';
 import { Employee } from '../../components/employee/employee';
+import { FormsModule } from '@angular/forms';
+
+import { Employee as EmployeeModel } from '../../shared/models/Employee';
 
 @Component({
   selector: 'app-employee-dashboard',
-  imports: [DatePipe, Employee],
+  standalone: true,
+  imports: [DatePipe, Employee, FormsModule, CommonModule],
   templateUrl: './employee-dashboard.html',
   styleUrl: './employee-dashboard.css',
 })
-export class EmployeeDashboard {
+export class EmployeeDashboard implements OnInit {
+  constructor(
+    private readonly api: ApiService,
+    private readonly router: ActivatedRoute,
+    private auth: AuthService
+  ) {}
+
   employee = {
     name: 'Stephan Peralt',
     role: 'Senior Product Designer',
@@ -38,4 +51,33 @@ export class EmployeeDashboard {
   };
 
   today = new Date();
+
+  ngOnInit(): void {
+    console.log('[router value]', this.router.snapshot.paramMap.get('id'));
+    this.api.getEmployeeById(this.router.snapshot.paramMap.get('id')!).subscribe({
+      next: (result: any) => {
+        this.auth.updateUser({
+          id: result.employee_Id,
+          firstName: result.first_Name,
+          lastName: result.last_Name,
+          email: result.email,
+          phone: result.phone,
+          teamdId: result.team_Id,
+          salary: result.salary,
+          designationId: result.designation_Id,
+          dateOfJoining: result.date_Of_Joining,
+          active: result.active,
+          role: result.role,
+        });
+      },
+      error: (error: any) => {
+        console.log('[GET EMPLOYEE BY ID ERROR]', error);
+      },
+    });
+  }
+
+  onLeaveSubmit() {
+    // Handle leave submission logic here
+    console.log('Leave application submitted');
+  }
 }
