@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using backend.DTOs;
+using backend.Services;
+using backend.Repositories;
 
 namespace backend.Controllers
 {
@@ -8,116 +9,60 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class TeamController : ControllerBase
     {
-        private readonly string _connectionString;
+        private readonly TeamService _teamService;
 
         public TeamController(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
-            if (string.IsNullOrWhiteSpace(_connectionString))
-                throw new Exception("Failed to connect to database!");
+            var connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new Exception("Failed to connect to database!");
+            var repository = new TeamRepository(connectionString);
+            _teamService = new TeamService(repository);
         }
 
         [HttpGet]
-        public List<TeamReadDTO> GetAllTeams()
+        public IActionResult GetAllTeams()
         {
-            var teams = new List<TeamReadDTO>();
-
-            using (SqlConnection conn = new(_connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new("SELECT * FROM Team", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    teams.Add(new TeamReadDTO
-                    {
-                        Team_Id = (int)reader["Team_Id"],
-                        Team_Name = reader["Team_Name"].ToString() ?? "",
-                        Manager_Id = reader["Manager_Id"] as int?
-                    });
-                }
-            }
-
-            return teams;
+            var teams = _teamService.GetAllTeams();
+            return Ok(teams);
         }
 
         [HttpGet("{id}")]
-        public TeamReadDTO? GetTeamById(int id)
+        public IActionResult GetTeamById(int id)
         {
-            TeamReadDTO? team = null;
+            var team = _teamService.GetTeamById(id);
+            if (team == null)
+                return NotFound(new { message = "Team not found" });
 
-            using (SqlConnection conn = new(_connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new("SELECT * FROM Team WHERE Team_Id=@id", conn);
-                cmd.Parameters.AddWithValue("@id", id);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    team = new TeamReadDTO
-                    {
-                        Team_Id = (int)reader["Team_Id"],
-                        Team_Name = reader["Team_Name"].ToString() ?? "",
-                        Manager_Id = reader["Manager_Id"] as int?
-                    };
-                }
-            }
-
-            return team;
+            return Ok(team);
         }
 
         [HttpPost]
-        public IActionResult CreateTeam(TeamCreateDTO dto)
+        public IActionResult CreateTeam([FromBody] TeamCreateDTO dto)
         {
-            using (SqlConnection conn = new(_connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new("INSERT INTO Team (Team_Name, Manager_Id) VALUES (@Team_Name, @Manager_Id)", conn);
-                cmd.Parameters.AddWithValue("@Team_Name", dto.Team_Name);
-                cmd.Parameters.AddWithValue("@Manager_Id", (object?)dto.Manager_Id ?? DBNull.Value);
-                cmd.ExecuteNonQuery();
-            }
-
-            return Ok("Team created");
+            bool created = _teamService.CreateTeam(dto);
+            if (!created)
+                return BadRequest(new { message = "Failed to Create Team!" });
+            return Ok(new { message = "Team created" });
         }
 
         [HttpPut]
-        public IActionResult UpdateTeam(TeamUpdateDTO dto)
+        public IActionResult UpdateTeam([FromBody] TeamUpdateDTO dto)
         {
-            using (SqlConnection conn = new(_connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new(@"UPDATE Team 
-                                       SET Team_Name=@Team_Name, Manager_Id=@Manager_Id 
-                                       WHERE Team_Id=@Team_Id", conn);
+            bool updated = _teamService.UpdateTeam(dto);
+            if (!updated)
+                return NotFound(new { message = "Team not found" });
 
-                cmd.Parameters.AddWithValue("@Team_Id", dto.Team_Id);
-                cmd.Parameters.AddWithValue("@Team_Name", (object?)dto.Team_Name ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Manager_Id", (object?)dto.Manager_Id ?? DBNull.Value);
-
-                int rows = cmd.ExecuteNonQuery();
-                if (rows == 0) return NotFound("Team not found");
-            }
-
-            return Ok("Team updated");
+            return Ok(new { message = "Team updated" });
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteTeam(int id)
         {
-            using (SqlConnection conn = new(_connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new("DELETE FROM Team WHERE Team_Id=@id", conn);
-                cmd.Parameters.AddWithValue("@id", id);
+            bool deleted = _teamService.DeleteTeam(id);
+            if (!deleted)
+                return NotFound(new { message = "Team not found" });
 
-                int rows = cmd.ExecuteNonQuery();
-                if (rows == 0) return NotFound("Team not found");
-            }
-
-            return Ok("Team deleted");
+            return Ok(new { message = "Team deleted" });
         }
     }
 }

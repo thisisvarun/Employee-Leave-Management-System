@@ -9,27 +9,11 @@ namespace backend.Models
         public string Last_Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
-        public int? Team_Id { get; set; }
+        public int? Team_Id { get; set; } // null if employee is not a part of any team (on bench)
         public int Salary { get; set; }
         public int Designation_Id { get; set; }
         public DateTime Date_Of_Joining { get; set; }
-
-        [Required]
-        public bool Active { get; set; }
-<<<<<<< Updated upstream
-
-        [Required]
-        public string PasswordHash { get; set; } = string.Empty;
-
-        [ForeignKey("Team_Id")]
-        public Team? Team { get; set; }
-
-        [ForeignKey("Designation_Id")]
-        public Designation? Designation { get; set; }
-
-        public ICollection<Leave>? Leaves { get; set; } = new List<Leave>();
-=======
+        public bool Is_Active { get; set; }
         public string Password_Hash { get; set; } = string.Empty;
->>>>>>> Stashed changes
     }
 }

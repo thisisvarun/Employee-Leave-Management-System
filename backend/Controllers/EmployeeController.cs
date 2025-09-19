@@ -1,90 +1,4 @@
-<<<<<<< Updated upstream
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using backend.Models;
-// using System.Collections.Generic;
-// using System.Linq;
-
-// namespace backend.Controllers
-// {
-//     [ApiController]
-//     [Route("api/[controller]")]
-//     public class EmployeesController : ControllerBase
-//     {
-//         private readonly AppDbContext _context;
-
-//         public EmployeesController(AppDbContext context)
-//         {
-//             _context = context;
-//         }
-
-//         [HttpGet]
-//         public ActionResult<IEnumerable<Employee>> GetEmployees()
-//         {
-//             var employees = _context.Employees
-//                 .Include(e => e.Team_Id)
-//                 .Include(e => e.Designation_Id)
-//                 .ToList();
-//             return Ok(employees);
-//         }
-
-//         [HttpGet("{id}")]
-//         public ActionResult<Employee> GetEmployee(int id)
-//         {
-//             var employee = _context.Employees
-//                 .Include(e => e.Team_Id)
-//                 .Include(e => e.Designation_Id)
-//                 .FirstOrDefault(e => e.Employee_Id == id);
-
-//             if (employee == null) return NotFound();
-//             return Ok(employee);
-//         }
-
-//         [HttpPost]
-//         public ActionResult<Employee> CreateEmployee(Employee employee)
-//         {
-//             _context.Employees.Add(employee);
-//             _context.SaveChanges();
-//             return CreatedAtAction(nameof(GetEmployee), new { id = employee.Employee_Id }, employee);
-//         }
-
-//         [HttpPut("{id}")]
-//         public IActionResult UpdateEmployeeTeam(int Team_Id, int Employee_Id)
-//         {
-//             var employee = _context.Employees.Find(Employee_Id);
-//             if (employee == null) return BadRequest();
-//             employee.Team_Id = Team_Id;
-//             _context.Entry(employee).State = EntityState.Modified;
-//             _context.SaveChanges();
-//             return NoContent();
-//         }
-
-//         [HttpPut("{id}")]
-//         public IActionResult UpdateEmployeeDesignation(int Designation_Id, int Employee_Id)
-//         {
-//             var employee = _context.Employees.Find(Employee_Id);
-//             if (employee == null) return BadRequest();
-//             employee.Designation_Id = Designation_Id;
-//             _context.Entry(employee).State = EntityState.Modified;
-//             _context.SaveChanges();
-//             return NoContent();
-//         }
-
-//         [HttpDelete("{id}")]
-//         public IActionResult DeleteEmployee(int id)
-//         {
-//             var employee = _context.Employees.Find(id);
-//             if (employee == null) return NotFound();
-
-//             _context.Employees.Remove(employee);
-//             _context.SaveChanges();
-
-//             return NoContent();
-//         }
-//     }
-// }
-=======
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using backend.DTOs;
 using backend.Services;
 
@@ -92,14 +6,9 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController(EmployeeService service) : ControllerBase
     {
-        private readonly EmployeeService _service;
-
-        public EmployeeController(EmployeeService service)
-        {
-            _service = service;
-        }
+        private readonly EmployeeService _service = service;
 
         [HttpGet]
         public IActionResult GetAllEmployees()
@@ -108,44 +17,47 @@ namespace backend.Controllers
             return Ok(employees);
         }
 
-        [HttpGet("{emp_Id}")]
-        public IActionResult GetEmployeeById(int emp_Id)
+        [HttpGet("{id}")]
+        public IActionResult GetEmployeeById(int id)
         {
-            var employee = _service.GetEmployeeById(emp_Id);
-            if (employee == null) return NotFound("Employee not found");
+            var employee = _service.GetEmployeeById(id);
+            if (employee == null) return NotFound(new { message = "Employee not found" });
+
             return Ok(employee);
         }
 
         [HttpPost]
-        public IActionResult CreateEmployee(EmployeeCreateDTO dto)
+        public IActionResult CreateEmployee([FromBody] EmployeeCreateDTO dto)
         {
-            _service.CreateEmployee(dto);
-            return Ok("Employee created");
+            int newEmployeeId = _service.CreateEmployee(dto); // service returns new employee ID
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = newEmployeeId }, dto);
         }
 
-        [HttpPut("update")]
-        public IActionResult UpdateEmployee(EmployeeUpdateDTO dto)
+        [HttpPut]
+        public IActionResult UpdateEmployee([FromBody] EmployeeUpdateDTO dto)
         {
             bool updated = _service.UpdateEmployee(dto);
-            if (!updated) return NotFound("Employee not found");
-            return Ok("Employee updated");
+            if (!updated) return NotFound(new { message = "Employee not found" });
+
+            return Ok(new { message = "Employee updated successfully" });
         }
 
         [HttpPut("password")]
-        public IActionResult UpdatePassword(EmployeeUpdatePasswordDTO dto)
+        public IActionResult UpdatePassword([FromBody] EmployeeUpdatePasswordDTO dto)
         {
             bool success = _service.UpdatePassword(dto);
-            if (!success) return BadRequest("Old password is incorrect");
-            return Ok("Password updated");
+            if (!success) return BadRequest(new { message = "Old password is incorrect" });
+
+            return Ok(new { message = "Password updated successfully" });
         }
 
-        [HttpDelete("{emp_Id}")]
-        public IActionResult DeleteEmployee(int emp_Id)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEmployee(int id)
         {
-            bool deleted = _service.DeleteEmployee(emp_Id);
-            if (!deleted) return NotFound("Employee not found");
-            return Ok("Employee deleted");
+            bool deleted = _service.DeleteEmployee(id);
+            if (!deleted) return NotFound(new { message = "Employee not found" });
+
+            return Ok(new { message = "Employee deleted successfully" });
         }
     }
 }
->>>>>>> Stashed changes

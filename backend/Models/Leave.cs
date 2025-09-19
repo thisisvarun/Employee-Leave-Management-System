@@ -14,9 +14,10 @@ namespace backend.Models
     {
         public int LeaveRequest_Id { get; set; }
         public int Employee_Id { get; set; }
-        public string Leave_Type { get; set; } = LeaveType.Casual;
+        public LeaveType Leave_Type { get; set; } = LeaveType.Casual;
         public string Description { get; set; } = string.Empty;
-        public string Status { get; set; } = LeaveStatus.Pending;
+        public LeaveStatus Status { get; set; } = LeaveStatus.Pending;
         public string? Comment { get; set; }
+        public List<Dates> Dates { get; set; } = [];
     }
 }
