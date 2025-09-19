@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-﻿namespace backend.Models
-=======
-﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
