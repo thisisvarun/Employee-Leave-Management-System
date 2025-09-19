@@ -18,7 +18,7 @@ namespace backend.Repository
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "Select Email, PasswordHash FROM EMP.Employee WHERE EMP.Employee.Email = @Email";
+                string query = "Select Employee_Id, Email, PasswordHash FROM EMP.Employee WHERE EMP.Employee.Email = @Email";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -30,8 +30,9 @@ namespace backend.Repository
                         {
                             LoginDTO userLoginDBCredentials = new LoginDTO
                             {
-                                Email = reader.GetString(0),
-                                Password = reader.GetString(1),
+                                EmployeeId = reader.GetInt32(0),
+                                Email = reader.GetString(1),
+                                Password = reader.GetString(2),
                             };
                             return userLoginDBCredentials;
                         }

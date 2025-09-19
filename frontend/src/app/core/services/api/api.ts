@@ -45,10 +45,11 @@ export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
   loginUser(username: string, password: string) {
+    console.log(username, password);
     return this.http.post(
       `${this.API_BASE_URL}/api/login`,
       {
-        username,
+        email: username,
         password,
       },
       {
@@ -58,5 +59,11 @@ export class ApiService {
         withCredentials: true,
       }
     );
+  }
+
+  getEmployeeById(id: string) {
+    return this.http.get(`${this.API_BASE_URL}/api/employee/${id}`, {
+      withCredentials: true,
+    });
   }
 }

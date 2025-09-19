@@ -25,8 +25,8 @@ namespace backend.Controllers
         [HttpPost("/login/")]
         public IActionResult Login([FromBody] LoginDTO request)
         {
-<<<<<<< Updated upstream
-            string res = _apiService.Login(request);
+            Console.WriteLine("[LOGIN CONTROLLER] " + request.Email + " " + request.Password);
+            LoginDTO res = _apiService.Login(request);
 
             Response.Cookies.Append("jwt_token",
             JwtHelper.GenerateToken(request.Email,
@@ -53,6 +53,7 @@ namespace backend.Controllers
                 ),
                 Email = request.Email,
                 Password = request.Password,
+                EmployeeId = res.EmployeeId,
                 // TODO: Hardcoding Employee for now
                 // Ideally, the role should be coming from the DB
                 Role = "Employee"

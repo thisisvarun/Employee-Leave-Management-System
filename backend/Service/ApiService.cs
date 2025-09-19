@@ -12,20 +12,19 @@ namespace backend.Service
             _apiRepository = apiRepository;
         }
 
-        public string Login(LoginDTO loginDTO)
+        public LoginDTO Login(LoginDTO loginDTO)
         {
             LoginDTO currentUserCredentials = _apiRepository.GetUserByEmail(loginDTO);
             if (string.IsNullOrEmpty(currentUserCredentials.Email))
             {
-                return "The user does not exist!";
+                return new LoginDTO { };
             }
 
             if (currentUserCredentials.Password != loginDTO.Password)
             {
-                return "The password is incorrect!";
+                return new LoginDTO { };
             }
-
-            return "You've successfully logged in to our system!";
+            return currentUserCredentials;
         }
     }
 }

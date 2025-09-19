@@ -31,7 +31,7 @@ export class LoginForm {
           sessionStorage.setItem('access_token', res.refreshToken);
           console.log('Result: ', res);
           if (res.role.toLowerCase() == 'employee') {
-            this.router.navigate(['/', 'employee']);
+            this.router.navigate(['/', 'employee', res.employeeId]);
           }
         },
         error: (err) => {

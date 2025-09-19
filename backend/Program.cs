@@ -12,6 +12,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddSingleton<ApiSevice>();
 
 builder.Services.AddSingleton<LoginRepository>();
+builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<EmployeeService>();
 
 builder.Services.AddCors(options =>
 {

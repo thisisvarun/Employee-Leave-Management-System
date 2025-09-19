@@ -1,63 +1,76 @@
-<div class="dashboard">
-  <!-- Header -->
-  <div class="dashboard-header">
-    <h1>Employee Dashboard</h1>
+<div class="dashboard-container">
+  <div class="header">
+    <h1>Dashboard</h1>
     <div class="actions">
-      <button class="btn">Export</button>
+      <button class="export-btn">Export</button>
       <input type="date" [value]="today | date : 'yyyy-MM-dd'" />
     </div>
   </div>
 
-  <!-- Notification -->
   <div class="notification">
-    Your Leave Request on "24th April 2024" has been Approved!!!
-    <span class="close">&times;</span>
+    <p>Your Leave Request on "24th April 2024" has been Approved!!!</p>
+    <span class="close-btn">&times;</span>
   </div>
 
-  <div class="dashboard-content">
-    <!-- Employee Card -->
+  <div class="main-content">
+    <div class="left-column">
+      <app-employee></app-employee>
 
-    <app-employee></app-employee>
-
-    <!-- Leave Details Chart -->
-    <div class="card leave-chart">
-      <h3>Leave Details</h3>
-      <ul>
-        <li><span class="dot blue"></span> {{ leaveStats.onTime }} on time</li>
-        <li><span class="dot green"></span> {{ leaveStats.late }} Late Attendance</li>
-        <li><span class="dot orange"></span> {{ leaveStats.workFromHome }} Work From Home</li>
-        <li><span class="dot red"></span> {{ leaveStats.absent }} Absent</li>
-        <li><span class="dot yellow"></span> {{ leaveStats.sickLeave }} Sick Leave</li>
-      </ul>
-      <div class="donut-chart">
-        <!-- You can replace this with ngx-charts or Chart.js later -->
-        <svg viewBox="0 0 32 32">
-          <circle
-            r="16"
-            cx="16"
-            cy="16"
-            stroke="#0f4c5c"
-            stroke-width="32"
-            fill="transparent"
-            stroke-dasharray="60 40"
-          ></circle>
-        </svg>
+      <div class="card leave-details">
+        <h3>Leave Details</h3>
+        <ul>
+          <li><span class="dot on-time"></span> {{ leaveStats.onTime }} on time</li>
+          <li><span class="dot late"></span> {{ leaveStats.late }} Late Attendance</li>
+          <li><span class="dot wfh"></span> {{ leaveStats.workFromHome }} Work From Home</li>
+          <li><span class="dot absent"></span> {{ leaveStats.absent }} Absent</li>
+          <li><span class="dot sick"></span> {{ leaveStats.sickLeave }} Sick Leave</li>
+        </ul>
       </div>
-      <p><input type="checkbox" /> Better than 85% of Employees</p>
     </div>
 
-    <!-- Leave Summary -->
-    <div class="card leave-summary">
-      <h3>Leave Details</h3>
-      <ul>
-        <li><strong>Total Leaves:</strong> {{ leaveSummary.total }}</li>
-        <li><strong>Taken:</strong> {{ leaveSummary.taken }}</li>
-        <li><strong>Absent:</strong> {{ leaveSummary.absent }}</li>
-        <li><strong>Request:</strong> {{ leaveSummary.request }}</li>
-        <li><strong>Worked Days:</strong> {{ leaveSummary.workedDays }}</li>
-        <li><strong>Loss of Pay:</strong> {{ leaveSummary.lossOfPay }}</li>
-      </ul>
-      <button class="btn">Apply New Leave</button>
+    <div class="right-column">
+      <div class="card leave-summary">
+        <h3>Leave Summary</h3>
+        <ul>
+          <li><strong>Total Leaves:</strong> {{ leaveSummary.total }}</li>
+          <li><strong>Taken:</strong> {{ leaveSummary.taken }}</li>
+          <li><strong>Absent:</strong> {{ leaveSummary.absent }}</li>
+          <li><strong>Request:</strong> {{ leaveSummary.request }}</li>
+          <li><strong>Worked Days:</strong> {{ leaveSummary.workedDays }}</li>
+          <li><strong>Loss of Pay:</strong> {{ leaveSummary.lossOfPay }}</li>
+        </ul>
+      </div>
+
+      <div class="card apply-leave">
+        <h3>Apply for Leave</h3>
+        <form (ngSubmit)="onLeaveSubmit()" #leaveForm="ngForm">
+          <div class="form-group">
+            <label for="leaveType">Leave Type</label>
+            <select id="leaveType" name="leaveType" ngModel required>
+              <option value="">Select Leave Type</option>
+              <option value="sick">Sick Leave</option>
+              <option value="casual">Casual Leave</option>
+              <option value="earned">Earned Leave</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input type="date" id="startDate" name="startDate" ngModel required />
+          </div>
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input type="date" id="endDate" name="endDate" ngModel required />
+          </div>
+          <div class="form-group">
+            <label for="reason">Reason</label>
+            <textarea id="reason" name="reason" rows="3" ngModel required></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="submit-btn" [disabled]="!leaveForm.form.valid">Apply</button>
+            <button type="button" class="cancel-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

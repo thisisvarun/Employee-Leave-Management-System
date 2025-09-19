@@ -33,9 +33,7 @@ namespace backend.Models
         public Designation? Designation { get; set; }
 
         public ICollection<Leave>? Leaves { get; set; } = new List<Leave>();
-=======
-        public string Password_Hash { get; set; } = string.Empty;
->>>>>>> Stashed changes
->>>>>>> d089c4ad28b7152ed3a567d57fb70a8ececd3a28
+        public string Role { get; set; } = "";
+        
     }
 }
