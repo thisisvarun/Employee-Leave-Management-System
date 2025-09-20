@@ -1,10 +1,11 @@
+using backend.Data.Interfaces;
 using backend.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace backend.Repository
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly IConfiguration _configuration;
 

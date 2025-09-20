@@ -1,4 +1,5 @@
-﻿using System;
+﻿using backend.Models.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,8 +14,7 @@ namespace backend.Models
         public int EmployeeId { get; set; }
 
         [Required]
-        [MaxLength(20)]
-        public string LeaveType { get; set; } = "Casual"; // Casual, Sick, Annual, LIEU
+        public LeaveType LeaveType { get; set; }
 
         [MaxLength(500)]
         public string Description { get; set; } = string.Empty;

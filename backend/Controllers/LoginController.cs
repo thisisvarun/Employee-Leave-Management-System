@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography;
-using System.Text;
-using backend.Service;
-
+using Microsoft.AspNetCore.Mvc;
+using backend.Service.Interfaces;
 using backend.DTOs;
 using backend.Common;
 
@@ -12,74 +9,58 @@ namespace backend.Controllers
     [Route("/api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private ApiSevice _apiService;
+        private readonly IApiService _apiService;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public LoginController(ApiSevice apiSevice)
+        public LoginController(IApiService apiService, IEmailService emailService, IConfiguration configuration)
         {
-            _apiService = apiSevice;
+            _apiService = apiService;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         [HttpPost]
         public IActionResult Login([FromBody] LoginDTO request)
         {
-            Console.WriteLine("[LOGIN CONTROLLER] " + request.Email + " " + request.Password);
             LoginDTO res = _apiService.Login(request);
 
-            Response.Cookies.Append("jwt_token",
-            JwtHelper.GenerateToken(request.Email,
-                "secretKey, i dont know what to put, but it will be changed after sometime",
-                "secretKey i dont know what to put, but it will be changed after sometime",
-                "audience, This is also another string that needs to be changed as well"
-            ),
-            new CookieOptions
+            if (string.IsNullOrEmpty(res.Email))
+            {
+                return Unauthorized();
+            }
+
+            var token = JwtHelper.GenerateToken(
+                res.Email,
+                res.EmployeeId,
+                res.RoleTitle,
+                _configuration["Jwt:Key"]!,
+                _configuration["Jwt:Issuer"]!,
+                _configuration["Jwt:Audience"]!
+            );
+
+            Response.Cookies.Append("jwt_token", token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddHours(1)
             });
+            return Ok(new { Token = token, EmployeeId = res.EmployeeId, RoleTitle = res.RoleTitle, Role = res.Role.ToString() });
+        }
 
-            // TODO: Need to fetch the role here as well
-            return Ok(new LoginResponseDTO
+        [HttpGet("test")]
+        public async Task<IActionResult> Hello()
+        {
+            bool done = await _emailService.SendEmailAsync("harish.16633@gmail.com", "Test", "Test");
+            if (done)
             {
-                RefreshToken = JwtHelper.GenerateToken(
-                    request.Email,
-                    "secretKey i dont know what to put, but it will be changed after sometime",
-                    "secretKey i dont know what to put, but it will be changed after sometime",
-                    "audience, This is also another string that needs to be changed as well"
-                ),
-                Email = request.Email,
-                Password = request.Password,
-                EmployeeId = res.EmployeeId,
-                // TODO: Hardcoding Employee for now
-                // Ideally, the role should be coming from the DB
-                Role = "Employee"
-            });
-
-            // var employee = _context.Employees
-            //     .FirstOrDefault(e => e.Email == request.Email);
-
-            // if (employee == null) return Unauthorized("Invalid credentials");
-
-            // if (!VerifyPassword(request.Password, employee.PasswordHash))
-            //     return Unauthorized("Invalid credentials");
-
-            // //could generate a JWT token if needed
-            // return Ok(new { message = "Login successful", employeeId = employee.Employee_Id });
-        }
-
-        [HttpGet]
-        public string Hello()
-        {
-            return "hello";
-        }
-
-        private bool VerifyPassword(string password, string storedHash)
-        {
-            using var sha256 = SHA256.Create();
-            var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            var hash = Convert.ToBase64String(hashBytes);
-            return hash == storedHash;
+                return Ok("Hello");
+            }
+            else
+            {
+                return Ok("Not ok!");
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ export class LoginForm {
     if (this.loginForm.valid) {
       this.api.loginUser(this.loginForm.value.email, this.loginForm.value.password).subscribe({
         next: (res: any) => {
-          sessionStorage.setItem('access_token', res.refreshToken);
+          sessionStorage.setItem('access_token', res.token);
           console.log('Result: ', res);
           if (res.role.toLowerCase() == 'employee') {
             this.router.navigate(['/', 'employee', res.employeeId]);

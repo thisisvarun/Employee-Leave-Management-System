@@ -1,15 +1,17 @@
+using backend.Data.Interfaces;
 using backend.Models;
 using backend.Repository;
+using backend.Service.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace backend.Service
 {
-    public class EmployeeService
+    public class EmployeeService : IEmployeeService
     {
-        private readonly EmployeeRepository _employeeRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeeService(EmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }

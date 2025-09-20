@@ -1,76 +1,52 @@
-﻿// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using backend.Models;
-// using System.Collections.Generic;
-// using System.Linq;
+﻿using backend.DTOs;
+using backend.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
-// namespace backend.Controllers
-// {
-//     [ApiController]
-//     [Route("api/[controller]")]
-//     public class TeamController : ControllerBase
-//     {
-//         private readonly AppDbContext _context;
+namespace backend.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Roles = "Manager")]
+    public class TeamController : ControllerBase
+    {
+        private readonly ITeamService _teamService;
 
-//         public TeamController(AppDbContext context)
-//         {
-//             _context = context;
-//         }
+        public TeamController(ITeamService teamService)
+        {
+            _teamService = teamService;
+        }
 
-//         [HttpGet]
-//         public ActionResult<IEnumerable<Team>> GetTeams()
-//         {
-//             var teams = _context.Teams
-//                 .Include(e => e.TeamId)
-//                 .Include(e => e.Name)
-//                 .Include(e => e.ManagerId)
-//                 .ToList();
-//             return Ok(Teams);
-//         }
+        [HttpGet("leaves")]
+        public async Task<IActionResult> GetTeamLeaveRequests()
+        {
+            var managerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(managerId))
+            {
+                return Unauthorized();
+            }
 
-//         [HttpGet("{id}")]
-//         public ActionResult<Team> GetTeam(int id)
-//         {
-//             var team = _context.Teams
-//                 .Include(e => e.TeamId)
-//                 .Include(e => e.Name)
-//                 .Include(e => e.ManagerId)
-//                 .FirstOrDefault(e => e.TeamId == id);
+            var leaveRequests = await _teamService.GetTeamLeaveRequestsAsync(int.Parse(managerId));
+            return Ok(leaveRequests);
+        }
 
-//             if (Team == null) return NotFound();
-//             return Ok(Team);
-//         }
+        [HttpPut("leaves/{leaveId}/status")]
+        public async Task<IActionResult> UpdateLeaveStatus(int leaveId, [FromBody] UpdateLeaveStatusDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-//         [HttpPost]
-//         public ActionResult<Team> CreateTeam(Team Team)
-//         {
-//             _context.Teams.Add(Team);
-//             _context.SaveChanges();
-//             return CreatedAtAction(nameof(GetTeam), new { id = Team.Team_Id }, Team);
-//         }
+            var result = await _teamService.UpdateLeaveStatusAsync(leaveId, dto);
+            if (!result)
+            {
+                return NotFound();
+            }
 
-//         [HttpPut("{id}")]
-//         public IActionResult UpdateTeamManager(int TeamId, int ManagerId)
-//         {
-//             var Team = _context.Teams.Find(TeamId);
-//             if (Team == null) return BadRequest();
-//             Team.ManagerId = id;
-//             _context.Entry(Team).State = EntityState.Modified;
-//             _context.SaveChanges();
+            return Ok();
+        }
+    }
+}
 
-//             return NoContent();
-//         }
-
-//         [HttpDelete("{id}")]
-//         public IActionResult DeleteTeam(int id)
-//         {
-//             var Team = _context.Teams.Find(id);
-//             if (Team == null) return NotFound();
-
-//             _context.Teams.Remove(Team);
-//             _context.SaveChanges();
-
-//             return NoContent();
-//         }
-//     }
-// }
