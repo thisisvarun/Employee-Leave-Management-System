@@ -24,6 +24,12 @@ namespace backend.Controllers
             }
 
             var leaveId = await _leaveService.ApplyLeaveAsync(leaveDto);
+
+            if (leaveId == -1)
+            {
+                return BadRequest(new { message = "Insufficient leave balance when considering pending requests." });
+            }
+
             return Ok(new { LeaveId = leaveId });
         }
 

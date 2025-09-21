@@ -2,6 +2,7 @@
 using backend.Service;
 using backend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using backend.DTOs;
 
 namespace backend.Controllers
 {
@@ -10,10 +11,12 @@ namespace backend.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        private readonly ILeaveService _leaveService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, ILeaveService leaveService)
         {
             _employeeService = employeeService;
+            _leaveService = leaveService;
         }
 
         [HttpGet]
@@ -34,6 +37,13 @@ namespace backend.Controllers
             }
 
             return Ok(employee);
+        }
+
+        [HttpGet("{id}/summary")]
+        public async Task<ActionResult<LeaveSummaryDto>> GetLeaveSummary(int id)
+        {
+            var summary = await _leaveService.GetLeaveSummaryAsync(id);
+            return Ok(summary);
         }
     }
 }

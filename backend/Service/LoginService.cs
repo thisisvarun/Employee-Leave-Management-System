@@ -18,7 +18,6 @@ namespace backend.Service
         public LoginDTO Login(LoginDTO loginDTO)
         {
             LoginDTO currentUserCredentials = _loginRepository.GetUserByEmail(loginDTO);
-            Console.WriteLine("AM I IN SERVICE " + currentUserCredentials.Email);
             if (string.IsNullOrEmpty(currentUserCredentials.Email))
             {
                 return new LoginDTO { };

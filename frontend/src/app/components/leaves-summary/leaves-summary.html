@@ -1,11 +1,21 @@
 <div class="card leave-summary">
   <h3>Leave Summary</h3>
-  <ul>
-    <li><strong>Total Leaves:</strong> {{ leaveSummary.total }}</li>
-    <li><strong>Taken:</strong> {{ leaveSummary.taken }}</li>
-    <li><strong>Absent:</strong> {{ leaveSummary.absent }}</li>
-    <li><strong>Request:</strong> {{ leaveSummary.request }}</li>
-    <li><strong>Worked Days:</strong> {{ leaveSummary.workedDays }}</li>
-    <li><strong>Loss of Pay:</strong> {{ leaveSummary.lossOfPay }}</li>
-  </ul>
+  <div class="summary-grid">
+    <div class="summary-item">
+      <span class="count">{{ (leaveSummary.casual?.total || 0) - (leaveSummary.casual?.approved || 0) }} ({{leaveSummary.casual?.pending || 0}}) / {{ leaveSummary.casual?.total || 0 }}</span>
+      <span class="type">Casual</span>
+    </div>
+    <div class="summary-item">
+      <span class="count">{{ (leaveSummary.sick?.total || 0) - (leaveSummary.sick?.approved || 0) }} ({{leaveSummary.sick?.pending || 0}}) / {{ leaveSummary.sick?.total || 0 }}</span>
+      <span class="type">Sick</span>
+    </div>
+    <div class="summary-item">
+      <span class="count">{{ (leaveSummary.annual?.total || 0) - (leaveSummary.annual?.approved || 0) }} ({{leaveSummary.annual?.pending || 0}}) / {{ leaveSummary.annual?.total || 0 }}</span>
+      <span class="type">Annual</span>
+    </div>
+    <div class="summary-item">
+      <span class="count">{{ (leaveSummary.lieu?.total || 0) - (leaveSummary.lieu?.approved || 0) }} ({{leaveSummary.lieu?.pending || 0}}) / {{ leaveSummary.lieu?.total || 0 }}</span>
+      <span class="type">LIEU</span>
+    </div>
+  </div>
 </div>

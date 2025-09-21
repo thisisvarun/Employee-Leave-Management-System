@@ -1,6 +1,6 @@
 <div class="dashboard-container">
   <div class="header">
-    <h1>Dashboard</h1>
+    <h1>Manager Dashboard</h1>
     <div class="actions">
       <button class="export-btn">Export</button>
       <input type="date" [value]="today | date : 'yyyy-MM-dd'" />
@@ -32,6 +32,8 @@
       <app-leaves-summary></app-leaves-summary>
 
       <app-apply-leave></app-apply-leave>
+
+      <app-team-leave-requests></app-team-leave-requests>
     </div>
   </div>
 </div>

@@ -7,5 +7,6 @@ namespace backend.Service.Interfaces
         Task<int> ApplyLeaveAsync(LeaveDto leaveDto);
         Task<bool> UpdateLeaveAsync(int leaveId, LeaveDto leaveDto);
         Task<bool> CancelLeaveAsync(int leaveId);
+        Task<LeaveSummaryDto> GetLeaveSummaryAsync(int employeeId);
     }
 }

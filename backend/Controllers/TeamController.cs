@@ -39,6 +39,7 @@ namespace backend.Controllers
                 return BadRequest(ModelState);
             }
 
+            Console.WriteLine("Claims   " + User.FindFirstValue(ClaimTypes.Role) + " " + User.FindFirstValue(ClaimTypes.NameIdentifier));
             var result = await _teamService.UpdateLeaveStatusAsync(leaveId, dto);
             if (!result)
             {

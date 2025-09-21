@@ -20,6 +20,26 @@ namespace backend.Service
 
         public async Task<int> ApplyLeaveAsync(LeaveDto leaveDto)
         {
+            var summary = await GetLeaveSummaryAsync(leaveDto.EmployeeId);
+            var requestedDays = leaveDto.Dates.Count;
+
+            LeaveTypeSummary? relevantSummary = null;
+            switch (leaveDto.LeaveType)
+            {
+                case Models.Enums.LeaveType.Casual: relevantSummary = summary.Casual; break;
+                case Models.Enums.LeaveType.Sick: relevantSummary = summary.Sick; break;
+                case Models.Enums.LeaveType.Annual: relevantSummary = summary.Annual; break;
+                case Models.Enums.LeaveType.LIEU: relevantSummary = summary.Lieu; break;
+            }
+
+            if (relevantSummary != null)
+            {
+                if ((relevantSummary.Total - relevantSummary.Approved - relevantSummary.Pending) < requestedDays)
+                {
+                    return -1; // Indicates insufficient balance
+                }
+            }
+
             var leave = new Leave
             {
                 EmployeeId = leaveDto.EmployeeId,
@@ -33,21 +53,38 @@ namespace backend.Service
             int leaveId = await _leaveRepository.CreateLeaveAsync(leave, dates);
 
             var employee = await _employeeRepository.GetEmployeeByIdAsync(leaveDto.EmployeeId);
-            var managerEmail = await _leaveRepository.GetManagerEmailAsync(leaveDto.EmployeeId);
-
-            string subject = "Leave Application Submitted";
-            string body = $"Your leave application has been submitted successfully.";
+            var managerInfo = await _leaveRepository.GetManagerInfoAsync(leaveDto.EmployeeId);
 
             if (employee != null)
             {
-                await _emailService.SendEmailAsync(employee.Email, subject, body);
+                string employeeSubject = "Leave Application Submitted Successfully";
+                string employeeBody = $"Dear {employee.First_Name},<br><br>"
+                                    + "This email confirms that your leave application has been successfully submitted.<br><br>"
+                                    + "<b>Leave Details:</b><br>"
+                                    + $"- Type: {leave.LeaveType}<br>"
+                                    + $"- Dates: {leaveDto.Dates.FirstOrDefault()?.Date:dd MMM yyyy} to {leaveDto.Dates.LastOrDefault()?.Date:dd MMM yyyy}<br>"
+                                    + $"- Reason: {leave.Description}<br><br>"
+                                    + "Your application is now pending approval from your manager. You will be notified once its status is updated.<br><br>"
+                                    + "Thank you,<br><b>The HR Team</b>";
+
+                await _emailService.SendEmailAsync(employee.Email, employeeSubject, employeeBody);
             }
 
-            if (!string.IsNullOrEmpty(managerEmail))
+            if (managerInfo.Email != null)
             {
-                await _emailService.SendEmailAsync(managerEmail, subject, $"A new leave application has been submitted by {employee?.First_Name} {employee?.Last_Name}.");
-            }
+                string managerSubject = "New Leave Application for Review";
+                string managerBody = $"Dear {managerInfo.Name},<br><br>"
+                                   + $"A new leave application has been submitted by {employee?.First_Name} {employee?.Last_Name} and requires your review.<br><br>"
+                                   + "<b>Application Details:</b><br>"
+                                   + $"- Employee: {employee?.First_Name} {employee?.Last_Name}<br>"
+                                   + $"- Type: {leave.LeaveType}<br>"
+                                   + $"- Dates: {leaveDto.Dates.FirstOrDefault()?.Date:dd MMM yyyy} to {leaveDto.Dates.LastOrDefault()?.Date:dd MMM yyyy}<br>"
+                                   + $"- Reason: {leave.Description}<br><br>"
+                                   + "Please log in to the employee management portal to approve or reject this request.<br><br>"
+                                   + "Thank you,<br><b>The HR Team</b>";
 
+                await _emailService.SendEmailAsync(managerInfo.Email, managerSubject, managerBody);
+            }
             return leaveId;
         }
 
@@ -69,6 +106,16 @@ namespace backend.Service
         public async Task<bool> CancelLeaveAsync(int leaveId)
         {
             return await _leaveRepository.DeleteLeaveAsync(leaveId);
+        }
+
+        public async Task<LeaveSummaryDto> GetLeaveSummaryAsync(int employeeId)
+        {
+            var summary = await _leaveRepository.GetLeaveSummaryAsync(employeeId);
+            summary.Casual.Total = 7;
+            summary.Sick.Total = 7;
+            summary.Annual.Total = 15;
+            summary.Lieu.Total = 10;
+            return summary;
         }
     }
 }

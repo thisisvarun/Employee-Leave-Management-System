@@ -29,13 +29,11 @@ namespace backend.Repository
                 {
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@Email", loginDTO.Email);
-                    Console.WriteLine(loginDTO.Email + " " + loginDTO.Password);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            Console.WriteLine("AM I HERE");
                             return new LoginDTO
                             {
                                 EmployeeId = reader.GetInt32(0),

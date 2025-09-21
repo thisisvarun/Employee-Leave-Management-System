@@ -12,7 +12,7 @@ namespace backend.Common
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, employeeId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, employeeId.ToString()),
                 new Claim(ClaimTypes.Role, role)

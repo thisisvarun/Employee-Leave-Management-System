@@ -7,31 +7,21 @@ import { Employee } from '../../components/employee/employee';
 import { FormsModule } from '@angular/forms';
 import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
 import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
+import { TeamLeaveRequests } from '../../components/team-leave-requests/team-leave-requests'; // New import
 
 @Component({
-  selector: 'app-employee-dashboard',
+  selector: 'app-manager-dashboard',
   standalone: true,
-  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent],
-  templateUrl: './employee-dashboard.html',
-  styleUrl: './employee-dashboard.css',
+  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent, TeamLeaveRequests], // Added TeamLeaveRequests
+  templateUrl: './manager-dashboard.html',
+  styleUrl: './manager-dashboard.css',
 })
-export class EmployeeDashboard implements OnInit {
+export class ManagerDashboard implements OnInit {
   constructor(
     private readonly api: EmployeeApiService,
     private readonly router: ActivatedRoute,
     private auth: AuthService
   ) {}
-
-  employee = {
-    name: 'Stephan Peralt',
-    role: 'Senior Product Designer',
-    team: 'UI/UX Design',
-    phone: '+1 324 3453 545',
-    email: 'Steperde124@example.com',
-    office: 'Douglas Martini',
-    joined: '15 Jan 2024',
-    avatar: '/frontend/assets/image.png',
-  };
 
   leaveStats = {
     onTime: 1254,

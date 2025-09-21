@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Service.Interfaces;
 using backend.DTOs;
 using backend.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -25,15 +26,10 @@ namespace backend.Controllers
         {
             LoginDTO res = _apiService.Login(request);
 
-            if (string.IsNullOrEmpty(res.Email))
-            {
-                return Unauthorized();
-            }
-
             var token = JwtHelper.GenerateToken(
                 res.Email,
                 res.EmployeeId,
-                res.RoleTitle,
+                res.Role.ToString(),
                 _configuration["Jwt:Key"]!,
                 _configuration["Jwt:Issuer"]!,
                 _configuration["Jwt:Audience"]!
@@ -47,20 +43,6 @@ namespace backend.Controllers
                 Expires = DateTime.UtcNow.AddHours(1)
             });
             return Ok(new { Token = token, EmployeeId = res.EmployeeId, RoleTitle = res.RoleTitle, Role = res.Role.ToString() });
-        }
-
-        [HttpGet("test")]
-        public async Task<IActionResult> Hello()
-        {
-            bool done = await _emailService.SendEmailAsync("harish.16633@gmail.com", "Test", "Test");
-            if (done)
-            {
-                return Ok("Hello");
-            }
-            else
-            {
-                return Ok("Not ok!");
-            }
         }
     }
 }

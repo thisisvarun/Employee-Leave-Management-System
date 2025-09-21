@@ -1,3 +1,4 @@
+using backend.DTOs;
 using backend.Models;
 
 namespace backend.Data.Interfaces
@@ -7,6 +8,7 @@ namespace backend.Data.Interfaces
         Task<int> CreateLeaveAsync(Leave leave, List<Dates> dates);
         Task<bool> UpdateLeaveAsync(int leaveId, Leave leave, List<Dates> dates);
         Task<bool> DeleteLeaveAsync(int leaveId);
-        Task<string?> GetManagerEmailAsync(int employeeId);
+        Task<(string? Email, string? Name)> GetManagerInfoAsync(int employeeId);
+        Task<LeaveSummaryDto> GetLeaveSummaryAsync(int employeeId);
     }
 }

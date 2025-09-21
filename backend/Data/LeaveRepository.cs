@@ -1,8 +1,8 @@
 using backend.Data.Interfaces;
+using backend.DTOs;
 using backend.Models;
 using backend.Models.Enums;
 using Microsoft.Data.SqlClient;
-using System.Data;
 
 namespace backend.Repository
 {
@@ -151,15 +151,15 @@ namespace backend.Repository
             }
         }
 
-        public async Task<string?> GetManagerEmailAsync(int employeeId)
+        public async Task<(string? Email, string? Name)> GetManagerInfoAsync(int employeeId)
         {
-            string? managerEmail = null;
+            (string? Email, string? Name) managerInfo = (null, null);
             string connectionString = _configuration.GetConnectionString("Default")!;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 await connection.OpenAsync();
                 string query = @"
-                    SELECT m.Email
+                    SELECT m.Email, m.First_Name + ' ' + m.Last_Name AS ManagerName
                     FROM EMP.Employee e
                     JOIN EMP.Team t ON e.Team_Id = t.Team_Id
                     JOIN EMP.Employee m ON t.Manager_Id = m.Employee_Id
@@ -172,12 +172,61 @@ namespace backend.Repository
                     {
                         if (await reader.ReadAsync())
                         {
-                            managerEmail = reader.GetString(0);
+                            managerInfo = (reader.GetString(0), reader.GetString(1));
                         }
                     }
                 }
             }
-            return managerEmail;
+            return managerInfo;
+        }
+
+        public async Task<LeaveSummaryDto> GetLeaveSummaryAsync(int employeeId)
+        {
+            var summary = new LeaveSummaryDto();
+            string connectionString = _configuration.GetConnectionString("Default")!;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"
+                    SELECT
+                        l.Leave_Type,
+                        l.Status,
+                        COUNT(d.Leave_Id) AS LeaveDayCount
+                    FROM LEAVES.Leave l
+                    JOIN LEAVES.Dates d ON l.LeaveRequest_Id = d.Leave_Id
+                    WHERE l.Employee_Id = @EmployeeId AND l.Status IN ('Approved', 'Pending')
+                    GROUP BY l.Leave_Type, l.Status;
+                ";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EmployeeId", employeeId);
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            string leaveType = reader.GetString(0);
+                            string status = reader.GetString(1);
+                            int count = reader.GetInt32(2);
+
+                            LeaveTypeSummary? summaryToUpdate = null;
+                            switch (leaveType)
+                            {
+                                case "Casual": summaryToUpdate = summary.Casual; break;
+                                case "Sick": summaryToUpdate = summary.Sick; break;
+                                case "Annual": summaryToUpdate = summary.Annual; break;
+                                case "LIEU": summaryToUpdate = summary.Lieu; break;
+                            }
+
+                            if (summaryToUpdate != null)
+                            {
+                                if (status == "Approved") summaryToUpdate.Approved = count;
+                                else if (status == "Pending") summaryToUpdate.Pending = count;
+                            }
+                        }
+                    }
+                }
+            }
+            return summary;
         }
     }
 }

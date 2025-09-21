@@ -15,22 +15,26 @@ namespace backend.Repository
 
         public async Task<IEnumerable<TeamLeaveRequestDto>> GetTeamLeaveRequestsAsync(int managerId)
         {
-            var leaveRequests = new List<TeamLeaveRequestDto>();
+            Console.WriteLine($"[TeamRepository] Fetching leave requests for ManagerId: {managerId}");
+            var leaveRequestsMap = new Dictionary<int, TeamLeaveRequestDto>();
             string connectionString = _configuration.GetConnectionString("Default")!;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 await connection.OpenAsync();
                 string query = @"
-                    SELECT 
-                        l.LeaveRequest_Id, 
-                        e.Employee_Id, 
+                    SELECT
+                        l.LeaveRequest_Id,
+                        e.Employee_Id,
                         e.First_Name + ' ' + e.Last_Name AS EmployeeName,
-                        l.Leave_Type, 
+                        l.Leave_Type,
                         l.Status,
-                        l.Description
+                        l.Description,
+                        d.Date,
+                        d.Hours
                     FROM LEAVES.Leave l
                     JOIN EMP.Employee e ON l.Employee_Id = e.Employee_Id
                     JOIN EMP.Team t ON e.Team_Id = t.Team_Id
+                    LEFT JOIN LEAVES.Dates d ON l.LeaveRequest_Id = d.Leave_Id
                     WHERE t.Manager_Id = @ManagerId;
                 ";
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -40,20 +44,36 @@ namespace backend.Repository
                     {
                         while (await reader.ReadAsync())
                         {
-                            leaveRequests.Add(new TeamLeaveRequestDto
+                            int leaveRequestId = reader.GetInt32(0);
+                            if (!leaveRequestsMap.TryGetValue(leaveRequestId, out var dto))
                             {
-                                LeaveRequestId = reader.GetInt32(0),
-                                EmployeeId = reader.GetInt32(1),
-                                EmployeeName = reader.GetString(2),
-                                LeaveType = reader.GetString(3),
-                                Status = reader.GetString(4),
-                                Description = reader.GetString(5)
-                            });
+                                dto = new TeamLeaveRequestDto
+                                {
+                                    LeaveRequestId = leaveRequestId,
+                                    EmployeeId = reader.GetInt32(1),
+                                    EmployeeName = reader.GetString(2),
+                                    LeaveType = reader.GetString(3),
+                                    Status = reader.GetString(4),
+                                    Description = reader.GetString(5),
+                                    Dates = new List<LeaveDateDto>()
+                                };
+                                leaveRequestsMap.Add(leaveRequestId, dto);
+                            }
+
+                            if (!reader.IsDBNull(6)) // Check if Date is not null
+                            {
+                                dto.Dates.Add(new LeaveDateDto
+                                {
+                                    Date = reader.GetDateTime(6),
+                                    Hours = reader.GetInt32(7)
+                                });
+                            }
                         }
                     }
                 }
             }
-            return leaveRequests;
+            Console.WriteLine("[TEAM REPO]", leaveRequestsMap);
+            return leaveRequestsMap.Values;
         }
 
         public async Task<bool> UpdateLeaveStatusAsync(int leaveId, string status, string comment)
