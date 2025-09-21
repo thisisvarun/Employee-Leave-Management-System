@@ -12,7 +12,6 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -49,23 +48,20 @@ builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 
+// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
-        policy => 
+        policy =>
         {
             policy.WithOrigins("http://localhost:4200", "http://localhost:5274")
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .AllowAnyHeader();
+                  .AllowAnyMethod()
+                  .AllowCredentials()
+                  .AllowAnyHeader();
         });
 });
 
 var app = builder.Build();
-
-// Middlewares
-// app.UseLogger();
-// app.UseJwtAuthentication();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -74,12 +70,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

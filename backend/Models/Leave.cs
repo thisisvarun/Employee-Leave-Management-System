@@ -1,31 +1,24 @@
-﻿using backend.Models.Enums;
+using backend.Models.Enums;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
+    public enum LeaveType
+    {
+        Casual, Sick, Annual, LIEU
+    }
+    public enum LeaveStatus
+    {
+        Approved, Rejected, Pending
+    }
     public class Leave
     {
-        [Key]
         public int LeaveRequestId { get; set; }
-
-        [ForeignKey("Employee")]
-        public int EmployeeId { get; set; }
-
-        [Required]
-        public LeaveType LeaveType { get; set; }
-
-        [MaxLength(500)]
+        public int Employee_Id { get; set; }
+        public LeaveType Leave_Type { get; set; }
         public string Description { get; set; } = string.Empty;
-
-        [Required]
-        [MaxLength(20)]
-        public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
-
-        [MaxLength(500)]
-        public string Comment { get; set; } = string.Empty;
-
-         public Employee Employee { get; set; }
+        public LeaveStatus Status { get; set; } = LeaveStatus.Pending;
+        public string? Comment { get; set; }
+        public List<Dates> Dates { get; set; } = [];
     }
 }

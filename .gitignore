@@ -21,9 +21,13 @@
 .settings/
 *.sublime-workspace
 *.sln
+.env
 
 # Visual Studio Code
+.vs
 .vscode/*
+/backend/.vs
+/backend/.vs/*
 !.vscode/settings.json
 .vs
 !.vscode/tasks.json
