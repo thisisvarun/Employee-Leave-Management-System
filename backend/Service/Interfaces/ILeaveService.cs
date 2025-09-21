@@ -1,4 +1,5 @@
 using backend.DTOs;
+using backend.Models;
 
 namespace backend.Service.Interfaces
 {
@@ -8,5 +9,6 @@ namespace backend.Service.Interfaces
         Task<bool> UpdateLeaveAsync(int leaveId, LeaveDto leaveDto);
         Task<bool> CancelLeaveAsync(int leaveId);
         Task<LeaveSummaryDto> GetLeaveSummaryAsync(int employeeId);
+        Task<Leave?> GetMostRecentProcessedLeaveAsync(int employeeId);
     }
 }

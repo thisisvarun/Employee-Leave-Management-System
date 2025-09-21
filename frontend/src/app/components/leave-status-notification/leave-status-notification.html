@@ -1,0 +1,12 @@
+@if (showNotification && recentLeave) {
+<div
+  class="notification"
+  [ngClass]="{
+    'notification-approved': recentLeave.status === 'Approved',
+    'notification-rejected': recentLeave.status === 'Rejected'
+  }"
+>
+  <p>Your Leave Request has been {{ recentLeave.status }}!!!</p>
+  <span class="close-btn" (click)="dismissNotification()">&times;</span>
+</div>
+}

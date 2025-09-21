@@ -48,9 +48,15 @@
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
   margin-top: 2rem;
+}
+
+.submit-cancel-group {
+  display: flex;
+  gap: 1rem;
 }
 
 .submit-btn,
@@ -102,6 +108,70 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.date-hours-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.date-hours-group .form-group {
+  margin-bottom: 0;
+}
+
+.date-hours-group .form-group input[type='date'] {
+  width: 150px;
+}
+
+.date-hours-group .form-group input[type='number'] {
+  width: 80px;
+}
+
+.add-date-btn,
+.remove-date-btn {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.remove-date-btn {
+  background-color: #ef4444;
+}
+
+.add-date-btn:hover {
+  background-color: #4338ca;
+}
+
+.remove-date-btn:hover {
+  background-color: #dc2626;
+}
+
+.remove-date-btn:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.apply-leave-card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
 }

@@ -228,5 +228,41 @@ namespace backend.Repository
             }
             return summary;
         }
+
+        public async Task<Leave?> GetMostRecentProcessedLeaveAsync(int employeeId)
+        {
+            Leave? mostRecentLeave = null;
+            string connectionString = _configuration.GetConnectionString("Default")!;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"
+                    SELECT TOP 1 LeaveRequest_Id, Employee_Id, Leave_Type, Description, Status, Comment
+                    FROM LEAVES.Leave
+                    WHERE Employee_Id = @EmployeeId AND Status IN ('Approved', 'Rejected')
+                    ORDER BY LeaveRequest_Id DESC;
+                ";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EmployeeId", employeeId);
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            mostRecentLeave = new Leave
+                            {
+                                LeaveRequestId = reader.GetInt32(0),
+                                EmployeeId = reader.GetInt32(1),
+                                LeaveType = (LeaveType)Enum.Parse(typeof(LeaveType), reader.GetString(2)),
+                                Description = reader.GetString(3),
+                                Status = reader.GetString(4),
+                                Comment = reader.IsDBNull(5) ? string.Empty : reader.GetString(5)
+                            };
+                        }
+                    }
+                }
+            }
+            return mostRecentLeave;
+        }
     }
 }

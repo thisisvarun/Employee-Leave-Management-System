@@ -45,5 +45,18 @@ namespace backend.Controllers
             var summary = await _leaveService.GetLeaveSummaryAsync(id);
             return Ok(summary);
         }
+
+        [HttpGet("{id}/recent-leave-status")]
+        public async Task<ActionResult<Leave>> GetRecentLeaveStatus(int id)
+        {
+            var leave = await _leaveService.GetMostRecentProcessedLeaveAsync(id);
+            if (leave is null)
+            {
+                Console.WriteLine("well well well!");
+                return NotFound();
+            }
+            Console.WriteLine(leave.Comment);
+            return Ok(leave);
+        }
     }
 }
