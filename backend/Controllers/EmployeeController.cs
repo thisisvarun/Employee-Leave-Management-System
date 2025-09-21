@@ -1,4 +1,4 @@
-﻿using backend.Models;
+using backend.Models;
 using backend.Service;
 using backend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController(EmployeeService service) : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
         private readonly ILeaveService _leaveService;
@@ -22,19 +22,15 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-            var employees = await _employeeService.GetEmployeesAsync();
+            var employees = await EmployeeService.GetEmployeesAsync();
             return Ok(employees);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public IActionResult GetEmployeeById(int id)
         {
-            var employee = await _employeeService.GetEmployeeByIdAsync(id);
-
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            var employee = _service.GetEmployeeById(id);
+            if (employee == null) return NotFound(new { message = "Employee not found" });
 
             return Ok(employee);
         }
