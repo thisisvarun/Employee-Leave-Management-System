@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using backend.DTOs;
 using backend.Services;
+using backend.Models;
 
 namespace backend.Controllers
 {
@@ -13,7 +14,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-            var employees = await _employeeService.GetEmployeesAsync();
+            var employees = await EmployeeService.GetEmployeesAsync();
             return Ok(employees);
         }
 
