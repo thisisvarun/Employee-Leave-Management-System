@@ -24,11 +24,21 @@
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.request-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-right: 1rem;
 }
 
 .request-header {
   display: flex;
-  justify-content: space-between;
+  /* Removed justify-content: space-between; as leave-type is moved */
   margin-bottom: 0.5rem;
 }
 
@@ -43,6 +53,8 @@
   background-color: #eef2ff;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
+  margin-bottom: 0.5rem; /* Added margin to separate from buttons */
+  align-self: flex-end; /* Align to the right within its flex container */
 }
 
 .description {
@@ -63,8 +75,14 @@
 
 .request-actions {
   display: flex;
+  flex-direction: column; /* Changed to column */
+  align-items: flex-end; /* Align items to the right */
+  gap: 0.5rem; /* Gap between leave-type and button-group */
+}
+
+.button-group {
+  display: flex;
   gap: 0.5rem;
-  margin-top: 1rem;
 }
 
 .accept-btn,
@@ -76,6 +94,10 @@
   font-weight: 500;
   font-size: 0.9rem;
   transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 36px;
 }
 
 .accept-btn {
@@ -94,4 +116,19 @@
 
 .reject-btn:hover {
   background-color: #dc2626;
+}
+
+.spinner {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 2px solid #fff;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

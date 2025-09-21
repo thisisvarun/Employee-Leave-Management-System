@@ -21,4 +21,13 @@ export class LeaveApiService {
       withCredentials: true,
     });
   }
+
+  getRecentLeaveStatus(employeeId: string) {
+    return this.http.get(`${this.API_BASE_URL}/api/employee/${employeeId}/recent-leave-status`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('access_token')}`,
+      },
+      withCredentials: true,
+    });
+  }
 }

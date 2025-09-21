@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TeamApiService } from '../../core/services/api/team-api.service';
 import { AuthService } from '../../core/services/auth/auth';
 import { ToastrService } from 'ngx-toastr';
-import { take } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-team-leave-requests',
@@ -15,6 +15,7 @@ import { take } from 'rxjs/operators';
 export class TeamLeaveRequests implements OnInit {
   teamLeaveRequests: any[] = [];
   managerId: string | null = null;
+  processingStatus: { [leaveRequestId: number]: boolean } = {};
 
   constructor(
     private readonly teamApi: TeamApiService,
@@ -38,7 +39,7 @@ export class TeamLeaveRequests implements OnInit {
     if (this.managerId) {
       this.teamApi.getManagerLeaveRequests(this.managerId).subscribe({
         next: (requests: any) => {
-          console.log(requests);
+          console.log('requests', requests);
           this.teamLeaveRequests = requests;
         },
         error: (err) => {
@@ -50,16 +51,22 @@ export class TeamLeaveRequests implements OnInit {
   }
 
   updateLeaveStatus(leaveId: number, status: string): void {
+    this.processingStatus[leaveId] = true;
     const comment = status === 'Approved' ? 'Approved by manager.' : 'Rejected by manager.';
-    this.teamApi.updateLeaveStatus(leaveId, status, comment).subscribe({
-      next: () => {
-        this.toastr.success(`Leave request ${status.toLowerCase()} successfully.`);
-        this.loadTeamLeaveRequests(); // Refresh the list
-      },
-      error: (err) => {
-        this.toastr.error(`Failed to ${status.toLowerCase()} leave request.`);
-        console.error(`Error updating leave status to ${status}:`, err);
-      },
-    });
+    this.teamApi
+      .updateLeaveStatus(leaveId, status, comment)
+      .pipe(finalize(() => (this.processingStatus[leaveId] = false)))
+      .subscribe({
+        next: () => {
+          this.toastr.success(`Leave request ${status.toLowerCase()} successfully.`);
+          this.teamLeaveRequests = this.teamLeaveRequests.filter(
+            (req) => req.leaveRequestId !== leaveId
+          );
+        },
+        error: (err) => {
+          this.toastr.error(`Failed to ${status.toLowerCase()} leave request.`);
+          console.error(`Error updating leave status to ${status}:`, err);
+        },
+      });
   }
 }
