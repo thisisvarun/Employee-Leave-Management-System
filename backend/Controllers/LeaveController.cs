@@ -1,59 +1,65 @@
-﻿using Microsoft.AspNetCore.Mvc;
 using backend.DTOs;
-using backend.Services;
+using backend.Service.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LeavesController(LeaveService leaveService) : ControllerBase
+    public class LeaveController : ControllerBase
     {
-        private readonly LeaveService _leaveService = leaveService;
+        private readonly ILeaveService _leaveService;
 
-        // Get all leave requests
-        [HttpGet]
-        public ActionResult<IEnumerable<LeaveReadDTO>> GetLeaves()
+        public LeaveController(ILeaveService leaveService)
         {
-            var leaves = _leaveService.GetAll();
-            return Ok(leaves);
+            _leaveService = leaveService;
         }
 
-        // Get leave request by ID
-        [HttpGet("{id}")]
-        public ActionResult<LeaveReadDTO> GetLeave(int id)
-        {
-            var leave = _leaveService.GetById(id);
-            if (leave == null) return NotFound("Leave request not found");
-            return Ok(leave);
-        }
-
-        // Create leave request with multiple dates
         [HttpPost]
-        public ActionResult<int> CreateLeave([FromBody] LeaveCreateWithDatesDTO dto)
+        public async Task<IActionResult> ApplyLeave([FromBody] LeaveDto leaveDto)
         {
-            if (dto == null) return BadRequest("Invalid leave request data");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            int newLeaveId = _leaveService.Create(dto);
-            return Ok(new { LeaveRequest_Id = newLeaveId, message = "Leave request created" });
+            var leaveId = await _leaveService.ApplyLeaveAsync(leaveDto);
+
+            if (leaveId == -1)
+            {
+                return BadRequest(new { message = "Insufficient leave balance when considering pending requests." });
+            }
+
+            return Ok(new { LeaveId = leaveId });
         }
 
-        // Update leave request
         [HttpPut("{id}")]
-        public IActionResult UpdateLeave(int id, [FromBody] LeaveUpdateDTO dto)
+        public async Task<IActionResult> UpdateLeave(int id, [FromBody] LeaveDto leaveDto)
         {
-            dto.LeaveRequest_Id = id;
-            var updated = _leaveService.Update(dto);
-            if (!updated) return NotFound("Leave request not found");
-            return Ok("Leave request updated");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _leaveService.UpdateLeaveAsync(id, leaveDto);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
 
-        // Delete leave request
         [HttpDelete("{id}")]
-        public IActionResult DeleteLeave(int id)
+        public async Task<IActionResult> CancelLeave(int id)
         {
-            var deleted = _leaveService.Delete(id);
-            if (!deleted) return NotFound("Leave request not found");
-            return Ok("Leave request deleted");
+            var result = await _leaveService.CancelLeaveAsync(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }

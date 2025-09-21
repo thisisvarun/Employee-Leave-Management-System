@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using backend.DTOs;
-using backend.Services;
 using backend.Models;
+using backend.Service;
+using backend.Service.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using backend.DTOs;
 
 namespace backend.Controllers
 {
@@ -9,7 +10,14 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class EmployeeController(EmployeeService service) : ControllerBase
     {
-        private readonly EmployeeService _service = service;
+        private readonly IEmployeeService _employeeService;
+        private readonly ILeaveService _leaveService;
+
+        public EmployeeController(IEmployeeService employeeService, ILeaveService leaveService)
+        {
+            _employeeService = employeeService;
+            _leaveService = leaveService;
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
@@ -27,38 +35,11 @@ namespace backend.Controllers
             return Ok(employee);
         }
 
-        [HttpPost]
-        public IActionResult CreateEmployee([FromBody] EmployeeCreateDTO dto)
+        [HttpGet("{id}/summary")]
+        public async Task<ActionResult<LeaveSummaryDto>> GetLeaveSummary(int id)
         {
-            int newEmployeeId = _service.CreateEmployee(dto); // service returns new employee ID
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = newEmployeeId }, dto);
-        }
-
-        [HttpPut]
-        public IActionResult UpdateEmployee([FromBody] EmployeeUpdateDTO dto)
-        {
-            bool updated = _service.UpdateEmployee(dto);
-            if (!updated) return NotFound(new { message = "Employee not found" });
-
-            return Ok(new { message = "Employee updated successfully" });
-        }
-
-        [HttpPut("password")]
-        public IActionResult UpdatePassword([FromBody] EmployeeUpdatePasswordDTO dto)
-        {
-            bool success = _service.UpdatePassword(dto);
-            if (!success) return BadRequest(new { message = "Old password is incorrect" });
-
-            return Ok(new { message = "Password updated successfully" });
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteEmployee(int id)
-        {
-            bool deleted = _service.DeleteEmployee(id);
-            if (!deleted) return NotFound(new { message = "Employee not found" });
-
-            return Ok(new { message = "Employee deleted successfully" });
+            var summary = await _leaveService.GetLeaveSummaryAsync(id);
+            return Ok(summary);
         }
     }
 }

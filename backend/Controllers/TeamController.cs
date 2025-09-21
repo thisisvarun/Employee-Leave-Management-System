@@ -1,68 +1,53 @@
-﻿using Microsoft.AspNetCore.Mvc;
 using backend.DTOs;
-using backend.Services;
-using backend.Repositories;
+using backend.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Manager")]
     public class TeamController : ControllerBase
     {
-        private readonly TeamService _teamService;
+        private readonly ITeamService _teamService;
 
-        public TeamController(IConfiguration configuration)
+        public TeamController(ITeamService teamService)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection")
-                ?? throw new Exception("Failed to connect to database!");
-            var repository = new TeamRepository(connectionString);
-            _teamService = new TeamService(repository);
+            _teamService = teamService;
         }
 
-        [HttpGet]
-        public IActionResult GetAllTeams()
+        [HttpGet("leaves")]
+        public async Task<IActionResult> GetTeamLeaveRequests()
         {
-            var teams = _teamService.GetAllTeams();
-            return Ok(teams);
+            var managerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(managerId))
+            {
+                return Unauthorized();
+            }
+
+            var leaveRequests = await _teamService.GetTeamLeaveRequestsAsync(int.Parse(managerId));
+            return Ok(leaveRequests);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetTeamById(int id)
+        [HttpPut("leaves/{leaveId}/status")]
+        public async Task<IActionResult> UpdateLeaveStatus(int leaveId, [FromBody] UpdateLeaveStatusDto dto)
         {
-            var team = _teamService.GetTeamById(id);
-            if (team == null)
-                return NotFound(new { message = "Team not found" });
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return Ok(team);
-        }
+            Console.WriteLine("Claims   " + User.FindFirstValue(ClaimTypes.Role) + " " + User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var result = await _teamService.UpdateLeaveStatusAsync(leaveId, dto);
+            if (!result)
+            {
+                return NotFound();
+            }
 
-        [HttpPost]
-        public IActionResult CreateTeam([FromBody] TeamCreateDTO dto)
-        {
-            bool created = _teamService.CreateTeam(dto);
-            if (!created)
-                return BadRequest(new { message = "Failed to Create Team!" });
-            return Ok(new { message = "Team created" });
-        }
-
-        [HttpPut]
-        public IActionResult UpdateTeam([FromBody] TeamUpdateDTO dto)
-        {
-            bool updated = _teamService.UpdateTeam(dto);
-            if (!updated)
-                return NotFound(new { message = "Team not found" });
-
-            return Ok(new { message = "Team updated" });
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteTeam(int id)
-        {
-            bool deleted = _teamService.DeleteTeam(id);
-            if (!deleted)
-                return NotFound(new { message = "Team not found" });
-
-            return Ok(new { message = "Team deleted" });
+            return Ok();
         }
     }
 }
+

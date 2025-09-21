@@ -1,0 +1,39 @@
+<div class="dashboard-container">
+  <div class="header">
+    <h1>Manager Dashboard</h1>
+    <div class="actions">
+      <button class="export-btn">Export</button>
+      <input type="date" [value]="today | date : 'yyyy-MM-dd'" />
+    </div>
+  </div>
+
+  <div class="notification">
+    <p>Your Leave Request on "24th April 2024" has been Approved!!!</p>
+    <span class="close-btn">&times;</span>
+  </div>
+
+  <div class="main-content">
+    <div class="left-column">
+      <app-employee></app-employee>
+
+      <div class="card leave-details">
+        <h3>Leave Details</h3>
+        <ul>
+          <li><span class="dot on-time"></span> {{ leaveStats.onTime }} on time</li>
+          <li><span class="dot late"></span> {{ leaveStats.late }} Late Attendance</li>
+          <li><span class="dot wfh"></span> {{ leaveStats.workFromHome }} Work From Home</li>
+          <li><span class="dot absent"></span> {{ leaveStats.absent }} Absent</li>
+          <li><span class="dot sick"></span> {{ leaveStats.sickLeave }} Sick Leave</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <app-leaves-summary></app-leaves-summary>
+
+      <app-apply-leave></app-apply-leave>
+
+      <app-team-leave-requests></app-team-leave-requests>
+    </div>
+  </div>
+</div>

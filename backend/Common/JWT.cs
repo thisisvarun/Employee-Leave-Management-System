@@ -8,21 +8,19 @@ namespace backend.Common
 {
     public static class JwtHelper
     {
-        public static string GenerateToken(string username, string secretKey, string issuer, string audience, int expireMinutes = 60)
+        public static string GenerateToken(string username, int employeeId, string role, string secretKey, string issuer, string audience, int expireMinutes = 60)
         {
-            // Claims: you can add more (roles, permissions, etc.)
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Unique ID
-                new Claim(ClaimTypes.Name, username)
+                new Claim(JwtRegisteredClaimNames.Sub, employeeId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, employeeId.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
-            // Key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            // Token
             var token = new JwtSecurityToken(
                 issuer: issuer,
                 audience: audience,
@@ -32,6 +30,32 @@ namespace backend.Common
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public static ClaimsPrincipal? ValidateAndDecodeToken(string token, string secretKey, string issuer, string audience)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    ValidateIssuer = true,
+                    ValidIssuer = issuer,
+                    ValidateAudience = true,
+                    ValidAudience = audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

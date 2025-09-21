@@ -30,9 +30,7 @@ public class Authentication
             leaveOpen: true); 
 
         var body = await reader.ReadToEndAsync();
-        Console.WriteLine("[Request Body]" + body);
         LoginDTO deserializedBody = JsonSerializer.Deserialize<LoginDTO>(body)!;
-        Console.WriteLine($"[Deserialized Request Body] {deserializedBody.Email} Email here");
         await _next(context);
     }
 }

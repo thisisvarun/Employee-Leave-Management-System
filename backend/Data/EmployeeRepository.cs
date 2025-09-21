@@ -1,10 +1,11 @@
+using backend.Data.Interfaces;
 using backend.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace backend.Repository
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly IConfiguration _configuration;
 
@@ -41,7 +42,7 @@ namespace backend.Repository
                                 Active = reader.GetBoolean(9),
                                 PasswordHash = reader.GetString(10),
                                 // TODO: This should be from the DB as well!
-                                Role = "Employee"
+                                Role = reader.GetString(11)
                             });
                         }
                     }
@@ -78,7 +79,7 @@ namespace backend.Repository
                                 Date_Of_Joining = reader.GetDateTime(8),
                                 Active = reader.GetBoolean(9),
                                 PasswordHash = reader.GetString(10),
-                                Role = "Employee"
+                                Role = reader.GetString(11)
                             };
                         }
                     }

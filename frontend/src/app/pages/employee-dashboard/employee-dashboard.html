@@ -48,19 +48,10 @@
     </div>
     }
 
-    <!-- Leave Summary -->
-    @if (leaveSummary$ | async; as leaveSummary) {
-    <div class="card leave-summary">
-      <h3>Leave Details</h3>
-      <ul>
-        <li><strong>Total Leaves:</strong> {{ leaveSummary.total }}</li>
-        <li><strong>Taken:</strong> {{ leaveSummary.taken }}</li>
-        <li><strong>Absent:</strong> {{ leaveSummary.absent }}</li>
-        <li><strong>Request:</strong> {{ leaveSummary.request }}</li>
-        <li><strong>Worked Days:</strong> {{ leaveSummary.workedDays }}</li>
-        <li><strong>Loss of Pay:</strong> {{ leaveSummary.lossOfPay }}</li>
-      </ul>
-      <app-leave-request-form></app-leave-request-form>
+    <div class="right-column">
+      <app-leaves-summary></app-leaves-summary>
+
+      <app-apply-leave></app-apply-leave>
     </div>
     }
   </div>

@@ -1,0 +1,37 @@
+<div class="card apply-leave">
+  <h3>Apply for Leave</h3>
+  <form [formGroup]="leaveForm" (ngSubmit)="onLeaveSubmit()">
+    <div class="form-group">
+      <label for="leaveType">Leave Type</label>
+      <select id="leaveType" formControlName="leaveType" required>
+        <option value="">Select Leave Type</option>
+        <option value="Casual">Casual Leave</option>
+        <option value="Sick">Sick Leave</option>
+        <option value="Annual">Annual Leave</option>
+        <option value="LIEU">LIEU Leave</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="startDate">Start Date</label>
+      <input type="date" id="startDate" formControlName="startDate" required />
+    </div>
+    <div class="form-group">
+      <label for="endDate">End Date</label>
+      <input type="date" id="endDate" formControlName="endDate" required />
+    </div>
+    <div class="form-group">
+      <label for="reason">Reason</label>
+      <textarea id="reason" formControlName="reason" rows="3" required></textarea>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="submit-btn" [disabled]="!leaveForm.valid || isSubmitting">
+        @if (isSubmitting) {
+          <span class="spinner"></span>
+        } @else {
+          <span>Apply</span>
+        }
+      </button>
+      <button type="button" class="cancel-btn">Cancel</button>
+    </div>
+  </form>
+</div>

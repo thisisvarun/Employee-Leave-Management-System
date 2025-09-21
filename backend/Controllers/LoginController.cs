@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using backend.Service.Interfaces;
 using backend.DTOs;
-using backend.Repositories;
-using backend.Services;
+using backend.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -9,31 +10,39 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly LoginService _loginService;
+        private readonly IApiService _apiService;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public LoginController(IConfiguration configuration)
+        public LoginController(IApiService apiService, IEmailService emailService, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection")
-                ?? throw new Exception("Failed to connect to database!");
-            var repository = new LoginRepository(connectionString);
-            _loginService = new LoginService(repository);
+            _apiService = apiService;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDTO request)
         {
-            var employeeId = _loginService.Login(request);
+            LoginDTO res = _apiService.Login(request);
 
-            if (employeeId == null)
-                return Unauthorized(new { message = "Invalid email or password" });
+            var token = JwtHelper.GenerateToken(
+                res.Email,
+                res.EmployeeId,
+                res.Role.ToString(),
+                _configuration["Jwt:Key"]!,
+                _configuration["Jwt:Issuer"]!,
+                _configuration["Jwt:Audience"]!
+            );
 
-            return Ok(new { message = "Login successful", employeeId });
-        }
-
-        [HttpGet("test")]
-        public IActionResult Hello()
-        {
-            return Ok("hello");
+            Response.Cookies.Append("jwt_token", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddHours(1)
+            });
+            return Ok(new { Token = token, EmployeeId = res.EmployeeId, RoleTitle = res.RoleTitle, Role = res.Role.ToString() });
         }
     }
 }

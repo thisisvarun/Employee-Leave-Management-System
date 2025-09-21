@@ -1,3 +1,4 @@
+using backend.Models.Enums;
 using System;
 
 namespace backend.Models
@@ -12,9 +13,16 @@ namespace backend.Models
     }
     public class Leave
     {
-        public int LeaveRequest_Id { get; set; }
-        public int Employee_Id { get; set; }
-        public LeaveType Leave_Type { get; set; } = LeaveType.Casual;
+        [Key]
+        public int LeaveRequestId { get; set; }
+
+        [ForeignKey("Employee")]
+        public int EmployeeId { get; set; }
+
+        [Required]
+        public LeaveType LeaveType { get; set; }
+
+        [MaxLength(500)]
         public string Description { get; set; } = string.Empty;
         public LeaveStatus Status { get; set; } = LeaveStatus.Pending;
         public string? Comment { get; set; }

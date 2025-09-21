@@ -1,23 +1,23 @@
 import { DatePipe, CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../core/services/api/api';
+import { EmployeeApiService } from '../../core/services/api/employee-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth';
 import { Employee } from '../../components/employee/employee';
 import { FormsModule } from '@angular/forms';
-
-import { Employee as EmployeeModel } from '../../shared/models/Employee';
+import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
+import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
 
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [DatePipe, Employee, FormsModule, CommonModule],
+  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent],
   templateUrl: './employee-dashboard.html',
   styleUrl: './employee-dashboard.css',
 })
 export class EmployeeDashboard implements OnInit {
   constructor(
-    private readonly api: ApiService,
+    private readonly api: EmployeeApiService,
     private readonly router: ActivatedRoute,
     private auth: AuthService
   ) {}
@@ -39,15 +39,6 @@ export class EmployeeDashboard implements OnInit {
     workFromHome: 658,
     absent: 14,
     sickLeave: 68,
-  };
-
-  leaveSummary = {
-    total: 16,
-    taken: 10,
-    absent: 2,
-    request: 0,
-    workedDays: 240,
-    lossOfPay: 2,
   };
 
   today = new Date();

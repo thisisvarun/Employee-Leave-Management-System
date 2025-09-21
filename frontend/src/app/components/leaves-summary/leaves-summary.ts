@@ -1,18 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LeaveApiService } from '../../core/services/api/leave-api.service';
+import { AuthService } from '../../core/services/auth/auth';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-leaves-summary',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './leaves-summary.html',
   styleUrl: './leaves-summary.css',
 })
-export class LeavesSummary {
-  leaveSummary = {
-    total: 16,
-    taken: 10,
-    absent: 2,
-    request: 0,
-    workedDays: 240,
-    lossOfPay: 2,
-  };
+export class LeavesSummary implements OnInit {
+  leaveSummary: any = {};
+
+  constructor(
+    private readonly leaveApi: LeaveApiService,
+    private readonly auth: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        this.leaveApi.getLeaveSummary(user.id.toString()).subscribe((summary) => {
+          this.leaveSummary = summary;
+        });
+      }
+    });
+  }
 }

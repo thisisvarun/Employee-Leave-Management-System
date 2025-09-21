@@ -1,6 +1,13 @@
 using backend.Controllers;
-using backend.Repositories;
-using backend.Services;
+using backend.Data.Interfaces;
+using backend.Repository;
+using backend.Service;
+using backend.Service.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,14 +15,38 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-// Register repositories and services with connection string
-#pragma warning disable CS8604 // Possible null reference argument.
-builder.Services.AddScoped(sp =>
-    new LoginRepository(builder.Configuration.GetConnectionString("Default")));
-#pragma warning restore CS8604 // Possible null reference argument.
-builder.Services.AddScoped(sp =>
-    new EmployeeRepository(builder.Configuration.GetConnectionString("Default")));
-builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+            ),
+
+            NameClaimType = ClaimTypes.NameIdentifier,  // use your employeeId claim
+            RoleClaimType = ClaimTypes.Role           // use your role claim
+        };
+    });
+
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<ILeaveRepository, LeaveRepository>();
+builder.Services.AddScoped<ILeaveService, LeaveService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IApiService, ApiService>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -40,6 +71,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
