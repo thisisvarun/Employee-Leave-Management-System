@@ -44,3 +44,13 @@
 .logout-btn:hover {
   background: #2980b9;
 }
+
+.nav-links {
+  list-style-type: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links li {
+  cursor: pointer;
+}

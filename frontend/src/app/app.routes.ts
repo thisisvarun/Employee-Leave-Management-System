@@ -6,13 +6,13 @@ import { ManagerDashboard } from './pages/manager-dashboard/manager-dashboard';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    component: LoginForm,
-  },
-  {
     path: 'employee/:id',
     component: EmployeeDashboard,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginForm,
   },
   {
     path: 'manager/:id',

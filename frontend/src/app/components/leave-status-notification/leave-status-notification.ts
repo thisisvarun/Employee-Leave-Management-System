@@ -29,7 +29,7 @@ export class LeaveStatusNotificationComponent implements OnInit {
             }
           },
           error: (err) => {
-            console.error('Error fetching recent leave status:', err);
+            console.error('You dont seem to take leaves that often, Good!!');
           },
         });
       }
