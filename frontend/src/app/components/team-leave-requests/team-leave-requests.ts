@@ -4,11 +4,12 @@ import { TeamApiService } from '../../core/services/api/team-api.service';
 import { AuthService } from '../../core/services/auth/auth';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, take } from 'rxjs/operators';
+import { TeamLeaveApplyItem } from '../team-leave-apply-item/team-leave-apply-item';
 
 @Component({
   selector: 'app-team-leave-requests',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TeamLeaveApplyItem],
   templateUrl: './team-leave-requests.html',
   styleUrl: './team-leave-requests.css',
 })
@@ -30,7 +31,7 @@ export class TeamLeaveRequests implements OnInit {
         this.managerId = user.id.toString();
         this.loadTeamLeaveRequests();
       } else {
-        this.toastr.error('You are not authorized to view this page.');
+        // this.toastr.error('You are not authorized to view this page.');
       }
     });
   }

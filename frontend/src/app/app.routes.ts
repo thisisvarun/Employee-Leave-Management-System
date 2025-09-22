@@ -8,13 +8,13 @@ import { AddEmployee } from './components/add-employee/add-employee';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    component: LoginForm,
-  },
-  {
     path: 'employee/:id',
     component: EmployeeDashboard,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginForm,
   },
   {
     path: 'manager/:id',
