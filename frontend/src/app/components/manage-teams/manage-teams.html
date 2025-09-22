@@ -1,0 +1,27 @@
+<div class="manage-teams-container">
+  <div class="card">
+    <h2 class="form-title">Manage Teams</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Team Name</th>
+          <th>Manager</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (team of teams; track team) {
+        <tr>
+          <td>{{ team.name }}</td>
+          <td>{{ team.manager }}</td>
+          <td class="actions">
+            <button class="btn-edit">Edit</button>
+            <button class="btn-delete">Delete</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <button class="btn-add-new">Add New Team</button>
+  </div>
+</div>

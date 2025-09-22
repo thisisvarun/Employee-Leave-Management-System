@@ -6,10 +6,16 @@
       <p>Add a new employee to the system.</p>
       <button class="btn" (click)="navigateToAddEmployee()">Add Employee</button>
     </div>
-    <div class="card">
-      <h3>Manage Teams</h3>
-      <p>Create, edit, or delete teams.</p>
-      <button class="btn">Manage Teams</button>
-    </div>
+    
+  <div class="card">
+  <h3>Manage Employees</h3>
+  <p>Edit employee details, roles, and teams.</p>
+  <button class="btn" (click)="navigateToManageEmployees()">Manage Employees</button>
+  </div>
+  <div class="card">
+  <h3>Manage Teams</h3>
+  <p>Create, edit, or delete teams and assign managers.</p>
+  <button class="btn" (click)="navigateToManageTeams()">Manage Teams</button>
+  </div>
   </div>
 </div>

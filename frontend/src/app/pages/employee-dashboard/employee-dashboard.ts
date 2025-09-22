@@ -7,15 +7,27 @@ import { Employee } from '../../components/employee/employee';
 import { FormsModule } from '@angular/forms';
 import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
 import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
-import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification'; // New import
+import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification';
+import { LeaveHistory } from '../../components/leave-history/leave-history'; // <-- Import here
 
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent, LeaveStatusNotificationComponent], // Added LeaveStatusNotificationComponent
+  imports: [
+    DatePipe,
+    Employee,
+    FormsModule,
+    CommonModule,
+    LeavesSummary,
+    ApplyLeaveComponent,
+    LeaveStatusNotificationComponent,
+    LeaveHistory // <-- Add to imports
+  ],
   templateUrl: './employee-dashboard.html',
   styleUrl: './employee-dashboard.css',
 })
+
+
 export class EmployeeDashboard implements OnInit {
   constructor(
     private readonly api: EmployeeApiService,

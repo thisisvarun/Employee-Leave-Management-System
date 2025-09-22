@@ -7,8 +7,18 @@ import { ApplyLeaveComponent } from './components/apply-leave/apply-leave';
 import { LeavesHistory } from './components/leaves-history/leaves-history';
 import { HrDashboard } from './pages/hr-dashboard/hr-dashboard';
 import { AddEmployee } from './components/add-employee/add-employee';
+import { ManageEmployees } from './components/manage-employees/manage-employees';
+import { ManageTeams } from './components/manage-teams/manage-teams';
 
 export const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginForm,
+  },
+  {
+    path: 'login',
+    component: LoginForm,
+  },
   {
     path: 'employee-dashboard/:id',
     component: EmployeeDashboard,
@@ -46,6 +56,16 @@ export const routes: Routes = [
   {
     path: 'hr/:id/add-employee',
     component: AddEmployee,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'hr/:id/manage-employees',
+    component: ManageEmployees,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'hr/:id/manage-teams',
+    component: ManageTeams,
     canActivate: [AuthGuard],
   },
 ];
