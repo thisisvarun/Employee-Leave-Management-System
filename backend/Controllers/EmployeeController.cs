@@ -52,7 +52,6 @@ namespace backend.Controllers
             var leave = await _leaveService.GetMostRecentProcessedLeaveAsync(id);
             if (leave is null)
             {
-                Console.WriteLine("well well well!");
                 return NotFound();
             }
             Console.WriteLine(leave.Comment);
