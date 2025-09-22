@@ -33,9 +33,11 @@ export class LoginForm {
           sessionStorage.setItem('access_token', result.token);
           console.log('Result: ', result);
           if (result.role.toLowerCase() == 'employee') {
-            this.router.navigate(['/', 'employee', result.employeeId]);
+            this.router.navigate(['/', 'employee-dashboard', result.employeeId]);
           } else if (result.role.toLowerCase() == 'manager') {
-            this.router.navigate(['/', 'manager', result.employeeId]);
+            this.router.navigate(['/', 'manager-dashboard', result.employeeId]);
+          } else {
+            this.router.navigate(['/', 'hr-dashboard', result.employeeId]);
           }
         },
         error: (err) => {

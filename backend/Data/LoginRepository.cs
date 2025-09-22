@@ -20,7 +20,7 @@ namespace backend.Repository
             {
                 connection.Open();
                 string query = @"
-                    SELECT e.Employee_Id, e.Email, e.PasswordHash, d.Title, e.[Role] AS Role
+                    SELECT e.Employee_Id, e.Email, e.PasswordHash, d.Name,
                     FROM EMP.Employee e
                     JOIN EMP.Designation d ON e.Designation_Id = d.Designation_Id
                     WHERE e.Email = @Email;
@@ -39,8 +39,7 @@ namespace backend.Repository
                                 EmployeeId = reader.GetInt32(0),
                                 Email = reader.GetString(1),
                                 Password = reader.GetString(2),
-                                RoleTitle = reader.GetString(3),
-                                Role = reader.GetString(4) == "Employee" ? RoleType.Employee : RoleType.Manager
+                                Role = reader.GetString(3) == "Employee" ? RoleType.Employee : (reader.GetString(3) == "HR" ? RoleType.HR : RoleType.Manager)
                             };
                         }
                     }
