@@ -5,16 +5,17 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { ManagerDashboard } from './pages/manager-dashboard/manager-dashboard';
 import { HrDashboard } from './pages/hr-dashboard/hr-dashboard';
 import { AddEmployee } from './components/add-employee/add-employee';
+import { ManageEmployees } from './components/manage-employees/manage-employees';
 
 export const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginForm,
+  },
   {
     path: 'employee/:id',
     component: EmployeeDashboard,
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'login',
-    component: LoginForm,
   },
   {
     path: 'manager/:id',
@@ -29,6 +30,16 @@ export const routes: Routes = [
   {
     path: 'hr/:id/add-employee',
     component: AddEmployee,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'hr/:id/manage-employees',
+    component: ManageEmployees,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'hr/:id/manage-teams',
+    component: ManageTeams,
     canActivate: [AuthGuard],
   },
 ];

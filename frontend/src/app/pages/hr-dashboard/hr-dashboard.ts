@@ -19,4 +19,20 @@ export class HrDashboard {
       }
     });
   }
+
+  navigateToManageEmployees() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate(['/hr', user.id, 'manage-employees']);
+      }
+    });
+  }
+
+   navigateToManageTeams() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate(['/hr', user.id, 'manage-teams']);
+      }
+    });
+  }
 }

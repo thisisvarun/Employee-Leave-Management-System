@@ -1,0 +1,39 @@
+<div class="manage-employees-container">
+  <div class="card">
+    <h2 class="form-title">Manage Employees</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Designation</th>
+          <th>Team</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (employee of employees; track employee) {
+        <tr>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.designation }}</td>
+          <td>{{ employee.team }}</td>
+          <td>
+            <span class="status" [ngClass]="{
+              'status-active': employee.status === 'Active',
+              'status-inactive': employee.status === 'Inactive'
+            }">
+              {{ employee.status }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn-edit">Edit</button>
+            <button class="btn-deactivate">Deactivate</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
