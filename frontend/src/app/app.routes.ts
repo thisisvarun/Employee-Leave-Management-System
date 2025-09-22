@@ -6,6 +6,7 @@ import { ManagerDashboard } from './pages/manager-dashboard/manager-dashboard';
 import { HrDashboard } from './pages/hr-dashboard/hr-dashboard';
 import { AddEmployee } from './components/add-employee/add-employee';
 import { ManageEmployees } from './components/manage-employees/manage-employees';
+import { ManageTeams } from './components/manage-teams/manage-teams';
 
 export const routes: Routes = [
   {
