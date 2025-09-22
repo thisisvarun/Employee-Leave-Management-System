@@ -7,12 +7,13 @@ import { Employee } from '../../components/employee/employee';
 import { FormsModule } from '@angular/forms';
 import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
 import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
-import { TeamLeaveRequests } from '../../components/team-leave-requests/team-leave-requests'; // New import
+import { TeamLeaveRequests } from '../../components/team-leave-requests/team-leave-requests';
+import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification'; // New import
 
 @Component({
   selector: 'app-manager-dashboard',
   standalone: true,
-  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent, TeamLeaveRequests], // Added TeamLeaveRequests
+  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent, TeamLeaveRequests, LeaveStatusNotificationComponent], // Added LeaveStatusNotificationComponent
   templateUrl: './manager-dashboard.html',
   styleUrl: './manager-dashboard.css',
 })

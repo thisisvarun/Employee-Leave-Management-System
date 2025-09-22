@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { finalize, take } from 'rxjs/operators';
 import { LeaveApiService } from '../../core/services/api/leave-api.service';
@@ -26,13 +26,53 @@ export class ApplyLeaveComponent implements OnInit {
   ) {
     this.leaveForm = this.fb.group({
       leaveType: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
       reason: ['', Validators.required],
+      dates: this.fb.array([this.createDateGroup()], this.uniqueDatesValidator())
     });
   }
 
   ngOnInit(): void {}
+
+  get dates(): FormArray {
+    return this.leaveForm.get('dates') as FormArray;
+  }
+
+  createDateGroup(): FormGroup {
+    return this.fb.group({
+      date: ['', [Validators.required, this.futureDateValidator()]],
+      hours: [8, [Validators.required, Validators.min(2), Validators.max(8)]]
+    });
+  }
+
+  addDateGroup(): void {
+    this.dates.push(this.createDateGroup());
+  }
+
+  removeDateGroup(index: number): void {
+    this.dates.removeAt(index);
+  }
+
+  futureDateValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) {
+        return null;
+      }
+      const selectedDate = new Date(control.value);
+      selectedDate.setHours(0, 0, 0, 0);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return selectedDate >= today ? null : { futureDate: { value: control.value } };
+    };
+  }
+
+  uniqueDatesValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const datesArray = control as FormArray;
+      const dates = datesArray.controls.map(group => group.get('date')?.value);
+      const uniqueDates = new Set(dates.filter(d => d));
+      return dates.length === uniqueDates.size ? null : { uniqueDates: true };
+    };
+  }
 
   onLeaveSubmit() {
     this.errorMessage = null;
@@ -45,7 +85,7 @@ export class ApplyLeaveComponent implements OnInit {
             employeeId: user.id,
             leaveType: formValue.leaveType,
             description: formValue.reason,
-            dates: this.getDatesArray(formValue.startDate, formValue.endDate)
+            dates: formValue.dates
           };
 
           this.leaveApi.applyLeave(leaveData).pipe(
@@ -54,6 +94,8 @@ export class ApplyLeaveComponent implements OnInit {
             next: (response) => {
               this.toastr.success('Leave applied successfully!');
               this.leaveForm.reset();
+              this.dates.clear(); // Clear existing controls
+              this.addDateGroup(); // Add one initial control
             },
             error: (error) => {
               this.toastr.error(error.error.message || 'An unexpected error occurred.');
@@ -62,17 +104,5 @@ export class ApplyLeaveComponent implements OnInit {
         }
       });
     }
-  }
-
-  private getDatesArray(startDate: string, endDate: string): { date: string; hours: number }[] {
-    const dates = [];
-    let currentDate = new Date(startDate);
-    const end = new Date(endDate);
-
-    while (currentDate <= end) {
-      dates.push({ date: currentDate.toISOString().split('T')[0], hours: 8 });
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return dates;
   }
 }

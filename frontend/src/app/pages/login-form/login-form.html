@@ -3,50 +3,32 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <h2>Login</h2>
 
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" />
-
-      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
-      <div class="error">
-        @if (loginForm.get('email')?.hasError('required')) {
-        <span>Email is required</span>
-        } @else if (loginForm.get('email')?.hasError('email')) {
-        <span>Enter a valid email</span>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+        <div class="error">
+          @if (loginForm.get('email')?.hasError('required')) {
+          <span>Email is required</span>
+          } @else if (loginForm.get('email')?.hasError('email')) {
+          <span>Enter a valid email</span>
+          }
+        </div>
         }
       </div>
-      }
 
-      <label for="password">Password</label>
-      <input id="password" type="password" formControlName="password" />
-
-      <!-- @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-      <div class="error">
-        @if (loginForm.get('password')?.hasError('required')) {
-        <span>Password is required</span>
-        } @else if (loginForm.get('password')?.hasError('minlength')) {
-        <span>Minimum 6 characters</span>
-        } @else if (loginForm.get('password')?.hasError('pattern')) {
-        <span class="error"
-          >The password must contain atleast one uppercase, one loweracse, one number, and one
-          special character</span
-        >
-        }
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" />
       </div>
-      } @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched &&
-      loginForm.get("password")?.hasError('pattern')) {
-      <span class="error"
-        >The password must contain atleast one uppercase, one loweracse, one number, and one special
-        character</span
-      >
-      } -->
+
       <div class="error">
-        @if (errorMessage.length > 0) {
+        @if (errorMessage) {
         <span>{{ errorMessage }}</span>
         }
       </div>
 
-      <!-- <button type="submit" [disabled]="loginForm.invalid">Login</button> -->
-      <button type="submit">Login</button>
+      <button type="submit" [disabled]="loginForm.invalid">Login</button>
     </form>
   </div>
 </main>

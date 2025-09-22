@@ -1,5 +1,8 @@
 <div class="card apply-leave">
-  <h3>Apply for Leave</h3>
+  <div class="apply-leave-card-header">
+    <h3>Apply for Leave</h3>
+    <button type="button" class="add-date-btn" (click)="addDateGroup()">+</button>
+  </div>
   <form [formGroup]="leaveForm" (ngSubmit)="onLeaveSubmit()">
     <div class="form-group">
       <label for="leaveType">Leave Type</label>
@@ -11,27 +14,61 @@
         <option value="LIEU">LIEU Leave</option>
       </select>
     </div>
-    <div class="form-group">
-      <label for="startDate">Start Date</label>
-      <input type="date" id="startDate" formControlName="startDate" required />
+
+    <div formArrayName="dates">
+      @for (dateGroup of dates.controls; track dateGroup; let i = $index) {
+      <div [formGroupName]="i" class="date-hours-group">
+        <div class="form-group">
+          <label for="date-{{ i }}">Date</label>
+          <input type="date" id="date-{{ i }}" formControlName="date" />
+          @if (dateGroup.get('date')?.invalid && dateGroup.get('date')?.touched) {
+          <div class="error-message">
+            @if (dateGroup.get('date')?.errors?.['required']) { Date is required. } @if
+            (dateGroup.get('date')?.errors?.['futureDate']) { Date must be in the future. }
+          </div>
+          }
+        </div>
+        <div class="form-group">
+          <label for="hours-{{ i }}">Hours</label>
+          <input type="number" id="hours-{{ i }}" formControlName="hours" />
+          @if (dateGroup.get('hours')?.invalid && dateGroup.get('hours')?.touched) {
+          <div class="error-message">
+            @if (dateGroup.get('hours')?.errors?.['required']) { Hours are required. } @if
+            (dateGroup.get('hours')?.errors?.['min']) { Minimum 2 hours. } @if
+            (dateGroup.get('hours')?.errors?.['max']) { Maximum 8 hours. }
+          </div>
+          }
+        </div>
+        <button
+          type="button"
+          class="remove-date-btn"
+          (click)="removeDateGroup(i)"
+          [disabled]="dates.length === 1"
+        >
+          -
+        </button>
+      </div>
+      } @if (dates.invalid && dates.errors?.['uniqueDates'] && dates.touched) {
+      <div class="error-message">Dates must be unique.</div>
+      }
     </div>
-    <div class="form-group">
-      <label for="endDate">End Date</label>
-      <input type="date" id="endDate" formControlName="endDate" required />
-    </div>
+
     <div class="form-group">
       <label for="reason">Reason</label>
       <textarea id="reason" formControlName="reason" rows="3" required></textarea>
     </div>
     <div class="form-actions">
-      <button type="submit" class="submit-btn" [disabled]="!leaveForm.valid || isSubmitting">
-        @if (isSubmitting) {
+      <div class="submit-cancel-group">
+        <!-- New wrapper -->
+        <button type="submit" class="submit-btn" [disabled]="!leaveForm.valid || isSubmitting">
+          @if (isSubmitting) {
           <span class="spinner"></span>
-        } @else {
+          } @else {
           <span>Apply</span>
-        }
-      </button>
-      <button type="button" class="cancel-btn">Cancel</button>
+          }
+        </button>
+        <button type="button" class="cancel-btn">Cancel</button>
+      </div>
     </div>
   </form>
 </div>

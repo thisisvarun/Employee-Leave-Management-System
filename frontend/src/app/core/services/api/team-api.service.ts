@@ -23,6 +23,9 @@ export class TeamApiService {
       `${this.API_BASE_URL}/api/team/leaves/${leaveId}/status`,
       { status, comment },
       {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('access_token')}`,
+        },
         withCredentials: true,
       }
     );

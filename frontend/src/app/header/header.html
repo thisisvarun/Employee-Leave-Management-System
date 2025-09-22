@@ -1,7 +1,15 @@
 <!-- header.component.html -->
 <header class="app-header-wrapper">
-  <div class="app-header">
+  <nav class="app-header">
     <div class="title">ELMS</div>
+    <div>
+      <ul class="nav-links">
+        <li>Dashboard</li>
+        <li>Apply Leave</li>
+        <li>Profile</li>
+        <li>History</li>
+      </ul>
+    </div>
     @if ((user | async) != undefined) {
     <nav>
       <button class="login-btn" (click)="handleLogoutButtonClick()">Logout</button>
@@ -11,5 +19,5 @@
       <button class="logout-btn" (click)="handleLoginButtonClick()">Login</button>
     </nav>
     }
-  </div>
+  </nav>
 </header>

@@ -117,5 +117,10 @@ namespace backend.Service
             summary.Lieu.Total = 10;
             return summary;
         }
+
+        public async Task<Leave?> GetMostRecentProcessedLeaveAsync(int employeeId)
+        {
+            return await _leaveRepository.GetMostRecentProcessedLeaveAsync(employeeId);
+        }
     }
 }

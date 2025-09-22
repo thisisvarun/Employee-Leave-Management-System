@@ -35,7 +35,7 @@ namespace backend.Repository
                     JOIN EMP.Employee e ON l.Employee_Id = e.Employee_Id
                     JOIN EMP.Team t ON e.Team_Id = t.Team_Id
                     LEFT JOIN LEAVES.Dates d ON l.LeaveRequest_Id = d.Leave_Id
-                    WHERE t.Manager_Id = @ManagerId;
+                    WHERE t.Manager_Id = @ManagerId AND l.Status = 'Pending';
                 ";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -72,7 +72,7 @@ namespace backend.Repository
                     }
                 }
             }
-            Console.WriteLine("[TEAM REPO]", leaveRequestsMap);
+            Console.WriteLine("[TEAM REPO]", leaveRequestsMap.Values);
             return leaveRequestsMap.Values;
         }
 
