@@ -37,7 +37,7 @@ export const routes: Routes = [
     path: 'hr-dashboard/:id',
     component: HrDashboard,
     canActivate: [AuthGuard],
-  }
+  },
   {
     path: 'hr/:id',
     component: HrDashboard,
