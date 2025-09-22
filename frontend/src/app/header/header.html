@@ -1,23 +1,26 @@
-<!-- header.component.html -->
 <header class="app-header-wrapper">
   <nav class="app-header">
     <div class="title">ELMS</div>
-    <div>
-      <ul class="nav-links">
-        <li>Dashboard</li>
-        <li>Apply Leave</li>
-        <li>Profile</li>
-        <li>History</li>
-      </ul>
-    </div>
-    @if ((user | async) != undefined) {
-    <nav>
-      <button class="login-btn" (click)="handleLogoutButtonClick()">Logout</button>
-    </nav>
+
+    @if (user | async; as u) {
+      <div>
+        <ul class="nav-links">
+          @if (u.role === 'manager') {
+            <a [routerLink]="['/manager-dashboard', u.id]" class="nav-links li">Dashboard</a>
+          } @else {
+            <a [routerLink]="['/employee-dashboard', u.id]" class="nav-links li">Dashboard</a>
+          }
+          <a [routerLink]="['/apply-leave', u.id]">Apply Leave</a>
+          <a [routerLink]="['/leaves-history', u.id]">History</a>
+        </ul>
+      </div>
+      <nav>
+        <button class="login-btn" (click)="handleLogoutButtonClick()">Logout</button>
+      </nav>
     } @else {
-    <nav>
-      <button class="logout-btn" (click)="handleLoginButtonClick()">Login</button>
-    </nav>
+      <nav>
+        <button class="logout-btn" (click)="handleLoginButtonClick()">Login</button>
+      </nav>
     }
   </nav>
 </header>

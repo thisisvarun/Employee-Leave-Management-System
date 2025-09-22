@@ -53,4 +53,10 @@
 
 .nav-links li {
   cursor: pointer;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: white;
 }

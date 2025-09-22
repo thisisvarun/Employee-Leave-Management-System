@@ -42,7 +42,7 @@ namespace backend.Controllers
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddHours(1)
             });
-            return Ok(new { Token = token, EmployeeId = res.EmployeeId, RoleTitle = res.RoleTitle, Role = res.Role.ToString() });
+            return Ok(new { Token = token, EmployeeId = res.EmployeeId, Role = res.Role.ToString() });
         }
     }
 }

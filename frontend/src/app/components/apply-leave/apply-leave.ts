@@ -5,11 +5,12 @@ import { finalize, take } from 'rxjs/operators';
 import { LeaveApiService } from '../../core/services/api/leave-api.service';
 import { AuthService } from '../../core/services/auth/auth';
 import { ToastrService } from 'ngx-toastr';
+import { LeavesSummary } from "../leaves-summary/leaves-summary";
 
 @Component({
   selector: 'app-apply-leave',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LeavesSummary],
   templateUrl: './apply-leave.html',
   styleUrls: ['./apply-leave.css'],
 })

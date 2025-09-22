@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../core/services/auth/auth';
 import { Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
