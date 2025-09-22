@@ -1,4 +1,4 @@
-import { DatePipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { EmployeeApiService } from '../../core/services/api/employee-api.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,11 +8,24 @@ import { FormsModule } from '@angular/forms';
 import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
 import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
 import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification'; // New import
+import { toast } from 'ngx-sonner';
+import { ZardButtonComponent } from '@shared/components/button/button.component';
+import { LucideAngularModule } from 'lucide-angular';
+import { PlusIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent, LeaveStatusNotificationComponent], // Added LeaveStatusNotificationComponent
+  imports: [
+    Employee,
+    FormsModule,
+    CommonModule,
+    LeavesSummary,
+    ApplyLeaveComponent,
+    LeaveStatusNotificationComponent,
+    ZardButtonComponent,
+    LucideAngularModule,
+  ],
   templateUrl: './employee-dashboard.html',
   styleUrl: './employee-dashboard.css',
 })
@@ -23,6 +36,7 @@ export class EmployeeDashboard implements OnInit {
     private auth: AuthService
   ) {}
 
+  PlusIcon = PlusIcon;
   employee = {
     name: 'Stephan Peralt',
     role: 'Senior Product Designer',
@@ -66,6 +80,12 @@ export class EmployeeDashboard implements OnInit {
         console.log('[GET EMPLOYEE BY ID ERROR]', error);
       },
     });
+  }
+
+  triggerToast() {
+    console.log('toasting');
+    toast('fdgfdhhfhhdhdh');
+    console.log('did it work?');
   }
 
   onLeaveSubmit() {

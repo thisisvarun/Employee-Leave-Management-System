@@ -17,14 +17,14 @@
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #fff; /* Added a border */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .profile-info h3 {
   font-size: 1.5rem; /* Increased font size */
   font-weight: 700; /* Bolder font */
   margin: 0;
-  color: #111827;
+  /* color: #111827; */
 }
 
 .profile-info p {
@@ -43,11 +43,11 @@
   display: flex;
   align-items: center;
   gap: 0.75rem; /* Gap between icon and text */
-  color: #4b5563;
+  /* color: #4b5563; */
 }
 
 .icon {
   width: 20px;
   height: 20px;
-  color: #9ca3af; /* Softer icon color */
+  /* color: #9ca3af; */
 }

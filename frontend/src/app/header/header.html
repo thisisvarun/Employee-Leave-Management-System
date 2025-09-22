@@ -1,5 +1,5 @@
 <!-- header.component.html -->
-<header class="app-header-wrapper">
+<header class="app-header-wrapper dark">
   <nav class="app-header">
     <div class="title">ELMS</div>
     <div>
@@ -12,11 +12,18 @@
     </div>
     @if ((user | async) != undefined) {
     <nav>
-      <button class="login-btn" (click)="handleLogoutButtonClick()">Logout</button>
+      <button z-button type="button" (click)="handleLogoutButtonClick()">
+        <!-- <lucide-icon [img]="PlusIcon"></lucide-icon> -->
+        Logout
+      </button>
     </nav>
     } @else {
     <nav>
-      <button class="logout-btn" (click)="handleLoginButtonClick()">Login</button>
+      <button z-button type="button" (click)="handleLoginButtonClick()">
+        <!-- <lucide-icon [img]="PlusIcon"></lucide-icon> -->
+        Login
+      </button>
+      <!-- <button class="logout-btn" (click)="handleLoginButtonClick()">Login</button> -->
     </nav>
     }
   </nav>

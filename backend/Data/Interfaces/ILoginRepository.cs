@@ -4,6 +4,6 @@ namespace backend.Data.Interfaces
 {
     public interface ILoginRepository
     {
-        LoginDTO GetUserByEmail(LoginDTO loginDTO);
+        LoginDTO GetUserDetails(LoginDTO loginDTO);
     }
 }

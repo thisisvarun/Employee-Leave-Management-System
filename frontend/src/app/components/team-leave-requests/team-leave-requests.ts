@@ -51,23 +51,27 @@ export class TeamLeaveRequests implements OnInit {
     }
   }
 
-  updateLeaveStatus(leaveId: number, status: string): void {
-    this.processingStatus[leaveId] = true;
-    const comment = status === 'Approved' ? 'Approved by manager.' : 'Rejected by manager.';
-    this.teamApi
-      .updateLeaveStatus(leaveId, status, comment)
-      .pipe(finalize(() => (this.processingStatus[leaveId] = false)))
-      .subscribe({
-        next: () => {
-          this.toastr.success(`Leave request ${status.toLowerCase()} successfully.`);
-          this.teamLeaveRequests = this.teamLeaveRequests.filter(
-            (req) => req.leaveRequestId !== leaveId
-          );
-        },
-        error: (err) => {
-          this.toastr.error(`Failed to ${status.toLowerCase()} leave request.`);
-          console.error(`Error updating leave status to ${status}:`, err);
-        },
-      });
+  updateLeaveRequestsList(event: any) {
+    this.teamLeaveRequests = this.teamLeaveRequests.filter((req) => req.leaveRequestId !== event);
   }
+
+  // updateLeaveStatus(leaveId: number, status: string): void {
+  //   this.processingStatus[leaveId] = true;
+  //   const comment = status === 'Approved' ? 'Approved by manager.' : 'Rejected by manager.';
+  //   this.teamApi
+  //     .updateLeaveStatus(leaveId, status, comment)
+  //     .pipe(finalize(() => (this.processingStatus[leaveId] = false)))
+  //     .subscribe({
+  //       next: () => {
+  //         this.toastr.success(`Leave request ${status.toLowerCase()} successfully.`);
+  //         this.teamLeaveRequests = this.teamLeaveRequests.filter(
+  //           (req) => req.leaveRequestId !== leaveId
+  //         );
+  //       },
+  //       error: (err) => {
+  //         this.toastr.error(`Failed to ${status.toLowerCase()} leave request.`);
+  //         console.error(`Error updating leave status to ${status}:`, err);
+  //       },
+  //     });
+  // }
 }

@@ -17,7 +17,7 @@ namespace backend.Service
 
         public LoginDTO Login(LoginDTO loginDTO)
         {
-            LoginDTO currentUserCredentials = _loginRepository.GetUserByEmail(loginDTO);
+            LoginDTO currentUserCredentials = _loginRepository.GetUserDetails(loginDTO);
             if (string.IsNullOrEmpty(currentUserCredentials.Email))
             {
                 return new LoginDTO { };

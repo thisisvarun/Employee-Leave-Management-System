@@ -1,7 +1,10 @@
 <div class="card apply-leave">
   <div class="apply-leave-card-header">
     <h3>Apply for Leave</h3>
-    <button type="button" class="add-date-btn" (click)="addDateGroup()">+</button>
+    <button z-button type="button" (click)="addDateGroup()">
+      <lucide-icon [img]="PlusIcon"></lucide-icon>
+      Add Date
+    </button>
   </div>
   <form [formGroup]="leaveForm" (ngSubmit)="onLeaveSubmit()">
     <div class="form-group">
@@ -39,13 +42,9 @@
           </div>
           }
         </div>
-        <button
-          type="button"
-          class="remove-date-btn"
-          (click)="removeDateGroup(i)"
-          [disabled]="dates.length === 1"
-        >
-          -
+        <button z-button type="button" (click)="removeDateGroup(i)" [disabled]="dates.length === 1">
+          <lucide-icon [img]="PlusIcon"></lucide-icon>
+          Add Date
         </button>
       </div>
       } @if (dates.invalid && dates.errors?.['uniqueDates'] && dates.touched) {
@@ -60,14 +59,19 @@
     <div class="form-actions">
       <div class="submit-cancel-group">
         <!-- New wrapper -->
-        <button type="submit" class="submit-btn" [disabled]="!leaveForm.valid || isSubmitting">
+        <button
+          type="submit"
+          z-button
+          class="submit-btn"
+          [disabled]="!leaveForm.valid || isSubmitting"
+        >
           @if (isSubmitting) {
           <span class="spinner"></span>
           } @else {
           <span>Apply</span>
           }
         </button>
-        <button type="button" class="cancel-btn">Cancel</button>
+        <button z-button [disabled]="isSubmitting" type="button" class="cancel-btn">Cancel</button>
       </div>
     </div>
   </form>

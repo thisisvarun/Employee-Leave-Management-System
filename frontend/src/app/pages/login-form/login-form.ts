@@ -3,10 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthApiService } from '../../core/services/api/auth-api.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth';
+import { ZardButtonComponent } from '@shared/components/button/button.component';
+import { ZardCardComponent } from '@shared/components/card/card.component';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ZardButtonComponent, ZardCardComponent],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
 })
@@ -46,3 +48,15 @@ export class LoginForm {
     }
   }
 }
+
+// @Component({
+//   standalone: true,
+//   imports: [ZardCardComponent, ZardButtonComponent],
+//   template: `
+
+//   `,
+// })
+// export class ZardDemoCardDefaultComponent {
+//   protected readonly idEmail = 'email' + Math.random();
+//   protected readonly idPassword = 'password' + Math.random();
+// }

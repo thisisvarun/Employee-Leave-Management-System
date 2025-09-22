@@ -13,7 +13,7 @@ namespace backend.Repository
         {
             _configuration = configuration;
         }
-        public LoginDTO GetUserByEmail(LoginDTO loginDTO)
+        public LoginDTO GetUserDetails(LoginDTO loginDTO)
         {
             string connectionString = _configuration.GetConnectionString("Default")!;
             using (SqlConnection connection = new SqlConnection(connectionString))

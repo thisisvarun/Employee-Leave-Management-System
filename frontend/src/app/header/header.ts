@@ -5,10 +5,12 @@ import { AuthService } from '../core/services/auth/auth';
 import { Observable } from 'rxjs';
 import { Employee } from '../shared/models/Employee';
 import { AsyncPipe } from '@angular/common';
+import { ZardButtonComponent } from '@shared/components/button/button.component';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-header',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, ZardButtonComponent, LucideAngularModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })

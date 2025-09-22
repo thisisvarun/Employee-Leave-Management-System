@@ -2,8 +2,10 @@
   <div class="header">
     <h1>Dashboard</h1>
     <div class="actions">
-      <button class="export-btn">Export</button>
-      <input type="date" [value]="today | date : 'yyyy-MM-dd'" />
+      <button z-button type="button">
+        <lucide-icon [img]="PlusIcon"></lucide-icon>
+        Apply Leave
+      </button>
     </div>
   </div>
 

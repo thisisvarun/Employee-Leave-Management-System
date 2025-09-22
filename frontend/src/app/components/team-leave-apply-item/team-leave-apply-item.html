@@ -1,4 +1,4 @@
-<!-- <div class="request-item">
+<div class="request-item">
   <div class="request-content">
     <div class="request-header">
       <span class="employee-name">{{ leaveItem.employeeName }}</span>
@@ -15,7 +15,7 @@
     <div class="button-group">
       <button
         class="accept-btn"
-        [disabled]="leaveItem.leaveRequestId"
+        [disabled]="acceptButtonClicked === true || rejectButtonClicked === true"
         (click)="updateLeaveStatus(leaveItem.leaveRequestId, 'Approved')"
       >
         @if (acceptButtonClicked) {
@@ -26,10 +26,10 @@
       </button>
       <button
         class="reject-btn"
-        [disabled]="processingStatus[request.leaveRequestId]"
-        (click)="updateLeaveStatus(request.leaveRequestId, 'Rejected')"
+        [disabled]="acceptButtonClicked === true || rejectButtonClicked === true"
+        (click)="updateLeaveStatus(leaveItem.leaveRequestId, 'Rejected')"
       >
-        @if (processingStatus[request.leaveRequestId]) {
+        @if (rejectButtonClicked) {
         <span class="spinner"></span>
         } @else {
         <span>Reject</span>
@@ -37,4 +37,4 @@
       </button>
     </div>
   </div>
-</div> -->
+</div>

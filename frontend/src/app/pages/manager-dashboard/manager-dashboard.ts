@@ -9,11 +9,21 @@ import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
 import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
 import { TeamLeaveRequests } from '../../components/team-leave-requests/team-leave-requests';
 import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification'; // New import
+import { LucideAngularModule, Plus } from 'lucide-angular';
 
 @Component({
   selector: 'app-manager-dashboard',
   standalone: true,
-  imports: [DatePipe, Employee, FormsModule, CommonModule, LeavesSummary, ApplyLeaveComponent, TeamLeaveRequests, LeaveStatusNotificationComponent], // Added LeaveStatusNotificationComponent
+  imports: [
+    LucideAngularModule,
+    Employee,
+    FormsModule,
+    CommonModule,
+    LeavesSummary,
+    ApplyLeaveComponent,
+    TeamLeaveRequests,
+    LeaveStatusNotificationComponent,
+  ], // Added LeaveStatusNotificationComponent
   templateUrl: './manager-dashboard.html',
   styleUrl: './manager-dashboard.css',
 })
@@ -23,6 +33,8 @@ export class ManagerDashboard implements OnInit {
     private readonly router: ActivatedRoute,
     private auth: AuthService
   ) {}
+
+  readonly PlusIcon = Plus;
 
   leaveStats = {
     onTime: 1254,

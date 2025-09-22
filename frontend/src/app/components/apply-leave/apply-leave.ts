@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  FormArray,
+  AbstractControl,
+  ValidatorFn,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { finalize, take } from 'rxjs/operators';
 import { LeaveApiService } from '../../core/services/api/leave-api.service';
 import { AuthService } from '../../core/services/auth/auth';
 import { ToastrService } from 'ngx-toastr';
+import { toast } from 'ngx-sonner';
+import { LucideAngularModule, PlusIcon } from 'lucide-angular';
+import { ZardButtonComponent } from '@shared/components/button/button.component';
+import { MinusIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-apply-leave',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule, ZardButtonComponent],
   templateUrl: './apply-leave.html',
   styleUrls: ['./apply-leave.css'],
 })
@@ -17,6 +29,8 @@ export class ApplyLeaveComponent implements OnInit {
   leaveForm: FormGroup;
   errorMessage: string | null = null;
   isSubmitting = false;
+  PlusIcon = PlusIcon;
+  MinusIcon = MinusIcon;
 
   constructor(
     private fb: FormBuilder,
@@ -27,7 +41,7 @@ export class ApplyLeaveComponent implements OnInit {
     this.leaveForm = this.fb.group({
       leaveType: ['', Validators.required],
       reason: ['', Validators.required],
-      dates: this.fb.array([this.createDateGroup()], this.uniqueDatesValidator())
+      dates: this.fb.array([this.createDateGroup()], this.uniqueDatesValidator()),
     });
   }
 
@@ -40,7 +54,7 @@ export class ApplyLeaveComponent implements OnInit {
   createDateGroup(): FormGroup {
     return this.fb.group({
       date: ['', [Validators.required, this.futureDateValidator()]],
-      hours: [8, [Validators.required, Validators.min(2), Validators.max(8)]]
+      hours: [8, [Validators.required, Validators.min(2), Validators.max(8)]],
     });
   }
 
@@ -68,8 +82,8 @@ export class ApplyLeaveComponent implements OnInit {
   uniqueDatesValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const datesArray = control as FormArray;
-      const dates = datesArray.controls.map(group => group.get('date')?.value);
-      const uniqueDates = new Set(dates.filter(d => d));
+      const dates = datesArray.controls.map((group) => group.get('date')?.value);
+      const uniqueDates = new Set(dates.filter((d) => d));
       return dates.length === uniqueDates.size ? null : { uniqueDates: true };
     };
   }
@@ -78,29 +92,38 @@ export class ApplyLeaveComponent implements OnInit {
     this.errorMessage = null;
     if (this.leaveForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
-      this.auth.user$.pipe(take(1)).subscribe(user => {
+      this.auth.user$.pipe(take(1)).subscribe((user) => {
         if (user) {
           const formValue = this.leaveForm.value;
           const leaveData = {
             employeeId: user.id,
             leaveType: formValue.leaveType,
             description: formValue.reason,
-            dates: formValue.dates
+            dates: formValue.dates,
           };
 
-          this.leaveApi.applyLeave(leaveData).pipe(
-            finalize(() => this.isSubmitting = false)
-          ).subscribe({
-            next: (response) => {
-              this.toastr.success('Leave applied successfully!');
-              this.leaveForm.reset();
-              this.dates.clear(); // Clear existing controls
-              this.addDateGroup(); // Add one initial control
-            },
-            error: (error) => {
-              this.toastr.error(error.error.message || 'An unexpected error occurred.');
-            }
-          });
+          this.leaveApi
+            .applyLeave(leaveData)
+            .pipe(finalize(() => (this.isSubmitting = false)))
+            .subscribe({
+              next: (response) => {
+                toast('Leave applied Successfully', {
+                  description: 'You will receive e-mail confirmation shortly',
+                  action: {
+                    label: 'Close',
+                    onClick: () => {},
+                  },
+                });
+
+                this.toastr.success('Leave applied successfully!');
+                this.leaveForm.reset();
+                this.dates.clear(); // Clear existing controls
+                this.addDateGroup(); // Add one initial control
+              },
+              error: (error) => {
+                this.toastr.error(error.error.message || 'An unexpected error occurred.');
+              },
+            });
         }
       });
     }
