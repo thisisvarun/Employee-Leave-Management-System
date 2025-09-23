@@ -1,0 +1,31 @@
+<div class="card leave-history">
+  <h3>Leave History</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Leave Type</th>
+        <th>Dates</th>
+        <th>Reason</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (leave of leaveHistory; track leave) {
+      <tr>
+        <td>{{ leave.leaveType }}</td>
+        <td>{{ leave.dates }}</td>
+        <td>{{ leave.reason }}</td>
+        <td>
+          <span class="status" [ngClass]="{
+            'status-approved': leave.status === 'Approved',
+            'status-rejected': leave.status === 'Rejected',
+            'status-pending': leave.status === 'Pending'
+          }">
+            {{ leave.status }}
+          </span>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

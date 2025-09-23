@@ -12,7 +12,7 @@ import { AuthService } from '../../core/services/auth/auth';
 })
 export class LoginForm {
   loginForm: FormGroup;
-  errorMessage: string = '';
+  errorMessage: string | null = null;
 
   constructor(
     private readonly fb: FormBuilder,

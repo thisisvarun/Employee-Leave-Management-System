@@ -57,6 +57,29 @@ export class HrDashboard implements OnInit {
       },
     });
   }
+  navigateToAddEmployee() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate(['/hr', user.id, 'add-employee']);
+      }
+    });
+  }
+
+  navigateToManageEmployees() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate(['/hr', user.id, 'manage-employees']);
+      }
+    });
+  }
+
+   navigateToManageTeams() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate(['/hr', user.id, 'manage-teams']);
+      }
+    });
+  }
 
   onLeaveSubmit() {
     // Handle leave submission logic here

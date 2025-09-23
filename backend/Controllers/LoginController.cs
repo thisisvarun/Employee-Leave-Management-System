@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly IApiService _apiService;
@@ -21,7 +21,7 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDTO request)
         {
             LoginDTO res = _apiService.Login(request);

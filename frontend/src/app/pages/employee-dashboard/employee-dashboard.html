@@ -1,7 +1,11 @@
 <div class="dashboard">
   <div class="dashboard-header">
     <h1>Employee Dashboard</h1>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Employee Dashboard</h1>
     <div class="actions">
+      <button class="btn">Export</button>
       <button class="btn">Export</button>
       <input type="date" [value]="today | date : 'yyyy-MM-dd'" />
     </div>
@@ -9,9 +13,10 @@
  
   <app-leave-status-notification></app-leave-status-notification>
   <div class="dashboard-content">
+  <div class="dashboard-content">
     <div class="left-column">
       <app-employee></app-employee>
- 
+
       <div class="card leave-chart">
         <h3>Leave Details</h3>
         <ul>
@@ -20,13 +25,20 @@
           <li><span class="dot orange"></span> {{ leaveStats.workFromHome }} Work From Home</li>
           <li><span class="dot red"></span> {{ leaveStats.absent }} Absent</li>
           <li><span class="dot yellow"></span> {{ leaveStats.sickLeave }} Sick Leave</li>
+          <li><span class="dot blue"></span> {{ leaveStats.onTime }} on time</li>
+          <li><span class="dot green"></span> {{ leaveStats.late }} Late Attendance</li>
+          <li><span class="dot orange"></span> {{ leaveStats.workFromHome }} Work From Home</li>
+          <li><span class="dot red"></span> {{ leaveStats.absent }} Absent</li>
+          <li><span class="dot yellow"></span> {{ leaveStats.sickLeave }} Sick Leave</li>
         </ul>
       </div>
     </div>
- 
+
     <div class="right-column">
       <app-leaves-summary></app-leaves-summary>
       <app-apply-leave></app-apply-leave>
+      
     </div>
   </div>
+  <app-leave-history></app-leave-history>
 </div>

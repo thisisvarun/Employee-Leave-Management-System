@@ -1,3 +1,7 @@
+.team-leave-requests {
+  margin-top: 2rem;
+}
+
 .team-leave-requests h3 {
   font-size: 1.25rem;
   font-weight: 600;
@@ -8,8 +12,8 @@
 .no-requests {
   text-align: center;
   color: #6b7280;
-  padding: 1rem;
-  border: 1px solid #e5e7eb;
+  padding: 2rem;
+  border: 2px dashed #e5e7eb;
   border-radius: 0.5rem;
 }
 
@@ -21,7 +25,7 @@
 
 .request-item {
   background-color: #f9fafb;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
   display: flex;
@@ -37,14 +41,13 @@
 }
 
 .request-header {
-  display: flex;
-  /* Removed justify-content: space-between; as leave-type is moved */
   margin-bottom: 0.5rem;
 }
 
 .employee-name {
   font-weight: 600;
   color: #111827;
+  font-size: 1.1rem;
 }
 
 .leave-type {
@@ -53,13 +56,13 @@
   background-color: #eef2ff;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  margin-bottom: 0.5rem; /* Added margin to separate from buttons */
-  align-self: flex-end; /* Align to the right within its flex container */
+  margin-bottom: 0.5rem;
+  align-self: flex-start;
 }
 
 .description {
   color: #4b5563;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .request-dates span {
@@ -75,9 +78,9 @@
 
 .request-actions {
   display: flex;
-  flex-direction: column; /* Changed to column */
-  align-items: flex-end; /* Align items to the right */
-  gap: 0.5rem; /* Gap between leave-type and button-group */
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
 }
 
 .button-group {
@@ -116,19 +119,4 @@
 
 .reject-btn:hover {
   background-color: #dc2626;
-}
-
-.spinner {
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 2px solid #fff;
-  width: 16px;
-  height: 16px;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
