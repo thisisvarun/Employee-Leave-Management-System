@@ -264,5 +264,66 @@ namespace backend.Repository
             }
             return mostRecentLeave;
         }
+
+        public async Task<List<LeaveHistoryDto>> GetLeaveHistoryAsync(int employeeId)
+        {
+            var leaves = new List<LeaveHistoryDto>();
+            string connectionString = _configuration.GetConnectionString("Default")!;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"
+                    SELECT
+                        l.LeaveRequest_Id,
+                        l.Employee_Id,
+                        l.Leave_Type,
+                        l.Description,
+                        d.Hours,
+                        d.Date
+                    FROM LEAVES.Leave l
+                    JOIN LEAVES.Dates d ON l.LeaveRequest_Id = d.Leave_Id
+                    WHERE l.Employee_Id = @EmployeeId
+                    ORDER BY l.LeaveRequest_Id, d.Date
+                ";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EmployeeId", employeeId);
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        LeaveHistoryDto? currentLeave = null;
+                        int? lastLeaveRequestId = null;
+
+                        while (await reader.ReadAsync())
+                        {
+                            int leaveRequestId = reader.GetInt32(0);
+                            int empId = reader.GetInt32(1);
+                            string leaveType = reader.GetString(2);
+                            string description = reader.IsDBNull(3) ? string.Empty : reader.GetString(3);
+
+                            if (lastLeaveRequestId == null || lastLeaveRequestId != leaveRequestId)
+                            {
+                                currentLeave = new LeaveHistoryDto
+                                {
+                                    Request_Id = leaveRequestId,
+                                    EmployeeId = empId,
+                                    LeaveType = Enum.Parse<LeaveType>(leaveType, true),
+                                    Description = description,
+                                    Dates = new List<LeaveDateDto>()
+                                };
+                                leaves.Add(currentLeave);
+                                lastLeaveRequestId = leaveRequestId;
+                            }
+
+                            currentLeave!.Dates.Add(new LeaveDateDto
+                            {
+                                Hours = reader.GetInt32(4),
+                                Date = reader.GetDateTime(5)
+                            });
+                        }
+                    }
+                }
+            }
+            return leaves;
+        }
     }
 }

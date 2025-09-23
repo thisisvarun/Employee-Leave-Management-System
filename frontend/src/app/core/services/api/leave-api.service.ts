@@ -30,4 +30,10 @@ export class LeaveApiService {
       withCredentials: true,
     });
   }
+
+  getLeaveHistory(employeeId: string) {
+    return this.http.get(`${this.API_BASE_URL}/api/employee/${employeeId}/history`, {
+      withCredentials: true,
+    });
+  }
 }

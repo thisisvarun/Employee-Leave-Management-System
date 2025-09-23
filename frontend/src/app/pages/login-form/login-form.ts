@@ -38,6 +38,8 @@ export class LoginForm {
             this.router.navigate(['/', 'employee', result.employeeId]);
           } else if (result.role.toLowerCase() == 'manager') {
             this.router.navigate(['/', 'manager', result.employeeId]);
+          } else if (result.role.toLowerCase() == 'hr') {
+            this.router.navigate(['/', 'hr', result.employeeId]);
           }
         },
         error: (err) => {

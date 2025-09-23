@@ -122,5 +122,10 @@ namespace backend.Service
         {
             return await _leaveRepository.GetMostRecentProcessedLeaveAsync(employeeId);
         }
+
+        public async Task<List<LeaveHistoryDto>> GetLeaveHistoryAsync(int employeeId)
+        {
+            return await _leaveRepository.GetLeaveHistoryAsync(employeeId);
+        }
     }
 }

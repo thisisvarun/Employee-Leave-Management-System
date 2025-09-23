@@ -40,7 +40,7 @@ namespace backend.Repository
                                 Email = reader.GetString(1),
                                 Password = reader.GetString(2),
                                 RoleTitle = reader.GetString(3),
-                                Role = reader.GetString(4) == "Employee" ? RoleType.Employee : RoleType.Manager
+                                Role = reader.GetString(4) == "Employee" ? RoleType.Employee : (reader.GetString(4) == "HR" ? RoleType.HR : RoleType.Manager)
                             };
                         }
                     }

@@ -1,30 +1,42 @@
-<!-- header.component.html -->
 <header class="app-header-wrapper dark">
   <nav class="app-header">
     <div class="title">ELMS</div>
-    <div>
-      <ul class="nav-links">
-        <li>Dashboard</li>
-        <li>Apply Leave</li>
-        <li>Profile</li>
-        <li>History</li>
-      </ul>
-    </div>
-    @if ((user | async) != undefined) {
-    <nav>
-      <button z-button type="button" (click)="handleLogoutButtonClick()">
-        <!-- <lucide-icon [img]="PlusIcon"></lucide-icon> -->
-        Logout
-      </button>
-    </nav>
+
+    @if (user | async; as employee) {
+      <div>
+        <ul class="nav-links">
+          <li>
+            <a [routerLink]="['/employee', employee.id]" routerLinkActive="active">Dashboard</a>
+          </li>
+          <li>
+            <a [routerLink]="['/apply-leave', employee.id]" routerLinkActive="active">Apply Leave</a>
+          </li>
+          <li>
+            <a [routerLink]="['/leave-history', employee.id]" routerLinkActive="active">History</a>
+          </li>
+          @if (employee.role.toLowerCase() === 'hr') {
+          <li>
+            <a
+              [routerLink]="['/hr', employee.id, 'create-employee']"
+              routerLinkActive="active"
+            >
+              Create Employee
+            </a>
+          </li>
+        }
+        </ul>
+      </div>
+      <nav>
+        <button z-button type="button" (click)="handleLogoutButtonClick()">
+          Logout
+        </button>
+      </nav>
     } @else {
-    <nav>
-      <button z-button type="button" (click)="handleLoginButtonClick()">
-        <!-- <lucide-icon [img]="PlusIcon"></lucide-icon> -->
-        Login
-      </button>
-      <!-- <button class="logout-btn" (click)="handleLoginButtonClick()">Login</button> -->
-    </nav>
+      <nav>
+        <button z-button type="button" (click)="handleLoginButtonClick()">
+          Login
+        </button>
+      </nav>
     }
   </nav>
 </header>

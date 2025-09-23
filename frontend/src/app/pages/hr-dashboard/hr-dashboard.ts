@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { EmployeeApiService } from '../../core/services/api/employee-api.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,10 +10,10 @@ import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
 import { TeamLeaveRequests } from '../../components/team-leave-requests/team-leave-requests';
 import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification'; // New import
 import { LucideAngularModule, Minus, Plus } from 'lucide-angular';
+import { CreateEmployee } from "src/app/components/create-employee/create-employee";
 
 @Component({
-  selector: 'app-manager-dashboard',
-  standalone: true,
+  selector: 'app-hr-dashboard',
   imports: [
     LucideAngularModule,
     Employee,
@@ -23,11 +23,12 @@ import { LucideAngularModule, Minus, Plus } from 'lucide-angular';
     ApplyLeaveComponent,
     TeamLeaveRequests,
     LeaveStatusNotificationComponent,
-  ], // Added LeaveStatusNotificationComponent
-  templateUrl: './manager-dashboard.html',
-  styleUrl: './manager-dashboard.css',
+    CreateEmployee
+],
+  templateUrl: './hr-dashboard.html',
+  styleUrl: './hr-dashboard.css'
 })
-export class ManagerDashboard implements OnInit {
+export class HrDashboard implements OnInit{
   constructor(
     private readonly api: EmployeeApiService,
     private readonly router: ActivatedRoute,
@@ -36,15 +37,6 @@ export class ManagerDashboard implements OnInit {
 
   readonly PlusIcon = Plus;
   readonly MinusIcon = Minus;
-
-  leaveStats = {
-    onTime: 1254,
-    late: 32,
-    workFromHome: 658,
-    absent: 14,
-    sickLeave: 68,
-  };
-
   today = new Date();
 
   ngOnInit(): void {
@@ -71,8 +63,6 @@ export class ManagerDashboard implements OnInit {
     });
   }
 
-  onLeaveSubmit() {
-    // Handle leave submission logic here
-    console.log('Leave application submitted');
-  }
+
+
 }

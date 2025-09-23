@@ -11,5 +11,6 @@ namespace backend.Data.Interfaces
         Task<(string? Email, string? Name)> GetManagerInfoAsync(int employeeId);
         Task<LeaveSummaryDto> GetLeaveSummaryAsync(int employeeId);
         Task<Leave?> GetMostRecentProcessedLeaveAsync(int employeeId);
+        Task<List<LeaveHistoryDto>> GetLeaveHistoryAsync(int employeeId);
     }
 }

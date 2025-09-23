@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../core/services/auth/auth';
 import { Observable } from 'rxjs';
@@ -7,10 +7,11 @@ import { Employee } from '../shared/models/Employee';
 import { AsyncPipe } from '@angular/common';
 import { ZardButtonComponent } from '@shared/components/button/button.component';
 import { LucideAngularModule } from 'lucide-angular';
+import { CreateEmployee } from '../components/create-employee/create-employee';
 
 @Component({
   selector: 'app-header',
-  imports: [AsyncPipe, ZardButtonComponent, LucideAngularModule],
+  imports: [AsyncPipe, ZardButtonComponent, LucideAngularModule, RouterLink, CreateEmployee],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })

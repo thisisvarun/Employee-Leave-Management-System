@@ -15,4 +15,11 @@ export class EmployeeApiService {
       withCredentials: true,
     });
   }
+
+  createEmployee(employeeData: any) {
+    return this.http.post(`${this.API_BASE_URL}/api/employee`, employeeData, {
+      withCredentials: true,
+    });
+  }
+
 }

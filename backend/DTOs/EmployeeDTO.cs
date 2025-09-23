@@ -2,8 +2,8 @@
 
 namespace backend.DTOs
 {
-    public class EmployeeDTO
+    public class CreateEmployeeDto
     {
-        
+
     }
 }
