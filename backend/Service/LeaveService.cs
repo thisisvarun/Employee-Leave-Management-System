@@ -36,7 +36,7 @@ namespace backend.Service
             {
                 if ((relevantSummary.Total - relevantSummary.Approved - relevantSummary.Pending) < requestedDays)
                 {
-                    return -1; // Indicates insufficient balance
+                    return -1;
                 }
             }
 
@@ -111,16 +111,21 @@ namespace backend.Service
         public async Task<LeaveSummaryDto> GetLeaveSummaryAsync(int employeeId)
         {
             var summary = await _leaveRepository.GetLeaveSummaryAsync(employeeId);
-            summary.Casual.Total = 7;
-            summary.Sick.Total = 7;
-            summary.Annual.Total = 15;
-            summary.Lieu.Total = 10;
+            summary.Casual.Total = 7 * 8; // No. of working hours in a day
+            summary.Sick.Total = 7 * 8;
+            summary.Annual.Total = 15 * 8;
+            summary.Lieu.Total = 10 * 8;
             return summary;
         }
 
         public async Task<Leave?> GetMostRecentProcessedLeaveAsync(int employeeId)
         {
             return await _leaveRepository.GetMostRecentProcessedLeaveAsync(employeeId);
+        }
+
+        public async Task<List<LeaveHistoryDto>> GetLeaveHistoryAsync(int employeeId)
+        {
+            return await _leaveRepository.GetLeaveHistoryAsync(employeeId);
         }
     }
 }

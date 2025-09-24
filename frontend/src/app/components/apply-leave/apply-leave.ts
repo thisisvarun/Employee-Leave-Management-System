@@ -117,8 +117,8 @@ export class ApplyLeaveComponent implements OnInit {
 
                 this.toastr.success('Leave applied successfully!');
                 this.leaveForm.reset();
-                this.dates.clear(); // Clear existing controls
-                this.addDateGroup(); // Add one initial control
+                this.dates.clear();
+                this.addDateGroup();
               },
               error: (error) => {
                 this.toastr.error(error.error.message || 'An unexpected error occurred.');

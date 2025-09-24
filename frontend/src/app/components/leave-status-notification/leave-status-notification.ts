@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeaveApiService } from '../../core/services/api/leave-api.service';
 import { AuthService } from '../../core/services/auth/auth';
-import { ZardAlertComponent } from '@shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-leave-status-notification',
   standalone: true,
-  imports: [CommonModule, ZardAlertComponent],
+  imports: [CommonModule],
   templateUrl: './leave-status-notification.html',
   styleUrl: './leave-status-notification.css',
 })
@@ -23,7 +22,7 @@ export class LeaveStatusNotificationComponent implements OnInit {
       if (user) {
         this.leaveApi.getRecentLeaveStatus(user.id.toString()).subscribe({
           next: (leave) => {
-            console.log('LEAVE', leave);
+            // console.log('LEAVE', leave);
             if (leave) {
               this.recentLeave = leave;
               this.showNotification = true;

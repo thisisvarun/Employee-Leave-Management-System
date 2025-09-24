@@ -2,7 +2,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  color: #111827;
+  color: white;
 }
 
 .no-requests {
@@ -20,7 +20,7 @@
 }
 
 .request-item {
-  background-color: #f9fafb;
+  color: white;
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
@@ -38,27 +38,26 @@
 
 .request-header {
   display: flex;
-  /* Removed justify-content: space-between; as leave-type is moved */
   margin-bottom: 0.5rem;
 }
 
 .employee-name {
   font-weight: 600;
-  color: #111827;
+  color: white;
 }
 
 .leave-type {
   font-size: 0.875rem;
-  color: #4f46e5;
-  background-color: #eef2ff;
+  background-color: white;
+  color: black;
   padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  margin-bottom: 0.5rem; /* Added margin to separate from buttons */
-  align-self: flex-end; /* Align to the right within its flex container */
+  border-radius: 0.35rem;
+  margin-bottom: 0.5rem;
+  align-self: flex-end;
 }
 
 .description {
-  color: #4b5563;
+  color: white;
   margin-bottom: 0.5rem;
 }
 
@@ -75,9 +74,9 @@
 
 .request-actions {
   display: flex;
-  flex-direction: column; /* Changed to column */
-  align-items: flex-end; /* Align items to the right */
-  gap: 0.5rem; /* Gap between leave-type and button-group */
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
 }
 
 .button-group {

@@ -6,12 +6,18 @@ namespace backend.Service
 {
     public class EmailService : IEmailService
     {
+        public readonly IConfiguration _config;
+        public EmailService(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public async Task<bool> SendEmailAsync(string toAddress, string subject, string body)
         {
-            string _smtphost = "smtp.gmail.com";
-            int _smtpport = 587;
-            string _smtpuser = "harish.16634@gmail.com";
-            string _smtppass = "gndn jznv rdqk iaqi";
+            string _smtphost = _config["EmailEnvVars:SmtpHost"]!;
+            int _smtpport = int.Parse(_config["EmailEnvVars:SmtpPort"]!);
+            string _smtpuser = _config["EmailEnvVars:SmtpUser"]!;
+            string _smtppass = _config["EmailEnvVars:SmtpPass"]!;
 
             using var message = new MailMessage();
             message.From = new MailAddress(_smtpuser);

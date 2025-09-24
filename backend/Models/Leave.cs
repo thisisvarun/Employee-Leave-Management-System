@@ -21,7 +21,7 @@ namespace backend.Models
 
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
+        public string Status { get; set; } = "Pending";
 
         [MaxLength(500)]
         public string Comment { get; set; } = string.Empty;

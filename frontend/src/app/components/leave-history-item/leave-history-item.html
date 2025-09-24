@@ -1,0 +1,17 @@
+<div class="request-item">
+  <div class="request-content">
+    <div class="request-header">
+      <span class="employee-name">{{ leaveItem?.request_Id }}</span>
+    </div>
+    <p class="description">{{ leaveItem?.description }}</p>
+    <div class="request-dates">
+      @for (date of leaveItem?.dates; track date.date) {
+      <span>{{ date.date | date : 'shortDate' }} ({{ date.hours }}h)</span>
+      }
+    </div>
+  </div>
+  <div class="request-actions">
+    <span class="leave-type">{{ getLeaveTypeLabel(leaveItem?.leaveType) }}</span>
+    <span class="leave-type">{{ getStatusLabel(leaveItem?.leaveType) }}</span>
+  </div>
+</div>

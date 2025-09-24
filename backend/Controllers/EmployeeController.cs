@@ -3,6 +3,7 @@ using backend.Service;
 using backend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using backend.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -54,7 +55,6 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
-            Console.WriteLine(leave.Comment);
             return Ok(leave);
         }
     }

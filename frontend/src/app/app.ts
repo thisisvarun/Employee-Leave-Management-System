@@ -1,7 +1,9 @@
 import { Component, inject, OnInit, Renderer2, signal, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
-// import { DarkModeService } from './core/services/dark-mode-service/darkmode.service';
+import { AgCharts } from 'ag-charts-angular';
+import { AgPolarChartOptions } from 'ag-charts-community';
+import { ZardCardComponent } from '@shared/components/card/card.component';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +13,45 @@ import { Header } from './header/header';
 })
 export class App {
   protected readonly title = signal('frontend');
-  // private readonly darkModeService = inject(DarkModeService);
+  public options;
 
-  // constructor(private readonly darkModeService: DarkModeService) {}
+  data = [
+    { asset: 'Total', amount: 10 },
+    { asset: 'Used', amount: 3 },
+    { asset: 'Pending', amount: 2 },
+  ];
 
-  // ngOnInit() {
-  //   this.darkModeService.initTheme();
-  //   console.log(this.darkModeService.getCurrentTheme());
-  // }
-
-  // getCurrentTheme(): 'light' | 'dark' {
-  //   return this.darkModeService.getCurrentTheme();
-  // }
+  constructor() {
+    this.options = {
+      data: this.data,
+      title: {
+        text: 'Leaves Summary',
+        color: '#fff',
+        fontSize: 26,
+      },
+      series: [
+        {
+          type: 'donut',
+          calloutLabelKey: 'asset',
+          angleKey: 'amount',
+          calloutLabel: {
+            color: 'white',
+            fontSize: 22,
+          },
+        },
+      ],
+      padding: { top: 10, right: 10, bottom: 10, left: 10 },
+      legend: {
+        item: {
+          label: {
+            color: 'white',
+            fontSize: 16,
+          },
+        },
+      },
+      background: {
+        fill: 'oklch(0.21 0.006 285.885)',
+      },
+    } as AgPolarChartOptions;
+  }
 }

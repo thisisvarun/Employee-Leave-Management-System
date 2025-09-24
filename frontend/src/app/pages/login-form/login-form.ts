@@ -33,7 +33,7 @@ export class LoginForm {
       this.api.loginUser(this.loginForm.value.email, this.loginForm.value.password).subscribe({
         next: (result: any) => {
           sessionStorage.setItem('access_token', result.token);
-          console.log('Result: ', result);
+          // console.log('Result: ', result);
           if (result.role.toLowerCase() == 'employee') {
             this.router.navigate(['/', 'employee', result.employeeId]);
           } else if (result.role.toLowerCase() == 'manager') {
@@ -41,22 +41,10 @@ export class LoginForm {
           }
         },
         error: (err) => {
-          console.log('[ERROR]', err);
+          console.log('[LOGIN FORM ERROR]', err);
           this.errorMessage = "The username and password doesn't match";
         },
       });
     }
   }
 }
-
-// @Component({
-//   standalone: true,
-//   imports: [ZardCardComponent, ZardButtonComponent],
-//   template: `
-
-//   `,
-// })
-// export class ZardDemoCardDefaultComponent {
-//   protected readonly idEmail = 'email' + Math.random();
-//   protected readonly idPassword = 'password' + Math.random();
-// }

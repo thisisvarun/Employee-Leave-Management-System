@@ -15,7 +15,6 @@ namespace backend.Repository
 
         public async Task<IEnumerable<TeamLeaveRequestDto>> GetTeamLeaveRequestsAsync(int managerId)
         {
-            Console.WriteLine($"[TeamRepository] Fetching leave requests for ManagerId: {managerId}");
             var leaveRequestsMap = new Dictionary<int, TeamLeaveRequestDto>();
             string connectionString = _configuration.GetConnectionString("Default")!;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -60,7 +59,7 @@ namespace backend.Repository
                                 leaveRequestsMap.Add(leaveRequestId, dto);
                             }
 
-                            if (!reader.IsDBNull(6)) // Check if Date is not null
+                            if (!reader.IsDBNull(6))
                             {
                                 dto.Dates.Add(new LeaveDateDto
                                 {
@@ -72,7 +71,6 @@ namespace backend.Repository
                     }
                 }
             }
-            Console.WriteLine("[TEAM REPO]", leaveRequestsMap.Values);
             return leaveRequestsMap.Values;
         }
 

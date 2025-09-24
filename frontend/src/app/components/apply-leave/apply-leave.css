@@ -1,6 +1,4 @@
 .apply-leave {
-  padding-inline: 24px;
-  padding-block: 12px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
@@ -8,7 +6,6 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  /* color: #111827; */
 }
 
 .form-group {
@@ -19,7 +16,6 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  /* color: #374151; */
 }
 
 .form-group input,
@@ -45,7 +41,6 @@
   color: #ef4444;
   font-weight: 500;
   margin-bottom: 1rem;
-  text-align: center;
 }
 
 .form-actions {
@@ -77,13 +72,6 @@
   align-items: center;
   min-height: 46px;
 }
-
-/* .submit-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 46px;
-} */
 
 .submit-btn:disabled {
   cursor: not-allowed;
@@ -140,7 +128,6 @@
 }
 
 .remove-date-btn:disabled {
-  /* background-color: #a5b4fc; */
   cursor: not-allowed;
 }
 
@@ -149,5 +136,15 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }

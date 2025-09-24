@@ -2,7 +2,6 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  color: #111827;
 }
 
 .no-requests {
@@ -38,7 +37,6 @@
 
 .request-header {
   display: flex;
-  /* Removed justify-content: space-between; as leave-type is moved */
   margin-bottom: 0.5rem;
 }
 
@@ -53,8 +51,8 @@
   background-color: #eef2ff;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  margin-bottom: 0.5rem; /* Added margin to separate from buttons */
-  align-self: flex-end; /* Align to the right within its flex container */
+  margin-bottom: 0.5rem;
+  align-self: flex-end;
 }
 
 .description {
@@ -75,9 +73,9 @@
 
 .request-actions {
   display: flex;
-  flex-direction: column; /* Changed to column */
-  align-items: flex-end; /* Align items to the right */
-  gap: 0.5rem; /* Gap between leave-type and button-group */
+  flex-direction: column; 
+  align-items: flex-end;
+  gap: 0.5rem; 
 }
 
 .button-group {
@@ -129,6 +127,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -8,8 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
 import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
 import { TeamLeaveRequests } from '../../components/team-leave-requests/team-leave-requests';
-import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification'; // New import
+import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification';
 import { LucideAngularModule, Plus } from 'lucide-angular';
+import { LeaveSummaryChart } from 'src/app/components/leave-summary-chart/leave-summary-chart';
+import { LeaveDataService } from 'src/app/core/services/leave-data.service';
+import { LeaveApiService } from 'src/app/core/services/api/leave-api.service';
+import { AgPolarChartOptions } from 'ag-charts-community';
+import { ZardButtonComponent } from '@shared/components/button/button.component';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -19,19 +24,24 @@ import { LucideAngularModule, Plus } from 'lucide-angular';
     Employee,
     FormsModule,
     CommonModule,
-    LeavesSummary,
     ApplyLeaveComponent,
-    TeamLeaveRequests,
     LeaveStatusNotificationComponent,
-  ], // Added LeaveStatusNotificationComponent
+    LeaveSummaryChart,
+    ZardButtonComponent,
+    TeamLeaveRequests,
+  ],
   templateUrl: './manager-dashboard.html',
   styleUrl: './manager-dashboard.css',
 })
 export class ManagerDashboard implements OnInit {
+  public leaveSummary: any = {};
+  options!: AgPolarChartOptions;
+
   constructor(
     private readonly api: EmployeeApiService,
     private readonly router: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    private leaveApi: LeaveApiService
   ) {}
 
   readonly PlusIcon = Plus;
@@ -47,7 +57,7 @@ export class ManagerDashboard implements OnInit {
   today = new Date();
 
   ngOnInit(): void {
-    console.log('[router value]', this.router.snapshot.paramMap.get('id'));
+    // console.log('[router value]', this.router.snapshot.paramMap.get('id'));
     this.api.getEmployeeById(this.router.snapshot.paramMap.get('id')!).subscribe({
       next: (result: any) => {
         this.auth.updateUser({
@@ -68,10 +78,19 @@ export class ManagerDashboard implements OnInit {
         console.log('[GET EMPLOYEE BY ID ERROR]', error);
       },
     });
+
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        this.leaveApi.getLeaveSummary(user.id.toString()).subscribe((summary) => {
+          this.leaveSummary = summary;
+
+          // console.log('STRUCTURE', this.leaveSummary);
+        });
+      }
+    });
   }
 
   onLeaveSubmit() {
-    // Handle leave submission logic here
-    console.log('Leave application submitted');
+    // console.log('Leave application submitted');
   }
 }

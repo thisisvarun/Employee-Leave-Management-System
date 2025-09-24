@@ -11,7 +11,9 @@ export class AuthService {
 
   updateUser(user: Employee) {
     this.user.next(user);
-    this.user$.subscribe((d) => console.log(d));
+    this.user$.subscribe((d) => {
+      console.log(d)
+    });
   }
 
   clearUser() {

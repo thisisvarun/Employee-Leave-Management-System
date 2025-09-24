@@ -10,20 +10,20 @@
 }
 
 .notification-approved {
-  background-color: #D4EDDA; /* Light green */
-  color: #155724; /* Dark green text */
+  background-color: #D4EDDA;
+  color: #155724;
 }
 
 .notification-rejected {
-  background-color: #F8D7DA; /* Light red/pink */
-  color: #721C24; /* Dark red text */
+  background-color: #F8D7DA;
+  color: #721C24;
 }
 
 .close-btn {
   cursor: pointer;
   font-size: 1.5rem;
   line-height: 1;
-  color: inherit; /* Inherit color from parent notification */
+  color: inherit;
 }
 
 .close-btn:hover {

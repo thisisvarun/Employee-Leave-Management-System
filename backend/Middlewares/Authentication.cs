@@ -14,13 +14,6 @@ public class Authentication
     public async Task InvokeAsync(HttpContext context)
     {
         string token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last()!;
-        // if (string.IsNullOrEmpty(token))
-        // {
-        //     context.Response.StatusCode = 401;
-        //     await context.Response.WriteAsync("Unauthorized");
-        //     return;
-        // }
-        Console.WriteLine("I'm working on authentication! " + context.Request.Headers["Authorization"]);
 
         using var reader = new StreamReader(
             context.Request.Body,

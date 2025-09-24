@@ -1,0 +1,198 @@
+.leave-card {
+  background: #000;
+  color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.leave-card:hover {
+  transform: translateY(-2px);
+}
+
+.leave-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.leave-index {
+  font-size: 14px;
+}
+
+.leave-id {
+  font-size: 14px;
+}
+
+.leave-description {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.leave-badges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.leave-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.leave-total {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.team-leave-requests h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.no-requests {
+  text-align: center;
+  color: #6b7280;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+}
+
+.request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.request-item {
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.request-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-right: 1rem;
+}
+
+.request-header {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.employee-name {
+  font-weight: 600;
+  color: white;
+}
+
+.leave-type {
+  font-size: 0.875rem;
+  background-color: white;
+  color: black;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.35rem;
+  margin-bottom: 0.5rem;
+  align-self: flex-end;
+}
+
+.description {
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.request-dates span {
+  display: inline-block;
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.request-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  gap: 0.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.accept-btn,
+.reject-btn {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 36px;
+}
+
+.accept-btn {
+  background-color: #10b981;
+  color: white;
+}
+
+.accept-btn:hover {
+  background-color: #059669;
+}
+
+.reject-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.reject-btn:hover {
+  background-color: #dc2626;
+}
+
+.spinner {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 2px solid #fff;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,68 @@
+<div class="card apply-leave space-y-4">
+  <div class="apply-leave-card-header">
+    <button z-button type="button" (click)="addDateGroup()">
+      <lucide-icon [img]="PlusIcon"></lucide-icon>
+      Add Date
+    </button>
+  </div>
+  <form [formGroup]="leaveForm" (ngSubmit)="onLeaveSubmit()">
+    <z-select placeholder="Select leave type" formControlName="leaveType" required>
+      <z-select-item value="casual">Casual</z-select-item>
+      <z-select-item value="annulal">Annual</z-select-item>
+      <z-select-item value="sick">Sick</z-select-item>
+      <z-select-item value="lieu">LIEU</z-select-item>
+    </z-select>
+
+    <div formArrayName="dates" class="space-y-2">
+      @for (dateGroup of dates.controls; track dateGroup; let i = $index) {
+      <div [formGroupName]="i" class="date-hours-group flex gap-2">
+        <div class="form-group">
+          <label for="date-{{ i }}">Date</label>
+          <input
+            z-input
+            type="date"
+            id="date-{{ i }}"
+            formControlName="date"
+            class="border p-2 rounded-lg"
+          />
+          @if (dateGroup.get('date')?.invalid && dateGroup.get('date')?.touched) {
+          <div class="error-message text-red-500">
+            @if (dateGroup.get('date')?.errors?.['required']) { Date is required. } @if
+            (dateGroup.get('date')?.errors?.['futureDate']) { Date must be in the future. }
+          </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="hours-{{ i }}">Hours</label>
+          <input
+            z-input
+            type="number"
+            id="hours-{{ i }}"
+            formControlName="hours"
+            class="border p-2 rounded-lg [&::-webkit-inner-spin-button]:appearance-none"
+          />
+          @if (dateGroup.get('hours')?.invalid && dateGroup.get('hours')?.touched) {
+          <div class="error-message text-red-500">
+            @if (dateGroup.get('hours')?.errors?.['required']) { Hours are required. } @if
+            (dateGroup.get('hours')?.errors?.['min']) { Minimum 2 hours. } @if
+            (dateGroup.get('hours')?.errors?.['max']) { Maximum 8 hours. }
+          </div>
+          }
+        </div>
+        <button z-button type="button" (click)="removeDateGroup(i)" [disabled]="dates.length === 1">
+          <lucide-icon [img]="MinusIcon"></lucide-icon>
+        </button>
+      </div>
+      } @if (dates.invalid && dates.errors?.['uniqueDates'] && dates.touched) {
+      <div class="error-message text-shadow-red-500">Dates must be unique.</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="reason">Reason</label>
+      <textarea id="reason" formControlName="reason" rows="3" required></textarea>
+    </div>
+    <div class="form-actions"></div>
+  </form>
+</div>

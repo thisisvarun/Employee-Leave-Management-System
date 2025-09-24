@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Button } from './button';
+import { LeaveSummaryChart } from './leave-summary-chart';
 
-describe('Button', () => {
-  let component: Button;
-  let fixture: ComponentFixture<Button>;
+describe('LeaveSummaryChart', () => {
+  let component: LeaveSummaryChart;
+  let fixture: ComponentFixture<LeaveSummaryChart>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Button]
+      imports: [LeaveSummaryChart]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Button);
+    fixture = TestBed.createComponent(LeaveSummaryChart);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

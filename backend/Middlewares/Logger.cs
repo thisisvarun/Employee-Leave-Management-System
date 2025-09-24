@@ -8,7 +8,6 @@ public class Logger
     }
     public async Task InvokeAsync(HttpContext context)
     {
-        Console.WriteLine("I'm logging: " + context.Request.Path);
         await _next(context);
     }
 }

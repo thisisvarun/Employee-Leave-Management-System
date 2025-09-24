@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Service.Interfaces;
 using backend.DTOs;
 using backend.Common;
-using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -10,11 +9,11 @@ namespace backend.Controllers
     [Route("/api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly IApiService _apiService;
+        private readonly ILoginService _apiService;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
 
-        public LoginController(IApiService apiService, IEmailService emailService, IConfiguration configuration)
+        public LoginController(ILoginService apiService, IEmailService emailService, IConfiguration configuration)
         {
             _apiService = apiService;
             _emailService = emailService;

@@ -1,37 +1,18 @@
-<div class="card leave-summary">
-  <h3>Leave Summary</h3>
-  <div class="summary-grid">
-    <div class="summary-item">
-      <span class="count"
-        >{{ (leaveSummary.casual?.total || 0) - (leaveSummary.casual?.approved || 0) }} ({{
-          leaveSummary.casual?.pending || 0
-        }}) / {{ leaveSummary.casual?.total || 0 }}</span
-      >
-      <span class="type">Casual</span>
-    </div>
-    <div class="summary-item">
-      <span class="count"
-        >{{ (leaveSummary.sick?.total || 0) - (leaveSummary.sick?.approved || 0) }} ({{
-          leaveSummary.sick?.pending || 0
-        }}) / {{ leaveSummary.sick?.total || 0 }}</span
-      >
-      <span class="type">Sick</span>
-    </div>
-    <div class="summary-item">
-      <span class="count"
-        >{{ (leaveSummary.annual?.total || 0) - (leaveSummary.annual?.approved || 0) }} ({{
-          leaveSummary.annual?.pending || 0
-        }}) / {{ leaveSummary.annual?.total || 0 }}</span
-      >
-      <span class="type">Annual</span>
-    </div>
-    <div class="summary-item">
-      <span class="count"
-        >{{ (leaveSummary.lieu?.total || 0) - (leaveSummary.lieu?.approved || 0) }} ({{
-          leaveSummary.lieu?.pending || 0
-        }}) / {{ leaveSummary.lieu?.total || 0 }}</span
-      >
-      <span class="type">LIEU</span>
-    </div>
-  </div>
+<div class="flex gap-2 items-center justify-around overflow-auto">
+  <app-leave-summary-chart
+    [leaveSummary]="leaveSummary.casual"
+    [leaveType]="'Casual'"
+  ></app-leave-summary-chart>
+  <app-leave-summary-chart
+    [leaveSummary]="leaveSummary.sick"
+    [leaveType]="'Sick'"
+  ></app-leave-summary-chart>
+  <app-leave-summary-chart
+    [leaveSummary]="leaveSummary.annual"
+    [leaveType]="'Annual'"
+  ></app-leave-summary-chart>
+  <app-leave-summary-chart
+    [leaveSummary]="leaveSummary.lieu"
+    [leaveType]="'LIEU'"
+  ></app-leave-summary-chart>
 </div>

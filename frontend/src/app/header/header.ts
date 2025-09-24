@@ -7,10 +7,11 @@ import { Employee } from '../shared/models/Employee';
 import { AsyncPipe } from '@angular/common';
 import { ZardButtonComponent } from '@shared/components/button/button.component';
 import { LucideAngularModule } from 'lucide-angular';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [AsyncPipe, ZardButtonComponent, LucideAngularModule],
+  imports: [AsyncPipe, ZardButtonComponent, LucideAngularModule, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })

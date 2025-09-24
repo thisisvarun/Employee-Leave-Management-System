@@ -4,12 +4,12 @@ using backend.Service.Interfaces;
 
 namespace backend.Service
 {
-    public class ApiService : IApiService
+    public class LoginService : ILoginService
     {
         private readonly ILoginRepository _loginRepository;
         private readonly IPasswordService _passwordService;
 
-        public ApiService(ILoginRepository loginRepository, IPasswordService passwordService)
+        public LoginService(ILoginRepository loginRepository, IPasswordService passwordService)
         {
             _loginRepository = loginRepository;
             _passwordService = passwordService;
