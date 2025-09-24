@@ -21,8 +21,8 @@ import { LucideAngularModule, Minus, Plus } from 'lucide-angular';
     CommonModule,
     LeavesSummary,
     ApplyLeaveComponent,
-    TeamLeaveRequests,
     LeaveStatusNotificationComponent,
+    TeamLeaveRequests
   ], // Added LeaveStatusNotificationComponent
   templateUrl: './manager-dashboard.html',
   styleUrl: './manager-dashboard.css',

@@ -1,0 +1,16 @@
+<div class="card all-leave-requests">
+  <h3>all Leave Requests</h3>
+
+  @if (allLeaveRequests.length === 0) {
+  <p class="no-requests">No pending leave requests from your Organization.</p>
+  } @else {
+  <div class="request-list">
+    @for (request of allLeaveRequests; track request.leaveRequestId) {
+    <app-hr-leave-apply
+      [leaveItem]="request"
+      (updateLeaveRequests)="updateLeaveRequestsList($event)"
+    ></app-hr-leave-apply>
+    }
+  </div>
+  }
+</div>

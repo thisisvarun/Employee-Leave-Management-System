@@ -57,8 +57,5 @@ namespace backend.Controllers
             Console.WriteLine(leave.Comment);
             return Ok(leave);
         }
-
-        
-
     }
 }

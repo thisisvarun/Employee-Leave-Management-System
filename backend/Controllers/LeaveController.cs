@@ -61,5 +61,17 @@ namespace backend.Controllers
 
             return Ok();
         }
+
+        [HttpGet("{id}/history")]
+        public async Task<ActionResult<List<LeaveHistoryDto>>> GetLeaveHistoryAsync(int id)
+        {
+            var history = await _leaveService.GetLeaveHistoryAsync(id);
+            if (history is null || history.Count == 0)
+            {
+                return NotFound();
+            }
+            Console.WriteLine(history.Count);
+            return Ok(history);
+        }
     }
 }

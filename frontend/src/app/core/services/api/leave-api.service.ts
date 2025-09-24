@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environment/environment';
+import { Leave } from '@shared/models/Leave';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class LeaveApiService {
   }
 
   getLeaveHistory(employeeId: string) {
-    return this.http.get(`${this.API_BASE_URL}/api/employee/${employeeId}/history`, {
+    return this.http.get<Leave[]>(`${this.API_BASE_URL}/api/leave/${employeeId}/history`, {
       withCredentials: true,
     });
   }

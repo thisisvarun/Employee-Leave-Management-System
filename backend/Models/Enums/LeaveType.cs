@@ -7,4 +7,10 @@ namespace backend.Models.Enums
         Annual,
         LIEU
     }
+    public enum LeaveStatus
+    {
+        Approved,
+        Rejected,
+        Pending
+    }
 }

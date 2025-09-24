@@ -2,8 +2,9 @@
   <div class="header">
     <h1>HR Dashboard</h1>
     <div class="actions">
-      <button class="add-btn">
-        <p>Create Employee</p>
+      <button class="leave-btn btn">
+        <lucide-icon [img]="PlusIcon"></lucide-icon>
+        <p>Apply Leave</p>
       </button>
     </div>
   </div>
@@ -17,9 +18,9 @@
     <div class="right-column">
       <app-leaves-summary></app-leaves-summary>
       <app-apply-leave></app-apply-leave>
-      <app-create-employee></app-create-employee>
+      <!-- <app-create-employee></app-create-employee> -->
     </div>
   </div>
-
-  <app-team-leave-requests></app-team-leave-requests>
+  <app-all-leave-requests></app-all-leave-requests>
+  <!-- <app-team-leave-requests></app-team-leave-requests> -->
 </div>

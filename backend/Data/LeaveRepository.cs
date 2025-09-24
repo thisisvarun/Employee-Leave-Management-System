@@ -191,7 +191,7 @@ namespace backend.Repository
                     SELECT
                         l.Leave_Type,
                         l.Status,
-                        COUNT(d.Leave_Id) AS LeaveDayCount
+                        SUM(d.Hours) AS LeaveDayCount
                     FROM LEAVES.Leave l
                     JOIN LEAVES.Dates d ON l.LeaveRequest_Id = d.Leave_Id
                     WHERE l.Employee_Id = @EmployeeId AND l.Status IN ('Approved', 'Pending')
@@ -269,61 +269,91 @@ namespace backend.Repository
         {
             var leaves = new List<LeaveHistoryDto>();
             string connectionString = _configuration.GetConnectionString("Default")!;
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"
+                string queryLeaves = @"
                     SELECT
                         l.LeaveRequest_Id,
                         l.Employee_Id,
                         l.Leave_Type,
                         l.Description,
-                        d.Hours,
-                        d.Date
+                        l.Status
                     FROM LEAVES.Leave l
-                    JOIN LEAVES.Dates d ON l.LeaveRequest_Id = d.Leave_Id
                     WHERE l.Employee_Id = @EmployeeId
-                    ORDER BY l.LeaveRequest_Id, d.Date
+                    ORDER BY l.LeaveRequest_Id
                 ";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@EmployeeId", employeeId);
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
-                    {
-                        LeaveHistoryDto? currentLeave = null;
-                        int? lastLeaveRequestId = null;
 
+                var leaveDict = new Dictionary<int, LeaveHistoryDto>();
+
+                using (SqlCommand cmdLeaves = new SqlCommand(queryLeaves, connection))
+                {
+                    cmdLeaves.Parameters.AddWithValue("@EmployeeId", employeeId);
+
+                    using (SqlDataReader reader = await cmdLeaves.ExecuteReaderAsync())
+                    {
                         while (await reader.ReadAsync())
                         {
                             int leaveRequestId = reader.GetInt32(0);
                             int empId = reader.GetInt32(1);
-                            string leaveType = reader.GetString(2);
+                            string leaveTypeStr = reader.GetString(2);
                             string description = reader.IsDBNull(3) ? string.Empty : reader.GetString(3);
+                            string leaveStatus = reader.GetString(4);
 
-                            if (lastLeaveRequestId == null || lastLeaveRequestId != leaveRequestId)
+                            var leaveDto = new LeaveHistoryDto
                             {
-                                currentLeave = new LeaveHistoryDto
-                                {
-                                    Request_Id = leaveRequestId,
-                                    EmployeeId = empId,
-                                    LeaveType = Enum.Parse<LeaveType>(leaveType, true),
-                                    Description = description,
-                                    Dates = new List<LeaveDateDto>()
-                                };
-                                leaves.Add(currentLeave);
-                                lastLeaveRequestId = leaveRequestId;
-                            }
+                                Request_Id = leaveRequestId,
+                                EmployeeId = empId,
+                                LeaveType = Enum.Parse<LeaveType>(leaveTypeStr, true),
+                                Description = description,
+                                LeaveStatus = Enum.Parse<LeaveStatus>(leaveStatus, true),
+                                Dates = new List<LeaveDateDto>()
+                            };
 
-                            currentLeave!.Dates.Add(new LeaveDateDto
+                            leaveDict.Add(leaveRequestId, leaveDto);
+                        }
+                    }
+                }
+
+                if (leaveDict.Count == 0)
+                    return leaves; // no leaves found
+
+                string queryDates = $@"
+                    SELECT
+                        d.Id,
+                        d.Leave_Id,
+                        d.Hours,
+                        d.Date
+                    FROM LEAVES.Dates d
+                    WHERE d.Leave_Id IN ({string.Join(",", leaveDict.Keys)})
+                    ORDER BY d.Date
+                ";
+
+                using (SqlCommand cmdDates = new SqlCommand(queryDates, connection))
+                using (SqlDataReader dateReader = await cmdDates.ExecuteReaderAsync())
+                {
+                    while (await dateReader.ReadAsync())
+                    {
+                        int leaveId = dateReader.GetInt32(1);
+                        if (leaveDict.TryGetValue(leaveId, out var leaveDto))
+                        {
+                            leaveDto.Dates.Add(new LeaveDateDto
                             {
-                                Hours = reader.GetInt32(4),
-                                Date = reader.GetDateTime(5)
+                                Hours = dateReader.GetInt32(2),
+                                Date = dateReader.GetDateTime(3)
                             });
                         }
                     }
                 }
+
+                // Return all leave DTOs
+                leaves = leaveDict.Values.ToList();
             }
+
             return leaves;
         }
+
+
     }
 }

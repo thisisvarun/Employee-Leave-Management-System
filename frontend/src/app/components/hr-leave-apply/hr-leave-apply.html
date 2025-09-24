@@ -1,0 +1,40 @@
+<div class="request-item">
+  <div class="request-content">
+    <div class="request-header">
+      <span class="employee-name">{{ leaveItem.employeeName }}</span>
+    </div>
+    <p class="description">{{ leaveItem.description }}</p>
+    <div class="request-dates">
+      @for (date of leaveItem.dates; track date.date) {
+      <span>{{ date.date | date : 'shortDate' }} ({{ date.hours }}h)</span>
+      }
+    </div>
+  </div>
+  <div class="request-actions">
+    <span class="leave-type">{{ leaveItem.leaveType }}</span>
+    <div class="button-group">
+      <button
+        class="accept-btn"
+        [disabled]="acceptButtonClicked === true || rejectButtonClicked === true"
+        (click)="updateLeaveStatus(leaveItem.leaveRequestId, 'Approved')"
+      >
+        @if (acceptButtonClicked) {
+        <span class="spinner"></span>
+        } @else {
+        <span>Accept</span>
+        }
+      </button>
+      <button
+        class="reject-btn"
+        [disabled]="acceptButtonClicked === true || rejectButtonClicked === true"
+        (click)="updateLeaveStatus(leaveItem.leaveRequestId, 'Rejected')"
+      >
+        @if (rejectButtonClicked) {
+        <span class="spinner"></span>
+        } @else {
+        <span>Reject</span>
+        }
+      </button>
+    </div>
+  </div>
+</div>

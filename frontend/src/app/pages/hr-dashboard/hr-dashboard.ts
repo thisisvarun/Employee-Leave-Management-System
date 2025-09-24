@@ -7,10 +7,10 @@ import { Employee } from '../../components/employee/employee';
 import { FormsModule } from '@angular/forms';
 import { ApplyLeaveComponent } from '../../components/apply-leave/apply-leave';
 import { LeavesSummary } from '../../components/leaves-summary/leaves-summary';
-import { TeamLeaveRequests } from '../../components/team-leave-requests/team-leave-requests';
 import { LeaveStatusNotificationComponent } from '../../components/leave-status-notification/leave-status-notification'; // New import
 import { LucideAngularModule, Minus, Plus } from 'lucide-angular';
 import { CreateEmployee } from "src/app/components/create-employee/create-employee";
+import { AllLeaveRequests } from "src/app/components/all-leave-requests/all-leave-requests";
 
 @Component({
   selector: 'app-hr-dashboard',
@@ -21,9 +21,9 @@ import { CreateEmployee } from "src/app/components/create-employee/create-employ
     CommonModule,
     LeavesSummary,
     ApplyLeaveComponent,
-    TeamLeaveRequests,
     LeaveStatusNotificationComponent,
-    CreateEmployee
+    AllLeaveRequests,
+    CreateEmployee,
 ],
   templateUrl: './hr-dashboard.html',
   styleUrl: './hr-dashboard.css'

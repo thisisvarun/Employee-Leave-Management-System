@@ -1,14 +1,16 @@
 import { NumberValueAccessor } from "@angular/forms";
 
 export interface LeaveDate {
+  id: number;
   hours: number;
   date: Date;
 }
 
 export interface Leave {
-  requestId: number,
+  request_Id: number,
   employeeId: number;
-  leaveType: 'Casual' | 'Sick' | 'Annual' | 'LIEU';
+  leaveType: number;
   description: string;
+  leaveStatus: number;
   dates: LeaveDate[];
 }

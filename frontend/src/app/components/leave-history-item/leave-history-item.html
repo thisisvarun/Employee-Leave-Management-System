@@ -1,0 +1,36 @@
+<!-- {{leaveItem | json}} -->
+<div class="leave-card">
+  <div class="leave-card-header">
+    <div class="request-header">
+      <!-- <span class="leave-index">{{ index }}</span> -->
+      <span class="leave-id">{{ leaveItem?.request_Id }}</span>
+    </div>
+
+    <p class="leave-description">{{ leaveItem?.description }}</p>
+
+    <!-- Horizontal Badge Row -->
+    <div class="leave-badges">
+      <span
+        class="badge leave-type-badge"
+        [style.backgroundColor]="getLeaveColor(leaveItem?.leaveType)"
+      >
+        {{ getLeaveTypeLabel(leaveItem?.leaveType) }}
+      </span>
+
+      <span
+        class="badge leave-status-badge"
+        [style.backgroundColor]="getStatusColor(leaveItem?.leaveStatus)"
+      >
+        {{ getStatusLabel(leaveItem?.leaveStatus) }}
+      </span>
+    </div>
+
+    <div class="leave-dates">
+      @for (date of leaveItem?.dates; let i = $index; track date.date) {
+        <span>Day {{ i + 1 }} - {{ date.date | date:'shortDate' }} ({{ date.hours }}h)</span>
+      }
+    </div>
+
+    <p class="leave-total">Total Time: {{ totalTime }}h</p>
+  </div>
+</div>

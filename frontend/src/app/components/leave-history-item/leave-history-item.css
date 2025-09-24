@@ -1,0 +1,66 @@
+.leave-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.leave-card:hover {
+  transform: translateY(-2px);
+}
+
+.leave-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.leave-index {
+  font-size: 14px;
+  color: #555;
+}
+
+.leave-id {
+  font-size: 14px;
+  color: #777;
+}
+
+.leave-description {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.leave-badges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.badge {
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.leave-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.leave-total {
+  font-weight: 600;
+  font-size: 14px;
+  color: #222;
+}

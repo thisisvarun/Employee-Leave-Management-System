@@ -1,22 +1,17 @@
-<div class="card leave-histories">
-  <h3>Leave History</h3>
+<div class="leave-requests">
+    <h3>Leave History</h3>
 
-  <ng-container *ngIf="leaveHistory.length === 0">
-    <p class="no-requests">No History of Applying Leaves</p>
-  </ng-container>
-
-  <ng-container *ngIf="leaveHistory.length > 0">
-    <div class="history-list">
-      <div *ngFor="let leave of leaveHistory; trackBy: trackByRequestId" class="leave-item">
-        <p><strong>Type:</strong> {{ leave.leaveType }}</p>
-        <p><strong>Description:</strong> {{ leave.description }}</p>
-        <p><strong>No. of Days:</strong> {{ leave.dates.length }}</p>
-        <ul>
-          <li *ngFor="let date of leave.dates">
-            {{ date.date | date:'shortDate' }} - {{ date.hours }} hour(s)
-          </li>
-        </ul>
+    @if (leaveHistory.length == 0) {
+      <p class="no-requests">No History of Applying Leaves</p>
+    } @else {
+      <div class="request-list">
+          @for (leave of leaveHistory; let i = $index; track leave.request_Id) {
+            <div class="request-content">
+              <app-leave-history-item
+              [leaveItem]="leave" [index]="i+1"
+              ></app-leave-history-item>
+            </div>
+          }
       </div>
-    </div>
-  </ng-container>
+    }
 </div>

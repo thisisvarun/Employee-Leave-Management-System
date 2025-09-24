@@ -2,29 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { LeaveApiService } from '../../core/services/api/leave-api.service';
 import { AuthService } from '../../core/services/auth/auth';
 import { CommonModule } from '@angular/common';
+import { LeaveHistoryItem } from '../leave-history-item/leave-history-item';
 import { Leave } from '@shared/models/Leave';
-
-// export interface LeaveDate {
-//   hours: number;
-//   date: string;
-// }
-
-// export interface Leave {
-//   employeeId: number;
-//   leaveType: 'Casual' | 'Sick' | 'Annual' | 'LIEU';
-//   description: string;
-//   dates: LeaveDate[];
-// }   ->moved to models/Leave
 
 @Component({
   selector: 'app-leaves-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LeaveHistoryItem],
   templateUrl: './leaves-history.html',
   styleUrls: ['./leaves-history.css']
 })
 export class LeavesHistory implements OnInit {
   leaveHistory: Leave[] = [];
+  userId: string | null = null;
 
   constructor(
     private readonly leaveApi: LeaveApiService,
@@ -32,17 +22,23 @@ export class LeavesHistory implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.subscribe((user) => {
       if (user) {
-        this.leaveApi.getLeaveHistory(user.id.toString())
-          .subscribe((history) => {
-            this.leaveHistory = history as Leave[]; // casting the response
-          });
+        this.userId = user.id.toString();
+        this.loadLeaveHistory();
       }
     });
   }
 
-  trackByRequestId(index: number, leave: Leave) {
-    return leave.requestId;
+  loadLeaveHistory(): void {
+    if (this.userId) {
+      this.leaveApi.getLeaveHistory(this.userId!).subscribe({
+        next: (leaves: Leave[]) => {
+          this.leaveHistory = leaves;
+          // console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", this.leaveHistory);
+        },
+        error: (err) => console.error("Error fetching leaves\n" + err),
+      });
+    }
   }
 }
